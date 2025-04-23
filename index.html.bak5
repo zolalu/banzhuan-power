@@ -1,0 +1,3041 @@
+<!DOCTYPE html>
+<!-- 注意：文件存在问题，需要重新编辑技能部分来显示工具集 -->
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>板砖 - 面向未来的AI产品经理</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/tailwindcss/2.2.19/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-yellow: #FFD58C;
+            --color-mint: #91B87C;
+            --color-coral: #F55654;
+            --color-orange: #F99551;
+            --color-purple: #9B4DCA;
+            --color-teal: #427C80;
+            --font-sans: 'Noto Sans SC', Tahoma, Arial, Roboto, "Droid Sans", "Helvetica Neue", "Droid Sans Fallback", "Heiti SC", "Hiragino Sans GB", Simsun, sans-serif;
+            --font-serif: 'Noto Serif SC', serif;
+        }
+        
+        body {
+            font-family: var(--font-sans);
+            background-color: #ffffff;
+            color: #333;
+            overflow-x: hidden;
+        }
+        
+        .dark body {
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+        
+        h1, h2, h3, h4 {
+            font-family: var(--font-serif);
+        }
+
+        * {
+            scroll-behavior: smooth;
+        }
+        
+        /* 流光背景效果 */
+        .flow-bg {
+            background: linear-gradient(-45deg, var(--color-yellow), var(--color-coral), var(--color-orange), var(--color-mint), var(--color-purple));
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+        }
+        
+        /* 动态流光边框 */
+        .flow-border {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .flow-border::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(-45deg, var(--color-yellow), var(--color-coral), var(--color-orange), var(--color-mint), var(--color-purple));
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+            border-radius: inherit;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .flow-border:hover::before {
+            opacity: 1;
+        }
+        
+        /* 模块分隔区 */
+        .module-divider {
+            position: relative;
+            height: 100px;
+            overflow: hidden;
+        }
+        
+        .module-divider::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            background: linear-gradient(to bottom right, var(--color-yellow), var(--color-coral), var(--color-orange));
+            transform: skewY(-3deg);
+            transform-origin: 0% 0%;
+        }
+        
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        
+        /* 文字渐变效果 */
+        .text-gradient {
+            background: linear-gradient(90deg, var(--color-purple), var(--color-coral), var(--color-orange));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            background-size: 300% auto;
+            animation: textGradient 5s ease infinite;
+        }
+        
+        @keyframes textGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        /* 打字机效果 */
+        .typewriter {
+            overflow: hidden;
+            border-right: 0.15em solid var(--color-orange);
+            white-space: nowrap;
+            animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+        
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--color-orange) }
+        }
+        
+        /* 时间线样式 */
+        .timeline {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background: linear-gradient(to bottom, var(--color-yellow), var(--color-coral), var(--color-purple));
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+            border-radius: 3px;
+        }
+        
+        .timeline-container {
+            padding: 6px 30px; /* 减少内边距，原先是10px 40px */
+            position: relative;
+            width: 50%;
+            animation: fadeIn 0.5s ease-out;
+            opacity: 0;
+            transform: translateY(50px);
+            margin-bottom: -10px; /* 添加负margin使卡片更紧凑 */
+        }
+        
+        .timeline-container.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .timeline-container::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            right: -13px;
+            background: var(--color-orange);
+            border: 4px solid var(--color-yellow);
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+            transition: all 0.3s ease;
+        }
+        
+        .timeline-container:hover::after {
+            background: var(--color-coral);
+            transform: scale(1.2);
+        }
+        
+        .left {
+            left: 0;
+        }
+        
+        .right {
+            left: 50%;
+        }
+        
+        .right::after {
+            left: -12px;
+        }
+        
+        .timeline-content {
+            padding: 16px; /* 减少内边距，原先是20px */
+            background: white;
+            position: relative;
+            border-radius: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.08);
+            cursor: pointer;
+            overflow: hidden;
+        }
+        
+        .timeline-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(to right, var(--color-yellow), var(--color-coral));
+        }
+        
+        .timeline-content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 15px 35px rgba(0, 0, 0, 0.12);
+        }
+        
+        /* 卡片悬停效果 */
+        .hover-card {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hover-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom right, rgba(255, 213, 140, 0.3), rgba(155, 77, 202, 0.3));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .hover-card:hover {
+            transform: translateY(-10px) scale(1.01);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+        }
+        
+        .hover-card:hover::after {
+            opacity: 1;
+        }
+        
+        /* 动画效果 */
+        .animate-fade-in {
+            animation: fadeIn 1s ease forwards;
+        }
+        
+        .animate-slide-up {
+            animation: slideUp 0.8s ease forwards;
+        }
+        
+        .animate-slide-in-left {
+            animation: slideInLeft 0.8s ease forwards;
+        }
+        
+        .animate-slide-in-right {
+            animation: slideInRight 0.8s ease forwards;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        /* 滚动指示器 */
+        .scroll-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(to right, var(--color-yellow), var(--color-coral), var(--color-orange));
+            z-index: 100;
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .timeline::after {
+                left: 31px;
+            }
+            
+            .timeline-container {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            
+            .timeline-container.right {
+                left: 0%;
+            }
+            
+            .timeline-container.left::after, .timeline-container.right::after {
+                left: 18px;
+            }
+        }
+        
+        /* 流光粒子 */
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            background: white;
+            box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.8);
+        }
+        
+        /* 视差效果 */
+        .parallax {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .parallax-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 120%;
+            z-index: -1;
+            will-change: transform;
+        }
+        
+        /* 导航动画 */
+        .nav-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            z-index: -1;
+            transform: translateY(-100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .nav-scrolled .nav-bg {
+            transform: translateY(0);
+        }
+        
+        /* 卡片堆叠效果 */
+        .card-stack {
+            position: relative;
+            height: 500px;
+            perspective: 1000px;
+            margin-bottom: 50px;
+        }
+        
+        .card-stack-title {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: #333;
+            font-family: var(--font-serif);
+            background: linear-gradient(90deg, var(--color-purple), var(--color-coral), var(--color-orange));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+        }
+        
+        .dark .card-stack-title {
+            color: #e0e0e0;
+        }
+        
+        .card-stack-item {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 16px;
+            background-color: white;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            overflow: hidden;
+            cursor: grab;
+            transform-origin: center bottom;
+            touch-action: none;
+            will-change: transform, opacity;
+        }
+        
+        .dark .card-stack-item {
+            background-color: #1f2937;
+        }
+        
+        .card-stack-item.dragging {
+            cursor: grabbing;
+            transition: none;
+        }
+        
+        .card-stack-item .card-content {
+            position: absolute;
+            inset: 0;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            z-index: 2;
+            color: white;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+            will-change: transform;
+        }
+        
+        .card-stack-item .card-image {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+        }
+        
+        .card-stack-item .card-title {
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .card-stack-item .card-description {
+            margin-bottom: 15px;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.3s ease 0.1s;
+        }
+        
+        .card-stack-item .card-tags {
+            display: flex;
+            gap: 10px;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.3s ease 0.2s;
+        }
+        
+        .card-stack-item .card-tag {
+            padding: 5px 10px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border-radius: 20px;
+        }
+        
+        .card-stack-item .card-link {
+            margin-top: 15px;
+            color: white;
+            text-decoration: underline;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease 0.3s;
+        }
+        
+        .card-stack-item:first-child .card-title,
+        .card-stack-item:first-child .card-description,
+        .card-stack-item:first-child .card-tags,
+        .card-stack-item:first-child .card-link {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        /* 层叠顺序和位置效果 */
+        .card-stack-item:nth-child(1) {
+            z-index: 5;
+        }
+        
+        .card-stack-item:nth-child(2) {
+            z-index: 4;
+            transform: translateY(20px) scale(0.95);
+            filter: brightness(0.9);
+        }
+        
+        .card-stack-item:nth-child(3) {
+            z-index: 3;
+            transform: translateY(40px) scale(0.9);
+            filter: brightness(0.8);
+        }
+        
+        /* 拖拽指示器 */
+        .drag-indicator {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 5px;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 3px;
+            z-index: 10;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                opacity: 0.3;
+                width: 40px;
+            }
+            50% {
+                opacity: 0.8;
+                width: 60px;
+            }
+            100% {
+                opacity: 0.3;
+                width: 40px;
+            }
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .card-stack {
+                height: 400px;
+            }
+        }
+        
+        /* 增强模块间交互感知 */
+        .section-transition {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        
+        .section-transition.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .module-divider {
+            position: relative;
+            height: 150px;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+        
+        .module-divider::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            background: linear-gradient(to bottom right, var(--color-yellow), var(--color-coral), var(--color-orange));
+            transform: skewY(-5deg);
+            transform-origin: 0% 0%;
+            transition: transform 0.5s ease;
+        }
+        
+        .module-divider:hover::before {
+            transform: skewY(-3deg);
+        }
+        
+        section {
+            position: relative;
+            z-index: 1;
+        }
+        
+        section::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 100px;
+            background: linear-gradient(to top, rgba(255, 255, 255, 0.03), transparent);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+        }
+        
+        .dark section::after {
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.05), transparent);
+        }
+        
+        section.active::after {
+            opacity: 1;
+        }
+        
+        /* 联系信息 */
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 2rem;
+        }
+        
+        .contact-info a {
+            color: #333;
+            text-decoration: none;
+            margin-bottom: 1rem;
+        }
+        
+        .contact-info i {
+            margin-right: 0.5rem;
+        }
+        
+        /* 时间线样式调整 */
+        .timeline-container + .timeline-container {
+            margin-top: -15px; /* 减少相邻时间线项目之间的间距 */
+        }
+        
+        .timeline-details ul {
+            margin-top: 5px; /* 减少展开内容的上边距 */
+            margin-bottom: 5px; /* 减少展开内容的下边距 */
+        }
+        
+        .timeline-details ul li {
+            margin-bottom: 5px; /* 减少列表项之间的间距 */
+        }
+        
+        .timeline.mb-20 {
+            margin-bottom: 2.5rem !important; /* 减少整个时间线的下边距，原先是5rem(20) */
+        }
+        
+        /* 作品集卡片样式优化 */
+        .card-stack-wrapper {
+            position: relative;
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .dark .card-stack-wrapper {
+            background: rgba(31, 41, 55, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        
+        .card-stack-wrapper:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-stack-title {
+            text-align: left;
+            margin-bottom: 0;
+            font-size: 1.75rem;
+            background: linear-gradient(90deg, var(--color-purple), var(--color-coral), var(--color-orange));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+        }
+        
+        /* 卡片标签微动效 */
+        .inline-flex.px-3 {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .inline-flex.px-3::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                rgba(255, 255, 255, 0), 
+                rgba(255, 255, 255, 0.3), 
+                rgba(255, 255, 255, 0));
+            transition: left 0.7s ease;
+        }
+        
+        .inline-flex.px-3:hover::before {
+            left: 100%;
+        }
+        
+        /* 卡片底部描述 */
+        .text-sm.italic {
+            position: relative;
+            padding-left: 16px;
+            line-height: 1.5;
+        }
+        
+        .text-sm.italic::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            border-radius: 2px;
+            background: linear-gradient(to bottom, var(--color-yellow), var(--color-coral));
+        }
+        
+        /* 增强模块间过渡 */
+        .module-divider {
+            overflow: visible;
+        }
+        
+        .module-divider::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23F97316' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-size: 50%;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        
+        .dark .module-divider::after {
+            background-color: #1f2937;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23F97316' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+        }
+        
+        /* 技能部分样式 */
+        .skill-category-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .dark .skill-category-card {
+            background: rgba(31, 41, 55, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        
+        .skill-category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .skill-category-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .skill-category-icon::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(transparent, rgba(255, 255, 255, 0.2), transparent);
+            transform: rotate(45deg);
+            animation: shimmer 3s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-150%) rotate(45deg);
+            }
+            100% {
+                transform: translateX(150%) rotate(45deg);
+            }
+        }
+        
+        .skill-category-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .skill-category-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, currentColor, transparent);
+            border-radius: 3px;
+        }
+        
+        .skill-item {
+            margin-bottom: 1.2rem;
+        }
+        
+        .skill-bar {
+            height: 8px;
+            background-color: rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .dark .skill-bar {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .skill-progress {
+            height: 100%;
+            width: 0;
+            border-radius: 4px;
+            transition: width 1.5s ease-in-out;
+        }
+        
+        /* 工具技能样式 */
+        .tool-item {
+            text-align: center;
+            padding: 1rem;
+            border-radius: 12px;
+            background-color: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+        
+        .dark .tool-item {
+            background-color: rgba(31, 41, 55, 0.4);
+        }
+        
+        .tool-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        }
+        
+        .tool-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            width: 50px;
+            height: 50px;
+            line-height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f97316, #ef4444, #8b5cf6);
+            color: white;
+            margin: 0 auto 0.8rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tool-icon::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(transparent, rgba(255, 255, 255, 0.2), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+        
+        @keyframes shine {
+            0% {
+                transform: translateX(-100%) rotate(45deg);
+            }
+            100% {
+                transform: translateX(100%) rotate(45deg);
+            }
+        }
+        
+        .tool-name {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .tool-level {
+            display: flex;
+            justify-content: center;
+            gap: 3px;
+        }
+        
+        .level-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+        }
+        
+        .dark .level-dot {
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+        
+        .level-dot.active {
+            background: linear-gradient(135deg, #f97316, #ef4444, #8b5cf6);
+            box-shadow: 0 0 5px rgba(249, 115, 22, 0.5);
+        }
+        
+        /* 软技能标签样式 */
+        .soft-skills-container {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .dark .soft-skills-container {
+            background: rgba(31, 41, 55, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        
+        .soft-skill-tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            margin: 0.25rem;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            color: white;
+            background-color: #6366f1;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .soft-skill-tag:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        .soft-skill-tag i {
+            margin-right: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        /* 定义不同颜色的软技能标签 */
+        .soft-skill-tag.blue { background-color: #3b82f6; }
+        .soft-skill-tag.green { background-color: #10b981; }
+        .soft-skill-tag.purple { background-color: #8b5cf6; }
+        .soft-skill-tag.orange { background-color: #f97316; }
+        .soft-skill-tag.red { background-color: #ef4444; }
+        .soft-skill-tag.yellow { background-color: #f59e0b; }
+        .soft-skill-tag.teal { background-color: #14b8a6; }
+        
+        .soft-skill-tag::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(transparent, rgba(255, 255, 255, 0.2), transparent);
+            transform: rotate(45deg);
+            z-index: -1;
+            animation: tagShine 2s infinite;
+            animation-delay: calc(var(--tag-index, 0) * 0.2s);
+        }
+        
+        @keyframes tagShine {
+            0% {
+                transform: translateX(-100%) rotate(45deg);
+            }
+            100% {
+                transform: translateX(100%) rotate(45deg);
+            }
+        }
+        
+        /* 技能卡片和工具项的出现动画 */
+        .skill-category-card, .tool-item {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+        }
+        
+        .skill-category-card.visible, .tool-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .soft-skill-tag.visible, .tool-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* 关于我部分样式 */
+        .about-image-container {
+            position: relative;
+            border-radius: 50%;
+            transition: all 0.4s ease;
+            overflow: hidden;
+        }
+        
+        .about-image {
+            position: relative;
+            z-index: 2;
+            transition: all 0.4s ease;
+            transform-origin: center;
+        }
+        
+        .about-image:hover {
+            transform: scale(1.05);
+        }
+        
+        .about-image-decoration {
+            position: absolute;
+            top: -10%;
+            left: -10%;
+            right: -10%;
+            bottom: -10%;
+            background: linear-gradient(45deg, #3b82f6, #8b5cf6, #f97316);
+            z-index: 1;
+            border-radius: 50%;
+            opacity: 0.3;
+            filter: blur(8px);
+            animation: rotate-gradient 10s linear infinite;
+        }
+        
+        @keyframes rotate-gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        
+        .about-content-card {
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            transform: translateY(20px);
+            opacity: 0;
+        }
+        
+        .about-content-card.visible {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .dark .about-content-card {
+            background: rgba(31, 41, 55, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        
+        .about-item {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
+        }
+        
+        .dark .about-item {
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+        }
+        
+        .about-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        
+        .about-item-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .about-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #10b981, #3b82f6);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 1.25rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .about-icon::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(transparent, rgba(255, 255, 255, 0.3), transparent);
+            transform: rotate(45deg);
+            animation: shimmer 3s infinite;
+        }
+        
+        .about-item-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .dark .about-item-title {
+            color: #e0e0e0;
+        }
+        
+        .research-item {
+            display: flex;
+            margin-bottom: 0.75rem;
+            padding-left: 1rem;
+            position: relative;
+        }
+        
+        .research-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 10px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #10b981, #3b82f6);
+        }
+        
+        .research-date {
+            flex-shrink: 0;
+            min-width: 80px;
+            font-weight: 600;
+            color: #10b981;
+        }
+        
+        .dark .research-date {
+            color: #34d399;
+        }
+        
+        .research-details {
+            flex-grow: 1;
+        }
+        
+        .research-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            line-height: 1.4;
+        }
+        
+        .research-desc {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .dark .research-desc {
+            color: #9ca3af;
+        }
+        
+        .interests-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .interest-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            width: calc(20% - 0.8rem);
+            min-width: 80px;
+        }
+        
+        .dark .interest-item {
+            background: rgba(31, 41, 55, 0.5);
+        }
+        
+        .interest-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        }
+        
+        .interest-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #10b981, #3b82f6);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .interest-icon::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(transparent, rgba(255, 255, 255, 0.3), transparent);
+            transform: rotate(45deg);
+            animation: shimmer 3s infinite;
+            animation-delay: calc(var(--item-index, 0) * 0.3s);
+        }
+        
+        .interest-text {
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-align: center;
+        }
+        
+        @media (max-width: 768px) {
+            .interests-container {
+                justify-content: center;
+            }
+            
+            .interest-item {
+                width: calc(33.33% - 0.7rem);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .interest-item {
+                width: calc(50% - 0.5rem);
+            }
+        }
+        
+        .dark .achievement-card {
+            background: rgba(31, 41, 55, 0.6);
+            border-left: 3px solid #60a5fa;
+        }
+        
+        /* 技能标签样式 */
+        .skill-tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 0.75rem;
+            border-radius: 30px;
+            color: white;
+            font-weight: 500;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            margin-bottom: 0.5rem;
+        }
+        
+        .skill-tag:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* 工具标签样式 */
+        .tool-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.4rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            transition: all 0.25s ease;
+        }
+        
+        .tool-tag:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .dark .tool-tag {
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* 博客卡片样式 */
+        .blog-card {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .blog-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .blog-card .line-clamp-3 {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .blog-card {
+            opacity: 0;
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .blog-card:nth-child(1) {
+            animation-delay: 0.2s;
+        }
+
+        .blog-card:nth-child(2) {
+            animation-delay: 0.4s;
+        }
+
+        .blog-card:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+        /* 添加额外的渐变标题样式 */
+        .experience-title {
+            background-size: 200% auto;
+            -webkit-background-clip: text !important;
+            background-clip: text !important;
+            -webkit-text-fill-color: transparent !important;
+            text-fill-color: transparent !important;
+            color: transparent !important;
+            display: inline-block;
+        }
+
+        .experience-title.orange-gradient {
+            background-image: linear-gradient(to right, #f97316, #f59e0b) !important;
+        }
+
+        .experience-title.teal-gradient {
+            background-image: linear-gradient(to right, #14b8a6, #10b981) !important;
+        }
+
+        .experience-title.red-gradient {
+            background-image: linear-gradient(to right, #ef4444, #e11d48) !important;
+        }
+
+        .experience-title.blue-gradient {
+            background-image: linear-gradient(to right, #3b82f6, #2563eb) !important;
+        }
+
+        .experience-title.yellow-gradient {
+            background-image: linear-gradient(to right, #eab308, #f59e0b) !important;
+        }
+
+        /* 美团卡片标签的特殊样式 */
+        .timeline-container .timeline-content .flex.flex-wrap.gap-2.mb-3 span.inline-block.px-2.py-1[class*="bg-orange-100"] {
+            background-color: #FFEDD5 !important;
+            color: #EA580C !important;
+        }
+        
+        /* 暗色模式下的样式 */
+        .dark .timeline-container .timeline-content .flex.flex-wrap.gap-2.mb-3 span.inline-block.px-2.py-1[class*="bg-orange-100"] {
+            background-color: #7C2D12 !important;
+            color: #FDBA74 !important;
+        }
+
+        /* 兴趣标签悬停效果 */
+        .grid.grid-cols-2.gap-4 > div {
+            transition: all 0.3s ease;
+        }
+        
+        .grid.grid-cols-2.gap-4 > div:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 添加兴趣标签样式 */
+        .interest-tag {
+            @apply flex flex-col items-center gap-1.5 p-3 rounded-lg bg-white dark:bg-gray-800 shadow-sm hover:shadow transition-all duration-300 hover:-translate-y-1 text-center text-xs;
+        }
+        
+        .interest-tag i {
+            @apply text-lg mb-0.5;
+        }
+        
+        .achievement-card {
+            @apply relative;
+        }
+        
+        .achievement-card::before {
+            content: '';
+            @apply absolute -right-1 -bottom-1 w-12 h-12 rounded-tl-xl bg-gradient-to-br from-white to-gray-100 dark:from-gray-800 dark:to-gray-900 -z-10 opacity-50 transition-all duration-300;
+        }
+        
+        .achievement-card:hover::before {
+            @apply w-16 h-16 opacity-90;
+        }
+
+        /* 添加CSS样式 */
+        <style>
+            .tool-tag {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.25rem;
+                padding: 0.4rem 0.8rem;
+                border-radius: 6px;
+                font-size: 0.8rem;
+                font-weight: 500;
+                transition: all 0.25s ease;
+                margin-bottom: 0.5rem;
+                box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            }
+            
+            .tool-tag:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+            }
+            
+            .dark .tool-tag {
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            }
+            
+            @media (max-width: 640px) {
+                .tool-tag {
+                    padding: 0.3rem 0.6rem;
+                    font-size: 0.7rem;
+                }
+            }
+        </style>
+    
+</head>
+<body class="relative">
+    <!-- 滚动指示器 -->
+    <div class="scroll-indicator" id="scrollIndicator"></div>
+
+    <!-- 导航栏 -->
+    <nav class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" id="mainNav">
+        <div class="nav-bg shadow"></div>
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="text-xl font-bold text-gradient">
+                <a href="#hero" class="flex items-center">
+                    <span class="ml-2">板砖</span>
+                </a>
+            </div>
+            <div class="hidden md:flex space-x-8">
+                <a href="#about" class="text-gray-700 hover:text-purple-600 dark:text-gray-300 dark:hover:text-purple-400 transition-colors relative overflow-hidden group">
+                    <span class="relative z-10">关于我</span>
+                    <span class="absolute bottom-0 left-0 w-0 h-1 bg-gradient-to-r from-teal-400 to-blue-500 group-hover:w-full transition-all duration-300"></span>
+                </a>
+                <a href="#experience" class="text-gray-700 hover:text-purple-600 dark:text-gray-300 dark:hover:text-purple-400 transition-colors relative overflow-hidden group">
+                    <span class="relative z-10">经历</span>
+                    <span class="absolute bottom-0 left-0 w-0 h-1 bg-gradient-to-r from-yellow-400 to-orange-500 group-hover:w-full transition-all duration-300"></span>
+                </a>
+                <a href="#portfolio" class="text-gray-700 hover:text-purple-600 dark:text-gray-300 dark:hover:text-purple-400 transition-colors relative overflow-hidden group">
+                    <span class="relative z-10">作品集</span>
+                    <span class="absolute bottom-0 left-0 w-0 h-1 bg-gradient-to-r from-purple-400 to-pink-500 group-hover:w-full transition-all duration-300"></span>
+                </a>
+                <a href="#skills" class="text-gray-700 hover:text-purple-600 dark:text-gray-300 dark:hover:text-purple-400 transition-colors relative overflow-hidden group">
+                    <span class="relative z-10">技能</span>
+                    <span class="absolute bottom-0 left-0 w-0 h-1 bg-gradient-to-r from-green-400 to-teal-500 group-hover:w-full transition-all duration-300"></span>
+                </a>
+                <a href="#blog" class="text-gray-700 hover:text-purple-600 dark:text-gray-300 dark:hover:text-purple-400 transition-colors relative overflow-hidden group">
+                    <span class="relative z-10">博客</span>
+                    <span class="absolute bottom-0 left-0 w-0 h-1 bg-gradient-to-r from-cyan-400 to-blue-500 group-hover:w-full transition-all duration-300"></span>
+                </a>
+            </div>
+            <div class="flex items-center space-x-4">
+                <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors relative overflow-hidden">
+                    <span class="absolute inset-0 bg-gradient-to-r from-yellow-300 to-orange-400 opacity-0 hover:opacity-20 rounded-full transition-opacity duration-300"></span>
+                    <i class="fas fa-moon dark:hidden"></i>
+                    <i class="fas fa-sun hidden dark:block text-yellow-400"></i>
+                </button>
+                <button class="md:hidden p-2 text-gray-700 dark:text-gray-300" id="mobile-menu-button">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        <!-- 移动端菜单 -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-gray-900 shadow-lg">
+            <div class="container mx-auto px-4 py-2 flex flex-col space-y-3">
+                <a href="#about" class="py-2 px-4 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors">关于我</a>
+                <a href="#experience" class="py-2 px-4 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors">经历</a>
+                <a href="#portfolio" class="py-2 px-4 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors">作品集</a>
+                <a href="#skills" class="py-2 px-4 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors">技能</a>
+                <a href="#blog" class="py-2 px-4 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors">博客</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主要内容 -->
+    <main>
+        <!-- Hero 部分 -->
+        <section id="hero" class="min-h-screen flex items-center justify-center relative overflow-hidden parallax">
+            <!-- 背景元素 -->
+            <div class="parallax-bg bg-gradient-to-br from-yellow-50 to-purple-50"></div>
+            
+            <!-- 流光粒子 -->
+            <div class="particles absolute inset-0 z-0"></div>
+            
+            <!-- 背景装饰 -->
+            <div class="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-gradient-to-r from-yellow-300 to-orange-300 opacity-20 blur-3xl"></div>
+            <div class="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-gradient-to-r from-purple-300 to-pink-300 opacity-20 blur-3xl"></div>
+            
+            <!-- 内容区域 -->
+            <div class="container mx-auto px-4 py-16 relative z-10">
+                <div class="flex flex-col items-center justify-center text-center max-w-4xl mx-auto">
+                    <!-- 头像/图标 -->
+                    <div class="flow-border inline-block rounded-full mb-8 animate-fade-in" style="animation-delay: 0.2s">
+                        <div class="w-32 h-32 rounded-full bg-white flex items-center justify-center shadow-lg overflow-hidden">
+                            <img src="picture/Chibi Sticker Set Apr 7 2025.png" alt="我的个人形象" class="w-28 h-28 object-cover">
+                        </div>
+                    </div>
+                    
+                    <!-- 问候语 -->
+                    <div class="text-lg font-medium text-gradient mb-6 animate-fade-in" style="animation-delay: 0.4s" id="greeting">
+                        👋🏻 Hi~ 我是板砖
+                    </div>
+                    
+                    <!-- 主标题 -->
+                    <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold mb-8 animate-fade-in" style="animation-delay: 0.6s">
+                        <span class="inline-block mb-2">面向未来的</span><br>
+                        <span class="text-gradient text-typing" id="typingText">AI产品经理</span>
+                    </h1>
+                    
+                    <!-- 标签容器 -->
+                    <div class="flex flex-wrap justify-center gap-3 mb-10 animate-fade-in" style="animation-delay: 0.8s">
+                        <span class="px-4 py-2 rounded-full bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200 shadow-md hover:shadow-lg transition-all transform hover:-translate-y-1">INTJ</span>
+                        <span class="px-4 py-2 rounded-full bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200 shadow-md hover:shadow-lg transition-all transform hover:-translate-y-1">AI产品探索者</span>
+                        <span class="px-4 py-2 rounded-full bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200 shadow-md hover:shadow-lg transition-all transform hover:-translate-y-1">多模态Agent动手能力</span>
+                        <span class="px-4 py-2 rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 shadow-md hover:shadow-lg transition-all transform hover:-translate-y-1">强学习能力</span>
+                        <span class="px-4 py-2 rounded-full bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200 shadow-md hover:shadow-lg transition-all transform hover:-translate-y-1">用户视角洞察</span>
+                    </div>
+                    
+                    <!-- 描述文字 -->
+                    <p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mb-12 animate-fade-in" style="animation-delay: 1s">
+                        探索AI赋能的产品边界，用创新思维解决问题，致力于AI时代的用户体验。
+                    </p>
+                    
+                    <!-- 按钮组 -->
+                    <div class="flex flex-wrap justify-center gap-6 animate-fade-in" style="animation-delay: 1.2s">
+                        <!-- 左侧按钮 - 了解我的经历 -->
+                        <a href="#experience" style="background: linear-gradient(90deg, rgba(249, 168, 97, 0.85), rgba(239, 108, 156, 0.8), rgba(162, 132, 246, 0.85)); color: white; font-weight: 500; padding: 1rem 2rem; border-radius: 0.5rem; box-shadow: 0 8px 20px -5px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.02); transition: all 0.3s; border: 1px solid rgba(255,255,255,0.2);" onmouseover="this.style.boxShadow='0 12px 25px -5px rgba(0, 0, 0, 0.1), 0 6px 8px -2px rgba(0, 0, 0, 0.05)'; this.style.transform='translateY(-2px)';" onmouseout="this.style.boxShadow='0 8px 20px -5px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.02)'; this.style.transform='';">
+                            了解我的经历
+                        </a>
+                        
+                        <!-- 右侧按钮 - 查看作品集 -->
+                        <a href="#portfolio" style="color: #8b5cf6; font-weight: 500; padding: 0.9rem 2rem; border-radius: 0.5rem; border: 2px solid #8b5cf6; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); transition: all 0.3s;" onmouseover="this.style.background='#8b5cf6'; this.style.color='white'; this.style.transform='translateY(-2px)';" onmouseout="this.style.background='transparent'; this.style.color='#8b5cf6'; this.style.transform='';">
+                            查看作品集
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 向下滚动指示 -->
+            <div class="absolute bottom-10 left-0 right-0 flex justify-center animate-bounce">
+                <a href="#experience" class="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400 transition-colors">
+                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </a>
+            </div>
+        </section>
+
+        <!-- 分隔区域 -->
+        <div class="module-divider" style="transform: scaleY(-1)"></div>
+        
+        <!-- 关于我部分 -->
+        <section id="about" class="py-20 bg-white dark:bg-gray-900 relative overflow-hidden section-transition">
+            <!-- 动态背景 -->
+            <div class="absolute top-0 left-0 w-full h-full overflow-hidden opacity-5 bg-grid-pattern"></div>
+            <div class="absolute -top-20 -right-10 w-80 h-80 rounded-full bg-gradient-to-r from-blue-300/20 to-purple-400/20 opacity-5 blur-3xl"></div>
+            <div class="absolute bottom-0 left-0 w-96 h-96 rounded-full bg-gradient-to-r from-amber-300/20 to-red-300/20 opacity-5 blur-3xl"></div>
+            
+            <div class="container mx-auto px-4 relative z-10">
+                <!-- 标题部分 -->
+                <div class="text-center mb-14">
+                    <span class="relative inline-block px-6 py-2 rounded-full text-sm font-bold mb-4 overflow-hidden" style="background: linear-gradient(90deg, rgba(59, 130, 246, 0.15), rgba(139, 92, 246, 0.15), rgba(249, 115, 22, 0.15)); box-shadow: 0 4px 15px -3px rgba(0, 0, 0, 0.1); border: 1px solid rgba(59, 130, 246, 0.2);">
+                        <span class="relative z-10" style="background: linear-gradient(90deg, #3b82f6, #8b5cf6, #f97316); -webkit-background-clip: text; background-clip: text; color: transparent;">
+                            <i class="fas fa-sparkles mr-2"></i>探索 • 创新 • 成长
+                        </span>
+                        <span class="absolute inset-0 w-full h-full bg-white dark:bg-gray-800 opacity-60 dark:opacity-80 z-0"></span>
+                    </span>
+                    <h2 class="text-3xl md:text-5xl font-bold mb-4">
+                        <span style="background: linear-gradient(90deg, #3b82f6, #8b5cf6, #f97316); -webkit-background-clip: text; background-clip: text; color: transparent; padding: 5px 0; display: inline-block; font-weight: bold;">认识我</span>
+                    </h2>
+                    <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-8">
+                        用人文视角思考科技世界，让AI产品有温度
+                    </p>
+                </div>
+                
+                <!-- 关于我内容 - 两卡片布局 -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-4xl mx-auto">
+                    <!-- 个人简介与兴趣爱好卡片 -->
+                    <div class="relative overflow-hidden bg-gradient-to-br from-white to-blue-50 dark:from-gray-800 dark:to-gray-900 rounded-xl shadow-lg p-6 transform hover:scale-105 transition-all duration-300 backdrop-blur-sm border border-blue-100/50 dark:border-blue-900/30 group">
+                        <!-- 背景装饰 -->
+                        <div class="absolute -top-16 -right-16 w-32 h-32 bg-blue-400/10 rounded-full blur-2xl group-hover:scale-150 transition-all duration-700"></div>
+                        <div class="absolute -bottom-20 -left-20 w-40 h-40 bg-purple-400/10 rounded-full blur-2xl group-hover:scale-150 transition-all duration-700"></div>
+                        
+                        <!-- 头像容器 -->
+                        <div class="flex flex-col items-center mb-6 relative">
+                            <div class="relative mb-3 transition-all group-hover:scale-105 duration-300">
+                                <!-- 头像背景光圈 -->
+                                <div class="absolute inset-0 rounded-full bg-gradient-to-r from-blue-400/20 via-purple-400/20 to-pink-400/20 blur-md animate-pulse"></div>
+                                
+                                <!-- 头像框 -->
+                                <div class="absolute -inset-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-full opacity-70 blur-sm group-hover:opacity-100 transition-opacity"></div>
+                                
+                                <!-- 实际头像 -->
+                                <img src="picture/WechatIMG2608.jpg" alt="我的照片" class="relative w-32 h-32 rounded-full object-cover border-2 border-white dark:border-gray-700 shadow-lg z-10">
+                            </div>
+                            
+                            <!-- 名字 -->
+                            <h3 class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent dark:from-blue-400 dark:to-purple-400">陆玲</h3>
+                        </div>
+                        
+                        <!-- 个人信息卡片 -->
+                        <div class="relative bg-white/80 dark:bg-gray-800/50 backdrop-blur-sm rounded-lg p-4 mb-6 shadow-sm transform transition-all duration-300 hover:shadow-md hover:-translate-y-1 overflow-hidden">
+                            <!-- 卡片装饰线 -->
+                            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-purple-500"></div>
+                            
+                            <div class="flex flex-col gap-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500/80 to-blue-600/80 flex items-center justify-center shadow-md">
+                                        <svg class="w-4 h-4 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor">
+                                            <path d="M224 256c-57.3 0-104-46.7-104-104S166.7 48 224 48s104 46.7 104 104-46.7 104-104 104zm-40 32h80c65.2 0 118.8 48.3 126.9 110.9c-19.2 18.8-44.6 22.5-68.3 13.1c-20.8-8.3-44.7-24.5-58.6-40c-16.4 15.9-37.5 27.8-57.2 35.3c-22.9 8.7-46.2 4.3-63.7-12.3C152 358.5 206 288 184 288z"/>
+                                        </svg>
+                                    </div>
+                                    <p class="text-gray-700 dark:text-gray-300 font-medium">华东师范大学 · 新闻学</p>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500/80 to-purple-600/80 flex items-center justify-center shadow-md">
+                                        <svg class="w-4 h-4 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" fill="currentColor">
+                                            <path d="M392.8 1.2c-17-4.9-34.7 5-39.6 22l-128 448c-4.9 17 5 34.7 22 39.6s34.7-5 39.6-22l128-448c4.9-17-5-34.7-22-39.6zm80.6 120.1c-12.5 12.5-12.5 32.8 0 45.3L562.7 256l-89.4 89.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l112-112c12.5-12.5 12.5-32.8 0-45.3l-112-112c-12.5-12.5-32.8-12.5-45.3 0zm-306.7 0c-12.5-12.5-32.8-12.5-45.3 0l-112 112c-12.5 12.5-12.5 32.8 0 45.3l112 112c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l89.4-89.4c12.5-12.5 12.5-32.8 0-45.3z"/>
+                                        </svg>
+                                    </div>
+                                    <p class="text-gray-700 dark:text-gray-300 font-medium">多模态/Agent应用能手</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 兴趣爱好部分 -->
+                        <div class="relative bg-white/80 dark:bg-gray-800/50 backdrop-blur-sm rounded-lg p-4 shadow-sm overflow-hidden">
+                            <!-- 卡片装饰线 -->
+                            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-pink-500 to-orange-500"></div>
+                            
+                            <h3 class="text-base font-bold text-center mb-4 bg-gradient-to-r from-pink-600 to-orange-600 bg-clip-text text-transparent dark:from-pink-400 dark:to-orange-400">兴趣爱好</h3>
+                            
+                            <div class="grid grid-cols-3 gap-3">
+                                <div class="interest-tag">
+                                    <i class="fa-solid fa-robot text-2xl mb-2 text-blue-500 dark:text-blue-400"></i>
+                                    <span class="whitespace-nowrap text-xs">AI产品体验</span>
+                                </div>
+                                <div class="interest-tag">
+                                    <i class="fa-solid fa-mountain text-2xl mb-2 text-teal-500 dark:text-teal-400"></i>
+                                    <span class="whitespace-nowrap text-xs">徒步爬山</span>
+                                </div>
+                                <div class="interest-tag">
+                                    <i class="fa-solid fa-person-running text-2xl mb-2 text-orange-500 dark:text-orange-400"></i>
+                                    <span class="whitespace-nowrap text-xs">长跑</span>
+                                </div>
+                                <div class="interest-tag">
+                                    <i class="fa-solid fa-mug-hot text-2xl mb-2 text-amber-600 dark:text-amber-400"></i>
+                                    <span class="whitespace-nowrap text-xs">咖啡</span>
+                                </div>
+                                <div class="interest-tag">
+                                    <i class="fa-solid fa-cat text-2xl mb-2 text-purple-500 dark:text-purple-400"></i>
+                                    <span class="whitespace-nowrap text-xs">撸猫</span>
+                                </div>
+                                <div class="interest-tag bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 opacity-40 flex items-center justify-center">
+                                    <i class="fa-solid fa-plus text-gray-400 dark:text-gray-500"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 新闻史研究卡片 -->
+                    <div class="relative overflow-hidden bg-gradient-to-br from-white to-amber-50 dark:from-gray-800 dark:to-gray-900 rounded-xl shadow-lg p-6 transform hover:scale-105 transition-all duration-300 backdrop-blur-sm border border-amber-100/50 dark:border-amber-900/30 group">
+                        <!-- 背景装饰 -->
+                        <div class="absolute -top-16 -right-16 w-32 h-32 bg-amber-400/10 rounded-full blur-2xl group-hover:scale-150 transition-all duration-700"></div>
+                        <div class="absolute -bottom-20 -left-20 w-40 h-40 bg-red-400/10 rounded-full blur-2xl group-hover:scale-150 transition-all duration-700"></div>
+                        
+                        <!-- 标题部分 -->
+                        <div class="relative flex items-center justify-center bg-white/80 dark:bg-gray-800/50 backdrop-blur-sm rounded-lg p-4 mb-6 overflow-hidden transform transition-all duration-300 hover:shadow-md group-hover:-translate-y-1">
+                            <!-- 标题装饰线 -->
+                            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-amber-500 to-red-500"></div>
+                            
+                            <div class="relative w-10 h-10 bg-gradient-to-br from-amber-500 to-red-500 rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                                <svg class="w-5 h-5 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" fill="currentColor">
+                                    <path d="M249.6 471.5c10.8 3.8 22.4-4.1 22.4-15.5V78.6c0-4.2-1.6-8.4-5-11C247.4 52 202.4 32 144 32C87.5 32 35.1 48.6 9 59.9c-5.6 2.4-9 8-9 14v380.2c0 8.8 8 15.8 16.7 14.9c20.9-2.1 55.3-5.4 112.3-5.4c62.2 0 104.7 3.2 120.6 7.9zM144 232c-22.1 0-40-17.9-40-40s17.9-40 40-40s40 17.9 40 40s-17.9 40-40 40zm279.3 214c13.3-4.6 26.4-10.1 39.2-17.3c13.7-7.8 19.1-24.8 11.4-38.8L429.8 313c-2.5-4.6-7.7-7-12.5-7c-20.3 0-18.2 0-18.2 0s-.1 0-18.2 0c-4.8 0-9.9 2.4-12.5 7l-44.3 77c-7.7 13.9-2.4 30.9 11.4 38.8c12.8 7.2 26 12.7 39.2 17.3c9.1 3.1 18.7 3.1 27.8 0zM432 230.6c19.3 0 35-15.7 35-35s-15.7-35-35-35s-35 15.7-35 35s15.7 35 35 35z"/>
+                                </svg>
+                            </div>
+                            <h3 class="ml-3 font-bold text-red-600 dark:text-red-400 whitespace-nowrap">业余爱好是研究历史和人类</h3>
+                        </div>
+                        
+                        <!-- 研究成果 -->
+                        <div class="space-y-4">
+                            <!-- 优秀论文奖 -->
+                            <div class="achievement-card bg-white/80 dark:bg-gray-800/50 backdrop-blur-sm rounded-lg p-5 transition-all duration-300 hover:shadow-md hover:-translate-y-1 overflow-hidden group/item">
+                                <!-- 卡片装饰线 -->
+                                <div class="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-red-500 to-amber-500 rounded-r"></div>
+                                
+                                <div class="flex items-start">
+                                    <div class="w-12 h-12 bg-gradient-to-br from-amber-500/10 to-red-500/10 rounded-full flex items-center justify-center flex-shrink-0 mr-4 group-hover/item:scale-110 transition-all">
+                                        <svg class="w-6 h-6 text-amber-500 dark:text-amber-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" fill="currentColor">
+                                            <path d="M173.8 5.5c11-7.3 25.4-7.3 36.4 0L228 17.2c6 3.9 13 5.8 20.1 5.4l21.3-1.3c13.2-.8 25.6 6.4 31.5 18.2l9.6 19.1c3.2 6.4 8.4 11.5 14.7 14.7L344.5 83c11.8 5.9 19 18.3 18.2 31.5l-1.3 21.3c-.4 7.1 1.5 14.2 5.4 20.1l11.8 17.8c7.3 11 7.3 25.4 0 36.4L366.8 228c-3.9 6-5.8 13-5.4 20.1l1.3 21.3c.8 13.2-6.4 25.6-18.2 31.5l-19.1 9.6c-6.4 3.2-11.5 8.4-14.7 14.7L301 344.5c-5.9 11.8-18.3 19-31.5 18.2l-21.3-1.3c-7.1-.4-14.2 1.5-20.1 5.4l-17.8 11.8c-11 7.3-25.4 7.3-36.4 0L156 366.8c-6-3.9-13-5.8-20.1-5.4l-21.3 1.3c-13.2 .8-25.6-6.4-31.5-18.2l-9.6-19.1c-3.2-6.4-8.4-11.5-14.7-14.7L39.5 301c-11.8-5.9-19-18.3-18.2-31.5l1.3-21.3c.4-7.1-1.5-14.2-5.4-20.1L5.5 210.2c-7.3-11-7.3-25.4 0-36.4L17.2 156c3.9-6 5.8-13 5.4-20.1l-1.3-21.3c-.8-13.2 6.4-25.6 18.2-31.5l19.1-9.6C65 70.2 70.2 65 73.4 58.6L83 39.5c5.9-11.8 18.3-19 31.5-18.2l21.3 1.3c7.1 .4 14.2-1.5 20.1-5.4L173.8 5.5zM272 192a80 80 0 1 0 -160 0 80 80 0 1 0 160 0zM1.8 441.8C5.5 430.5 16.3 423 28 423H356c11.7 0 22.5 7.5 26.3 18.8s.6 23.8-8.9 31.2l-164 128c-7.3 5.7-17.6 5.7-24.9 0l-164-128c-9.4-7.4-12.7-20-8.9-31.2z"/>
+                                        </svg>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h4 class="font-bold text-gray-800 dark:text-white mb-2 flex items-center">
+                                            优秀论文奖
+                                            <div class="ml-2 text-xs bg-gradient-to-r from-amber-500 to-red-500 text-white px-2 py-0.5 rounded-full">2023</div>
+                                        </h4>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">
+                                            《召唤笔杆子：建国初期上海工人通讯员的组织动员与文化塑造(1949-1955)》获得第七届政治与传播研究生论坛优秀奖
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 口述史研究 -->
+                            <div class="achievement-card bg-white/80 dark:bg-gray-800/50 backdrop-blur-sm rounded-lg p-5 transition-all duration-300 hover:shadow-md hover:-translate-y-1 overflow-hidden group/item">
+                                <!-- 卡片装饰线 -->
+                                <div class="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-orange-500 to-amber-500 rounded-r"></div>
+                                
+                                <div class="flex items-start">
+                                    <div class="w-12 h-12 bg-gradient-to-br from-orange-500/10 to-amber-500/10 rounded-full flex items-center justify-center flex-shrink-0 mr-4 group-hover/item:scale-110 transition-all">
+                                        <svg class="w-6 h-6 text-orange-500 dark:text-orange-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
+                                            <path d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z"/>
+                                        </svg>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h4 class="font-bold text-gray-800 dark:text-white mb-2 flex items-center">
+                                            口述史研究
+                                            <div class="ml-2 text-xs bg-gradient-to-r from-orange-500 to-amber-500 text-white px-2 py-0.5 rounded-full">清华大学</div>
+                                        </h4>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">
+                                            为清华大学举办的第十一届缙云口述史论坛撰稿2篇
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 田野调查 -->
+                            <div class="achievement-card bg-white/80 dark:bg-gray-800/50 backdrop-blur-sm rounded-lg p-5 transition-all duration-300 hover:shadow-md hover:-translate-y-1 overflow-hidden group/item">
+                                <!-- 卡片装饰线 -->
+                                <div class="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-teal-500 to-cyan-500 rounded-r"></div>
+                                
+                                <div class="flex items-start">
+                                    <div class="w-12 h-12 bg-gradient-to-br from-teal-500/10 to-cyan-500/10 rounded-full flex items-center justify-center flex-shrink-0 mr-4 group-hover/item:scale-110 transition-all">
+                                        <svg class="w-6 h-6 text-teal-500 dark:text-teal-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
+                                            <path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/>
+                                        </svg>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h4 class="font-bold text-gray-800 dark:text-white mb-2 flex items-center">
+                                            田野调查
+                                            <div class="ml-2 text-xs bg-gradient-to-r from-teal-500 to-cyan-500 text-white px-2 py-0.5 rounded-full">婺源</div>
+                                        </h4>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">
+                                            在婺源乡村民宿田野调查两个月，完成访谈与成稿
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 分隔区域 -->
+        <div class="module-divider" style="transform: scaleY(-1)"></div>
+
+        <!-- 个人经历部分 -->
+        <section id="experience" class="py-20 bg-white dark:bg-gray-900 relative overflow-hidden">
+            <!-- 背景装饰 -->
+            <div class="absolute top-0 left-0 w-full h-full overflow-hidden opacity-5 bg-grid-pattern"></div>
+            <div class="absolute top-1/3 right-0 w-72 h-72 rounded-full bg-gradient-to-r from-yellow-300 to-orange-300 opacity-10 blur-3xl"></div>
+            <div class="absolute bottom-1/3 left-0 w-80 h-80 rounded-full bg-gradient-to-r from-purple-300 to-pink-300 opacity-10 blur-3xl"></div>
+            
+            <div class="container mx-auto px-4 relative z-10">
+                <div class="text-center mb-16">
+                    <span class="inline-block px-4 py-1 bg-yellow-100 dark:bg-yellow-900 text-yellow-600 dark:text-yellow-400 rounded-full text-sm font-semibold mb-3">职业路径</span>
+                    <h2 class="text-3xl md:text-5xl font-bold mb-6">
+                        <span class="bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 bg-clip-text text-transparent">职业旅程</span>
+                    </h2>
+                    <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto animate-fade-in">
+                        从多模态到Agent，更懂AI的产品经理
+                    </p>
+                </div>
+                
+                <!-- 时间线 -->
+                <div class="timeline mb-20">
+                    <!-- Minimax - 万物追踪 -->
+                    <div class="timeline-container right timeline-item" data-date="2024.10-至今">
+                        <div class="timeline-content hover-card">
+                            <span class="block text-xs font-semibold text-right text-orange-500 dark:text-orange-400 mb-1">2024.10-至今</span>
+                            <div class="flex items-center flex-wrap gap-2 mb-3">
+                                <h3 class="text-xl font-bold experience-title blue-gradient">Minimax - 万物追踪</h3>
+                                <span class="text-sm text-gray-500 dark:text-gray-400 relative pl-4 font-medium">
+                                    <span class="absolute left-1.5 top-1/2 transform -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+                                    AI Agent产品经理
+                                </span>
+                            </div>
+                            <div class="flex flex-wrap gap-2 mb-3">
+                                <span class="inline-block px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 rounded text-xs">Agent</span>
+                                <span class="inline-block px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 rounded text-xs">0-1 AI产品洞察</span>
+                                <span class="inline-block px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 rounded text-xs">80分斜杠青年</span>
+                            </div>
+                            <p class="text-gray-600 dark:text-gray-400 mb-4">
+                                0到1参与Agent产品的创新与落地，主导内容生态、运营平台与C端发现搜索的功能迭代，实现产品核心指标提升60%，MVP上线首月DAU破5k，次留率达40%
+                            </p>
+                            <div class="grid grid-cols-4 gap-1">
+                                <img src="picture/万物追踪商店图1.png" alt="万物追踪" class="rounded w-full h-auto hover:scale-150 transition-transform duration-300">
+                                <img src="picture/万物追踪商店图2.png" alt="万物追踪" class="rounded w-full h-auto hover:scale-150 transition-transform duration-300">
+                                <img src="picture/万物追踪商店图3.png" alt="万物追踪" class="rounded w-full h-auto hover:scale-150 transition-transform duration-300">
+                                <img src="picture/万物追踪商店图4.png" alt="万物追踪" class="rounded w-full h-auto hover:scale-150 transition-transform duration-300">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Minimax - 星野/talkie -->
+                    <div class="timeline-container left timeline-item" data-date="2024.8-2024.10">
+                        <div class="timeline-content hover-card">
+                            <span class="block text-xs font-semibold text-left text-orange-500 dark:text-orange-400 mb-1">2024.8-2024.10</span>
+                            <div class="flex items-center flex-wrap gap-2 mb-3">
+                                <h3 class="text-xl font-bold experience-title yellow-gradient">Minimax - 星野/talkie</h3>
+                                <span class="text-sm text-gray-500 dark:text-gray-400 relative pl-4 font-medium">
+                                    <span class="absolute left-1.5 top-1/2 transform -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-yellow-500"></span>
+                                    AI用户产品经理
+                                </span>
+                            </div>
+                            <div class="flex flex-wrap gap-2 mb-3">
+                                <span class="inline-block px-2 py-1 bg-yellow-100 dark:bg-yellow-900 text-yellow-600 dark:text-yellow-300 rounded text-xs">多模态产品体验</span>
+                                <span class="inline-block px-2 py-1 bg-yellow-100 dark:bg-yellow-900 text-yellow-600 dark:text-yellow-300 rounded text-xs">用户增长</span>
+                                <span class="inline-block px-2 py-1 bg-yellow-100 dark:bg-yellow-900 text-yellow-600 dark:text-yellow-300 rounded text-xs">模型策略</span>
+                            </div>
+                            <p class="text-gray-600 dark:text-gray-400 mb-4">
+                                致力打造多模态的智能体社区，参与站内新品类拓展，打通用户增长-产品功能-模型体验的工作链路，大盘占比LTROI提升23%
+                            </p>
+                            <div class="grid grid-cols-4 gap-1">
+                                <img src="picture/星野1.jpg" alt="星野" class="rounded w-full h-auto hover:scale-150 transition-transform duration-300">
+                                <img src="picture/星野2.jpg" alt="星野" class="rounded w-full h-auto hover:scale-150 transition-transform duration-300">
+                                <img src="picture/星野3.png" alt="星野" class="rounded w-full h-auto hover:scale-150 transition-transform duration-300">
+                                <img src="picture/星野4.png" alt="星野" class="rounded w-full h-auto hover:scale-150 transition-transform duration-300">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 喜马拉雅 -->
+                    <div class="timeline-container right timeline-item" data-date="2024.2-2024.7">
+                        <div class="timeline-content hover-card">
+                            <span class="block text-xs font-semibold text-right text-orange-500 dark:text-orange-400 mb-1">2024.2-2024.7</span>
+                            <div class="flex items-center flex-wrap gap-2 mb-3">
+                                <h3 class="text-xl font-bold experience-title red-gradient">喜马拉雅 - C端APP产品事业部</h3>
+                                <span class="text-sm text-gray-500 dark:text-gray-400 relative pl-4 font-medium">
+                                    <span class="absolute left-1.5 top-1/2 transform -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-red-500"></span>
+                                    APP&AIGC产品经理
+                                </span>
+                            </div>
+                            <div class="flex flex-wrap gap-2 mb-3">
+                                <span class="inline-block px-2 py-1 bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300 rounded text-xs">视觉AI</span>
+                                <span class="inline-block px-2 py-1 bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300 rounded text-xs">语音AI</span>
+                                <span class="inline-block px-2 py-1 bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300 rounded text-xs">数据分析</span>
+                                <span class="inline-block px-2 py-1 bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300 rounded text-xs">探索和学习能力</span>
+                            </div>
+                            <p class="text-gray-600 dark:text-gray-400 mb-4">
+                                参与AI图像与视频赋能声音业务，0-1搭建AI文生视频创作工具，主站内容人均播放时长增加200%
+                            </p>
+                            <div class="grid grid-cols-4 gap-1">
+                                <img src="picture/喜马拉雅1.jpg" alt="喜马拉雅" class="rounded w-full h-auto hover:scale-150 transition-transform duration-300">
+                                <img src="picture/喜马拉雅2.jpg" alt="喜马拉雅" class="rounded w-full h-auto hover:scale-150 transition-transform duration-300">
+                                <img src="picture/喜马拉雅3.jpg" alt="喜马拉雅" class="rounded w-full h-auto hover:scale-150 transition-transform duration-300">
+                                <img src="picture/喜马拉雅4.jpg" alt="喜马拉雅" class="rounded w-full h-auto hover:scale-150 transition-transform duration-300">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 美团 -->
+                    <div class="timeline-container left timeline-item" data-date="2023.10-2024.1">
+                        <div class="timeline-content hover-card">
+                            <span class="block text-xs font-semibold text-left text-orange-500 dark:text-orange-400 mb-1">2023.10-2024.1</span>
+                            <div class="flex items-center flex-wrap gap-2 mb-3">
+                                <h3 class="text-xl font-bold experience-title orange-gradient">美团-点评笔记产品部</h3>
+                                <span class="text-sm text-gray-500 dark:text-gray-400 relative pl-4 font-medium">
+                                    <span class="absolute left-1.5 top-1/2 transform -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-orange-500"></span>
+                                    内容运营
+                                </span>
+                            </div>
+                            <div class="flex flex-wrap gap-2 mb-3">
+                                <span class="inline-block px-2 py-1 bg-orange-100 dark:bg-orange-900 text-orange-600 dark:text-orange-300 rounded text-xs">UGC生态</span>
+                                <span class="inline-block px-2 py-1 bg-orange-100 dark:bg-orange-900 text-orange-600 dark:text-orange-300 rounded text-xs">内容策略</span>
+                                <span class="inline-block px-2 py-1 bg-orange-100 dark:bg-orange-900 text-orange-600 dark:text-orange-300 rounded text-xs">作者需求洞察</span>
+                            </div>
+                            <p class="text-gray-600 dark:text-gray-400 mb-4">
+                                通过活动/账号/内容运营，实现UGC生态增长，触达近1k新作者，促进内容供给增加1.2W
+                            </p>
+                            <div class="grid grid-cols-4 gap-1">
+                                <img src="picture/美团1.jpg" alt="美团" class="rounded w-full h-auto hover:scale-150 transition-transform duration-300">
+                                <img src="picture/美团2.jpg" alt="美团" class="rounded w-full h-auto hover:scale-150 transition-transform duration-300">
+                                <img src="picture/美团3.jpg" alt="美团" class="rounded w-full h-auto hover:scale-150 transition-transform duration-300">
+                                <img src="picture/美团4.jpg" alt="美团" class="rounded w-full h-auto hover:scale-150 transition-transform duration-300">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 分隔区域 -->
+        <div class="module-divider"></div>
+
+        <!-- 作品集部分 -->
+        <section id="portfolio" class="py-20 bg-white dark:bg-gray-900 relative overflow-hidden section-transition">
+            <!-- 背景装饰 -->
+            <div class="absolute top-1/4 right-1/4 w-80 h-80 rounded-full bg-gradient-to-r from-mint-300 to-teal-300 opacity-10 blur-3xl"></div>
+            <div class="absolute bottom-1/4 left-1/4 w-64 h-64 rounded-full bg-gradient-to-r from-orange-300 to-red-300 opacity-10 blur-3xl"></div>
+            
+            <div class="container mx-auto px-4 relative z-10">
+                <div class="text-center mb-16">
+                    <span class="relative inline-block px-6 py-2 rounded-full text-sm font-bold mb-5 overflow-hidden" style="background: linear-gradient(90deg, rgba(249, 115, 22, 0.15), rgba(239, 68, 68, 0.15), rgba(139, 92, 246, 0.15)); box-shadow: 0 4px 15px -3px rgba(0, 0, 0, 0.1); border: 1px solid rgba(249, 115, 22, 0.2);">
+                        <span class="relative z-10" style="background: linear-gradient(90deg, #f97316, #ef4444, #8b5cf6); -webkit-background-clip: text; background-clip: text; color: transparent;">
+                            <i class="fas fa-palette mr-2"></i>项目经历
+                        </span>
+                        <span class="absolute inset-0 w-full h-full bg-white dark:bg-gray-800 opacity-60 dark:opacity-80 z-0"></span>
+                    </span>
+                    <h2 class="text-3xl md:text-5xl font-bold mb-6">
+                        <span style="background: linear-gradient(90deg, #f97316, #ef4444, #8b5cf6); -webkit-background-clip: text; background-clip: text; color: transparent; padding: 5px 0; display: inline-block; font-weight: bold;">精选作品集</span>
+                    </h2>
+                    <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-12">
+                        记录我的项目实践与AI创新探索，未完待续
+                    </p>
+                </div>
+                
+                <!-- 卡片堆叠展示区 -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                    <!-- Vibe Coding 卡片堆 -->
+                    <div class="card-stack-wrapper">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="card-stack-title">Vibe Coding</h3>
+                            <span class="inline-flex px-3 py-1 bg-purple-100 dark:bg-purple-900/40 text-purple-600 dark:text-purple-400 rounded-full text-xs font-semibold transform hover:scale-105 transition-transform">独立开发者</span>
+                        </div>
+                        <div class="text-sm text-gray-600 dark:text-gray-400 mb-4 italic">
+                            搭建流浪动物领养网站，促成10+动物成功安置与领养
+                        </div>
+                        <div class="card-stack" id="vibe-coding-stack">
+                            <div class="card-stack-item">
+                                <img src="picture/流浪网站.png" alt="泡泡搭子" class="card-image">
+                                <div class="card-content">
+                                    <div class="card-title">泡泡搭子</div>
+                                    <div class="card-description">流浪动物领养平台</div>
+                                    <div class="card-tags">
+                                        <span class="card-tag bg-blue-500/80">Web工具</span>
+                                        <span class="card-tag bg-purple-500/80">AI赋能</span>
+                                    </div>
+                                    <a href="https://45dk2tobkx.app.yourware.so/" target="_blank" class="card-link">访问项目 →</a>
+                                    <div class="drag-indicator"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- AI Video 卡片堆 -->
+                    <div class="card-stack-wrapper">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="card-stack-title">AI Video</h3>
+                            <span class="inline-flex px-3 py-1 bg-red-100 dark:bg-red-900/40 text-red-600 dark:text-red-400 rounded-full text-xs font-semibold transform hover:scale-105 transition-transform">团队负责人</span>
+                        </div>
+                        <div class="text-sm text-gray-600 dark:text-gray-400 mb-4 italic">
+                            负责自研创作工具的产品设计，创作视频成为喜马拉雅小说先导片，单条内容播放量破十万
+                        </div>
+                        <div class="card-stack" id="ai-video-stack">
+                            <div class="card-stack-item">
+                                <img src="picture/古风小说风华鉴.png" alt="AI Video Creator" class="card-image">
+                                <div class="card-content">
+                                    <div class="card-title">古风小说先导片</div>
+                                    <div class="card-description">重生之我在风华鉴当女主</div>
+                                    <div class="card-tags">
+                                        <span class="card-tag bg-red-500/80">动画视频生成</span>
+                                        <span class="card-tag bg-orange-500/80">讲故事不炫技</span>
+                                    </div>
+                                    <a href="https://xima.tv/1_amf2Ia?_sonic=0" target="_blank" class="card-link">访问项目 →</a>
+                                    <div class="drag-indicator"></div>
+                                </div>
+                            </div>
+                            <div class="card-stack-item">
+                                <img src="picture/哈利波特.png" alt="AI Video Style" class="card-image">
+                                <div class="card-content">
+                                    <div class="card-title">哈利波特3D动画视频</div>
+                                    <div class="card-description">基于Midjourney人物设计而来的AI制作</div>
+                                    <div class="card-tags">
+                                        <span class="card-tag bg-pink-500/80">3D视频生成</span>
+                                        <span class="card-tag bg-purple-500/80">AI生图定制</span>
+                                    </div>
+                                    <a href="http://xhslink.com/a/QyDxoxRVJES9" target="_blank" class="card-link">访问项目 →</a>
+                                    <div class="drag-indicator"></div>
+                                </div>
+                            </div>
+                            <div class="card-stack-item">
+                                <img src="picture/恐怖小说山村女教尸.jpg" alt="AI Video Analytics" class="card-image">
+                                <div class="card-content">
+                                    <div class="card-title">恐怖小说先导片</div>
+                                    <div class="card-description">节奏感紧凑的电影级转场</div>
+                                    <div class="card-tags">
+                                        <span class="card-tag bg-blue-500/80">动画视频生成</span>
+                                        <span class="card-tag bg-teal-500/80">Midjourney生图</span>
+                                    </div>
+                                    <a href="http://xhslink.com/a/uH2JpqByXBS9" target="_blank" class="card-link">访问项目 →</a>
+                                    <div class="drag-indicator"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Magazine 卡片堆 -->
+                    <div class="card-stack-wrapper">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="card-stack-title">Magazine</h3>
+                            <span class="inline-flex px-3 py-1 bg-yellow-100 dark:bg-yellow-900/40 text-yellow-600 dark:text-yellow-400 rounded-full text-xs font-semibold transform hover:scale-105 transition-transform">主编&视觉总监</span>
+                        </div>
+                        <div class="text-sm text-gray-600 dark:text-gray-400 mb-4 italic">
+                            组织杂志《橙》报的采访与制作，审核10万字稿件，主导100余个版面出版
+                        </div>
+                        <div class="card-stack" id="magazine-stack">
+                            <div class="card-stack-item">
+                                <img src="picture/橙报1.jpg" alt="《橙》杂志设计" class="card-image">
+                                <div class="card-content">
+                                    <div class="card-title">《橙》报十年</div>
+                                    <div class="card-description">第22期杂志预览，已是十年踪迹十年心</div>
+                                    <div class="card-tags">
+                                        <span class="card-tag bg-yellow-500/80">平面设计</span>
+                                        <span class="card-tag bg-red-500/80">编辑排版</span>
+                                    </div>
+                                    <a href="https://mp.weixin.qq.com/s/ocsUlodUBlWhdMYozR4NCg" target="_blank" class="card-link">访问项目 →</a>
+                                    <div class="drag-indicator"></div>
+                                </div>
+                            </div>
+                            <div class="card-stack-item">
+                                <img src="picture/橙报2.jpg" alt="视觉创意策划" class="card-image">
+                                <div class="card-content">
+                                    <div class="card-title">主编新刊：疫时普通人</div>
+                                    <div class="card-description">第24期杂志预览，聚焦新冠疫情</div>
+                                    <div class="card-tags">
+                                        <span class="card-tag bg-pink-500/80">主编寄语</span>
+                                        <span class="card-tag bg-indigo-500/80">品牌塑造</span>
+                                    </div>
+                                    <a href="https://mp.weixin.qq.com/s/SnA-O7f29A5Wd-SIGZFiQQ" target="_blank" class="card-link">访问项目 →</a>
+                                    <div class="drag-indicator"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 分隔区域 -->
+        <div class="module-divider"></div>
+        
+        <!-- 技能部分 -->
+        <section id="skills" class="py-20 bg-white dark:bg-gray-900 relative overflow-hidden section-transition">
+            <!-- 背景装饰 -->
+            <div class="absolute top-0 left-0 w-full h-full overflow-hidden opacity-5 bg-grid-pattern"></div>
+            <div class="absolute top-1/3 left-1/4 w-72 h-72 rounded-full bg-gradient-to-r from-purple-300 to-blue-300 opacity-10 blur-3xl"></div>
+            <div class="absolute bottom-1/3 right-1/4 w-80 h-80 rounded-full bg-gradient-to-r from-orange-300 to-red-300 opacity-10 blur-3xl"></div>
+            
+            <div class="container mx-auto px-4 relative z-10">
+                <div class="text-center mb-16">
+                    <span class="relative inline-block px-6 py-2 rounded-full text-sm font-bold mb-5 overflow-hidden" style="background: linear-gradient(90deg, rgba(139, 92, 246, 0.15), rgba(59, 130, 246, 0.15), rgba(16, 185, 129, 0.15)); box-shadow: 0 4px 15px -3px rgba(0, 0, 0, 0.1); border: 1px solid rgba(139, 92, 246, 0.2);">
+                        <span class="relative z-10" style="background: linear-gradient(90deg, #8b5cf6, #3b82f6, #10b981); -webkit-background-clip: text; background-clip: text; color: transparent;">
+                            <i class="fas fa-chart-line mr-2"></i>我的技能
+                        </span>
+                        <span class="absolute inset-0 w-full h-full bg-white dark:bg-gray-800 opacity-60 dark:opacity-80 z-0"></span>
+                    </span>
+                    <h2 class="text-3xl md:text-5xl font-bold mb-6">
+                        <span style="background: linear-gradient(90deg, #8b5cf6, #3b82f6, #10b981); -webkit-background-clip: text; background-clip: text; color: transparent; padding: 5px 0; display: inline-block; font-weight: bold;">专业能力</span>
+                    </h2>
+                    <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-12">
+                        不断学习新技术，探索AI领域前沿，打造卓越的产品体验
+                    </p>
+                </div>
+                
+                <!-- 技能分类 -->
+                <div class="grid grid-cols-1 gap-8 mb-16">
+                    <!-- 产品设计 -->
+                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md bg-opacity-90 dark:bg-opacity-60 border border-gray-200 dark:border-gray-700 overflow-hidden">
+                        <div class="bg-gradient-to-r from-purple-500 to-indigo-600 p-4">
+                            <h3 class="text-xl font-bold text-white flex items-center"><i class="fas fa-paint-brush mr-2"></i>产品设计</h3>
+                        </div>
+                        <div class="p-5">
+                            <div class="mb-6">
+                                <h4 class="text-lg font-bold mb-2 text-purple-600 dark:text-purple-400 flex items-center">
+                                    <i class="fas fa-code mr-2"></i>氛围代码编程做demo
+                                </h4>
+                                <p class="text-gray-600 dark:text-gray-400 mb-3 text-sm">通过代码快速构建原型和演示版本</p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="inline-block px-2 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300 rounded text-xs"><i class="fas fa-code-branch mr-1"></i>V0</span>
+                                    <span class="inline-block px-2 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300 rounded text-xs"><i class="fas fa-bolt mr-1"></i>Bolt</span>
+                                    <span class="inline-block px-2 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300 rounded text-xs"><i class="fas fa-terminal mr-1"></i>Cursor</span>
+                                    <span class="inline-block px-2 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300 rounded text-xs"><i class="fas fa-wind mr-1"></i>Windsurf</span>
+                                    <span class="inline-block px-2 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300 rounded text-xs"><i class="fas fa-heart mr-1"></i>Lovable</span>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-bold mb-2 text-indigo-600 dark:text-indigo-400 flex items-center">
+                                    <i class="fas fa-pencil-ruler mr-2"></i>基础设计技能
+                                </h4>
+                                <p class="text-gray-600 dark:text-gray-400 mb-3 text-sm">掌握UI/UX设计工具，创建高保真原型</p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="inline-block px-2 py-1 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-800 dark:text-indigo-300 rounded text-xs"><i class="fab fa-figma mr-1"></i>Figma</span>
+                                    <span class="inline-block px-2 py-1 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-800 dark:text-indigo-300 rounded text-xs"><i class="fas fa-sitemap mr-1"></i>Axure</span>
+                                    <span class="inline-block px-2 py-1 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-800 dark:text-indigo-300 rounded text-xs"><i class="fas fa-palette mr-1"></i>Photoshop</span>
+                                    <span class="inline-block px-2 py-1 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-800 dark:text-indigo-300 rounded text-xs"><i class="fas fa-book mr-1"></i>InDesign</span>
+                                    <span class="inline-block px-2 py-1 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-800 dark:text-indigo-300 rounded text-xs"><i class="fas fa-vector-square mr-1"></i>Illustrator</span>
+                                    <span class="inline-block px-2 py-1 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-800 dark:text-indigo-300 rounded text-xs"><i class="fas fa-film mr-1"></i>Premier Pro</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- AI辅助信息提效 -->
+                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md bg-opacity-90 dark:bg-opacity-60 border border-gray-200 dark:border-gray-700 overflow-hidden">
+                        <div class="bg-gradient-to-r from-blue-500 to-cyan-600 p-4">
+                            <h3 class="text-xl font-bold text-white flex items-center"><i class="fas fa-robot mr-2"></i>AI辅助信息提效</h3>
+                        </div>
+                        <div class="p-5">
+                            <div class="mb-6">
+                                <h4 class="text-lg font-bold mb-2 text-blue-600 dark:text-blue-400 flex items-center">
+                                    <i class="fas fa-magic mr-2"></i>AI来做
+                                </h4>
+                                <p class="text-gray-600 dark:text-gray-400 mb-3 text-sm">让AI自动完成特定任务，实现流程自动化</p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="inline-block px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 rounded text-xs"><i class="fas fa-brain mr-1"></i>Manus</span>
+                                    <span class="inline-block px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 rounded text-xs"><i class="fas fa-lightbulb mr-1"></i>AutoGLM沉思</span>
+                                </div>
+                            </div>
+                            <div class="mb-6">
+                                <h4 class="text-lg font-bold mb-2 text-sky-600 dark:text-sky-400 flex items-center">
+                                    <i class="fas fa-hands-helping mr-2"></i>AI辅助
+                                </h4>
+                                <p class="text-gray-600 dark:text-gray-400 mb-3 text-sm">利用AI工具辅助研究和创意过程</p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="inline-block px-2 py-1 bg-sky-100 dark:bg-sky-900/30 text-sky-800 dark:text-sky-300 rounded text-xs"><i class="fas fa-search mr-1"></i>Deep Research</span>
+                                    <span class="inline-block px-2 py-1 bg-sky-100 dark:bg-sky-900/30 text-sky-800 dark:text-sky-300 rounded text-xs"><i class="fas fa-book-open mr-1"></i>NotebookLM</span>
+                                    <span class="inline-block px-2 py-1 bg-sky-100 dark:bg-sky-900/30 text-sky-800 dark:text-sky-300 rounded text-xs"><i class="fas fa-comment-dots mr-1"></i>Claude</span>
+                                    <span class="inline-block px-2 py-1 bg-sky-100 dark:bg-sky-900/30 text-sky-800 dark:text-sky-300 rounded text-xs"><i class="fas fa-comment mr-1"></i>ChatGPT</span>
+                                    <span class="inline-block px-2 py-1 bg-sky-100 dark:bg-sky-900/30 text-sky-800 dark:text-sky-300 rounded text-xs"><i class="fas fa-star mr-1"></i>Gemini</span>
+                                    <span class="inline-block px-2 py-1 bg-sky-100 dark:bg-sky-900/30 text-sky-800 dark:text-sky-300 rounded text-xs"><i class="fas fa-rocket mr-1"></i>Grok</span>
+                                    <span class="inline-block px-2 py-1 bg-sky-100 dark:bg-sky-900/30 text-sky-800 dark:text-sky-300 rounded text-xs"><i class="fas fa-seedling mr-1"></i>豆包</span>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-bold mb-2 text-cyan-600 dark:text-cyan-400 flex items-center">
+                                    <i class="fas fa-project-diagram mr-2"></i>Agent工作流搭建
+                                </h4>
+                                <p class="text-gray-600 dark:text-gray-400 mb-3 text-sm">构建AI自动化工作流和智能系统</p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="inline-block px-2 py-1 bg-cyan-100 dark:bg-cyan-900/30 text-cyan-800 dark:text-cyan-300 rounded text-xs"><i class="fas fa-cogs mr-1"></i>Dify</span>
+                                    <span class="inline-block px-2 py-1 bg-cyan-100 dark:bg-cyan-900/30 text-cyan-800 dark:text-cyan-300 rounded text-xs"><i class="fas fa-network-wired mr-1"></i>Coze</span>
+                                    <span class="inline-block px-2 py-1 bg-cyan-100 dark:bg-cyan-900/30 text-cyan-800 dark:text-cyan-300 rounded text-xs"><i class="fas fa-terminal mr-1"></i>Cline</span>
+                                    <span class="inline-block px-2 py-1 bg-cyan-100 dark:bg-cyan-900/30 text-cyan-800 dark:text-cyan-300 rounded text-xs"><i class="fas fa-puzzle-piece mr-1"></i>ComfyUI</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 技术背景夯实 -->
+                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md bg-opacity-90 dark:bg-opacity-60 border border-gray-200 dark:border-gray-700 overflow-hidden">
+                        <div class="bg-gradient-to-r from-emerald-500 to-green-600 p-4">
+                            <h3 class="text-xl font-bold text-white flex items-center"><i class="fas fa-laptop-code mr-2"></i>技术背景夯实</h3>
+                        </div>
+                        <div class="p-5">
+                            <div class="mb-6">
+                                <h4 class="text-lg font-bold mb-2 text-emerald-600 dark:text-emerald-400 flex items-center">
+                                    <i class="fas fa-code mr-2"></i>基础编程/数据分析能力
+                                </h4>
+                                <p class="text-gray-600 dark:text-gray-400 mb-3 text-sm">掌握编程基础和数据分析技术</p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="inline-block px-2 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-800 dark:text-emerald-300 rounded text-xs"><i class="fab fa-python mr-1"></i>Python</span>
+                                    <span class="inline-block px-2 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-800 dark:text-emerald-300 rounded text-xs"><i class="fab fa-vuejs mr-1"></i>Vue前端框架</span>
+                                    <span class="inline-block px-2 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-800 dark:text-emerald-300 rounded text-xs"><i class="fas fa-server mr-1"></i>Vercel部署</span>
+                                    <span class="inline-block px-2 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-800 dark:text-emerald-300 rounded text-xs"><i class="fas fa-database mr-1"></i>SQL</span>
+                                    <span class="inline-block px-2 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-800 dark:text-emerald-300 rounded text-xs"><i class="fas fa-chart-bar mr-1"></i>Tableau</span>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-bold mb-2 text-green-600 dark:text-green-400 flex items-center">
+                                    <i class="fas fa-brain mr-2"></i>大模型原理与前沿知识
+                                </h4>
+                                <p class="text-gray-600 dark:text-gray-400 mb-3 text-sm">了解大型语言模型的基本原理和前沿发展</p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="inline-block px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 rounded text-xs"><i class="fas fa-cog mr-1"></i>机器学习</span>
+                                    <span class="inline-block px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 rounded text-xs"><i class="fas fa-network-wired mr-1"></i>深度学习</span>
+                                    <span class="inline-block px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 rounded text-xs"><i class="fas fa-user-astronaut mr-1"></i>AgentAI</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 专业工具熟练度 -->
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md backdrop-filter backdrop-blur-lg bg-opacity-90 dark:bg-opacity-60 border border-gray-200 dark:border-gray-700 mb-12">
+                    <h3 class="text-xl font-bold mb-5 text-center" style="background: linear-gradient(90deg, #f97316, #ef4444, #8b5cf6); -webkit-background-clip: text; background-clip: text; color: transparent;">专业工具</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="tool-item">
+                            <div class="tool-icon">
+                                <i class="fas fa-pencil-ruler"></i>
+                            </div>
+                            <div class="tool-name">Figma</div>
+                            <div class="tool-level">
+                                <span class="level-dot active"></span>
+                                <span class="level-dot active"></span>
+                                <span class="level-dot active"></span>
+                                <span class="level-dot active"></span>
+                                <span class="level-dot"></span>
+                            </div>
+                        </div>
+                        <div class="tool-item">
+                            <div class="tool-icon">
+                                <i class="fas fa-code"></i>
+                            </div>
+                            <div class="tool-name">Prompt工程</div>
+                            <div class="tool-level">
+                                <span class="level-dot active"></span>
+                                <span class="level-dot active"></span>
+                                <span class="level-dot active"></span>
+                                <span class="level-dot active"></span>
+                                <span class="level-dot active"></span>
+                            </div>
+                        </div>
+                        <div class="tool-item">
+                            <div class="tool-icon">
+                                <i class="fas fa-tasks"></i>
+                            </div>
+                            <div class="tool-name">JIRA</div>
+                            <div class="tool-level">
+                                <span class="level-dot active"></span>
+                                <span class="level-dot active"></span>
+                                <span class="level-dot active"></span>
+                                <span class="level-dot active"></span>
+                                <span class="level-dot"></span>
+                            </div>
+                        </div>
+                        <div class="tool-item">
+                            <div class="tool-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="tool-name">数据可视化</div>
+                            <div class="tool-level">
+                                <span class="level-dot active"></span>
+                                <span class="level-dot active"></span>
+                                <span class="level-dot active"></span>
+                                <span class="level-dot"></span>
+                                <span class="level-dot"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 软技能标签云 -->
+                <div class="soft-skills-container">
+                    <h3 class="text-xl font-bold mb-5 text-center" style="background: linear-gradient(90deg, #f97316, #ef4444, #8b5cf6); -webkit-background-clip: text; background-clip: text; color: transparent;">软技能</h3>
+                    <div class="flex flex-wrap justify-center gap-3">
+                        <span class="soft-skill-tag blue"><i class="fas fa-users"></i>团队协作</span>
+                        <span class="soft-skill-tag green"><i class="fas fa-comments"></i>沟通能力</span>
+                        <span class="soft-skill-tag purple"><i class="fas fa-lightbulb"></i>解决问题</span>
+                        <span class="soft-skill-tag orange"><i class="fas fa-brain"></i>创新思维</span>
+                        <span class="soft-skill-tag red"><i class="fas fa-clock"></i>时间管理</span>
+                        <span class="soft-skill-tag teal"><i class="fas fa-sync-alt"></i>适应能力</span>
+                        <span class="soft-skill-tag blue"><i class="fas fa-heart"></i>用户同理心</span>
+                        <span class="soft-skill-tag yellow"><i class="fas fa-book"></i>持续学习</span>
+                        <span class="soft-skill-tag purple"><i class="fas fa-tasks"></i>项目管理</span>
+                        <span class="soft-skill-tag green"><i class="fas fa-chess"></i>战略思考</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 分隔区域 -->
+        <div class="module-divider"></div>
+
+        <!-- 博客文章部分 -->
+        <section id="blog" class="py-20 bg-white dark:bg-gray-900 relative overflow-hidden section-transition">
+            <!-- 背景装饰 -->
+            <div class="absolute top-0 left-0 w-full h-full overflow-hidden opacity-5 bg-grid-pattern"></div>
+            <div class="absolute top-1/4 left-1/3 w-72 h-72 rounded-full bg-gradient-to-r from-teal-300 to-cyan-300 opacity-10 blur-3xl"></div>
+            <div class="absolute bottom-1/4 right-1/3 w-80 h-80 rounded-full bg-gradient-to-r from-amber-300 to-yellow-300 opacity-10 blur-3xl"></div>
+            
+            <div class="container mx-auto px-4 relative z-10">
+                <div class="text-center mb-16">
+                    <span class="relative inline-block px-6 py-2 rounded-full text-sm font-bold mb-5 overflow-hidden" style="background: linear-gradient(90deg, rgba(20, 184, 166, 0.15), rgba(6, 182, 212, 0.15), rgba(14, 165, 233, 0.15)); box-shadow: 0 4px 15px -3px rgba(0, 0, 0, 0.1); border: 1px solid rgba(20, 184, 166, 0.2);">
+                        <span class="relative z-10" style="background: linear-gradient(90deg, #14b8a6, #06b6d4, #0ea5e9); -webkit-background-clip: text; background-clip: text; color: transparent;">
+                            <i class="fas fa-feather-alt mr-2"></i>专业思考
+                        </span>
+                        <span class="absolute inset-0 w-full h-full bg-white dark:bg-gray-800 opacity-60 dark:opacity-80 z-0"></span>
+                    </span>
+                    <h2 class="text-3xl md:text-5xl font-bold mb-6">
+                        <span style="background: linear-gradient(90deg, #14b8a6, #06b6d4, #0ea5e9); -webkit-background-clip: text; background-clip: text; color: transparent; padding: 5px 0; display: inline-block; font-weight: bold;">博客文章</span>
+                    </h2>
+                    <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-12">
+                        分享我对AI产品和行业趋势的思考，以及实践中的经验总结
+                    </p>
+                </div>
+                
+                <!-- 博客文章卡片 -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- 文章1 -->
+                    <div class="blog-card hover-card bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg transition-all duration-300">
+                        <div class="h-48 overflow-hidden relative">
+                            <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-60 z-10"></div>
+                            <div class="absolute bottom-4 left-4 z-20">
+                                <span class="inline-block px-3 py-1 bg-teal-500 text-white text-xs font-semibold rounded-full">产品思考</span>
+                            </div>
+                            <img src="https://images.unsplash.com/photo-1591696331111-ef9586a5b17a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="AI产品设计方法" class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-500">
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center text-gray-500 text-sm mb-2">
+                                <i class="far fa-calendar-alt mr-2"></i>
+                                <span>2024-05-20</span>
+                                <span class="mx-2">·</span>
+                                <i class="far fa-clock mr-2"></i>
+                                <span>10分钟阅读</span>
+                            </div>
+                            <h3 class="text-xl font-bold mb-3 text-gray-800 dark:text-gray-200">AI产品的"人机协同"设计方法论</h3>
+                            <p class="text-gray-600 dark:text-gray-400 mb-4 line-clamp-3">
+                                在AI产品设计中，"人机协同"是核心理念。本文探讨如何在产品中平衡AI能力与人类干预，通过合理的交互设计和反馈机制，打造既智能又可控的产品体验。从实践案例出发，分享如何应对幻觉、执行效率和用户信任三大挑战。
+                            </p>
+                            <a href="#" class="inline-flex items-center text-teal-600 hover:text-teal-700 dark:text-teal-400 dark:hover:text-teal-300 font-medium">
+                                阅读全文
+                                <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- 文章2 -->
+                    <div class="blog-card hover-card bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg transition-all duration-300">
+                        <div class="h-48 overflow-hidden relative">
+                            <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-60 z-10"></div>
+                            <div class="absolute bottom-4 left-4 z-20">
+                                <span class="inline-block px-3 py-1 bg-purple-500 text-white text-xs font-semibold rounded-full">行业分析</span>
+                            </div>
+                            <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1965&q=80" alt="AI Agent发展趋势" class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-500">
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center text-gray-500 text-sm mb-2">
+                                <i class="far fa-calendar-alt mr-2"></i>
+                                <span>2024-04-15</span>
+                                <span class="mx-2">·</span>
+                                <i class="far fa-clock mr-2"></i>
+                                <span>15分钟阅读</span>
+                            </div>
+                            <h3 class="text-xl font-bold mb-3 text-gray-800 dark:text-gray-200">2024年AI Agent发展趋势：从理念到落地</h3>
+                            <p class="text-gray-600 dark:text-gray-400 mb-4 line-clamp-3">
+                                AI Agent是继对话式AI之后的下一个重要赛道。本文分析了当前AI Agent的发展现状、核心技术挑战和商业化路径。从B端企业自动化到C端个人助理，AI Agent正在重塑人机交互方式，但在落地过程中仍面临可靠性、隐私安全等多重挑战。
+                            </p>
+                            <a href="#" class="inline-flex items-center text-purple-600 hover:text-purple-700 dark:text-purple-400 dark:hover:text-purple-300 font-medium">
+                                阅读全文
+                                <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- 文章3 -->
+                    <div class="blog-card hover-card bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg transition-all duration-300">
+                        <div class="h-48 overflow-hidden relative">
+                            <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-60 z-10"></div>
+                            <div class="absolute bottom-4 left-4 z-20">
+                                <span class="inline-block px-3 py-1 bg-orange-500 text-white text-xs font-semibold rounded-full">实践经验</span>
+                            </div>
+                            <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="AI团队协作" class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-500">
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center text-gray-500 text-sm mb-2">
+                                <i class="far fa-calendar-alt mr-2"></i>
+                                <span>2024-03-10</span>
+                                <span class="mx-2">·</span>
+                                <i class="far fa-clock mr-2"></i>
+                                <span>8分钟阅读</span>
+                            </div>
+                            <h3 class="text-xl font-bold mb-3 text-gray-800 dark:text-gray-200">文科背景的AI产品经理如何高效协作技术团队</h3>
+                            <p class="text-gray-600 dark:text-gray-400 mb-4 line-clamp-3">
+                                作为非技术背景的AI产品经理，如何有效沟通需求并与算法工程师深度协作？本文分享了我从文科生转型AI产品经理的经验和方法，包括构建产品知识体系、掌握基础技术概念、建立有效沟通机制三个方面的实践心得。
+                            </p>
+                            <a href="#" class="inline-flex items-center text-orange-600 hover:text-orange-700 dark:text-orange-400 dark:hover:text-orange-300 font-medium">
+                                阅读全文
+                                <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 更多文章按钮 -->
+                <div class="text-center mt-12">
+                    <a href="#" class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gradient-to-r from-teal-500 to-cyan-600 hover:from-teal-600 hover:to-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 shadow-lg hover:shadow-xl transition-all duration-300">
+                        查看更多文章
+                        <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 分隔区域 -->
+        <div class="module-divider"></div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="relative py-10 overflow-hidden">
+        <div class="container mx-auto px-4">
+            <div class="text-center">
+                <div class="text-xl font-bold text-gradient mb-4">板砖</div>
+                <p class="text-gray-400 mb-6">面向未来的AI产品经理</p>
+                <div class="flex justify-center space-x-4">
+                    <a href="#hero" class="text-gray-400 hover:text-white transition-colors">首页</a>
+                    <a href="#about" class="text-gray-400 hover:text-white transition-colors">关于我</a>
+                    <a href="#experience" class="text-gray-400 hover:text-white transition-colors">经历</a>
+                    <a href="#portfolio" class="text-gray-400 hover:text-white transition-colors">作品集</a>
+                    <a href="#skills" class="text-gray-400 hover:text-white transition-colors">技能</a>
+                    <a href="#blog" class="text-gray-400 hover:text-white transition-colors">博客</a>
+                </div>
+                <div class="mt-8 text-sm text-gray-500">
+                    &copy; 2024 版权所有
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 等待DOM加载完成
+        document.addEventListener('DOMContentLoaded', function() {
+            // 获取元素
+            const themeToggle = document.getElementById('theme-toggle');
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mainNav = document.getElementById('mainNav');
+            const scrollIndicator = document.getElementById('scrollIndicator');
+            const typingText = document.getElementById('typingText');
+            const sections = document.querySelectorAll('section');
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            const timelineExpandBtns = document.querySelectorAll('.timeline-expand-btn');
+            const skillProgress = document.querySelectorAll('.skill-progress');
+            const portfolioFilters = document.querySelectorAll('.portfolio-filter');
+            const portfolioItems = document.querySelectorAll('.portfolio-item');
+            
+            // 检查系统暗色模式偏好
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.documentElement.classList.add('dark');
+            }
+            
+            // 切换暗色模式
+            themeToggle.addEventListener('click', () => {
+                document.documentElement.classList.toggle('dark');
+            });
+            
+            // 移动端菜单
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            // 滚动事件处理
+            window.addEventListener('scroll', () => {
+                // 更新滚动指示器
+                const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+                const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrolled = (scrollTop / scrollHeight) * 100;
+                scrollIndicator.style.width = scrolled + '%';
+                
+                // 导航栏背景变化
+                if (scrollTop > 50) {
+                    mainNav.classList.add('nav-scrolled');
+                } else {
+                    mainNav.classList.remove('nav-scrolled');
+                }
+                
+                // 视差效果
+                const parallaxElements = document.querySelectorAll('.parallax-bg');
+                parallaxElements.forEach(element => {
+                    const speed = 0.5;
+                    element.style.transform = `translateY(${scrollTop * speed}px)`;
+                });
+                
+                // 检查元素是否在视口中
+                sections.forEach(section => {
+                    const rect = section.getBoundingClientRect();
+                    const isInViewport = (
+                        rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.75 &&
+                        rect.bottom >= 0
+                    );
+                    
+                    if (isInViewport) {
+                        section.classList.add('active');
+                        section.classList.add('visible');
+                        // 激活对应的导航链接
+                        const id = section.getAttribute('id');
+                        document.querySelectorAll('nav a').forEach(link => {
+                            if (link.getAttribute('href') === `#${id}`) {
+                                link.classList.add('text-gradient');
+                            } else {
+                                link.classList.remove('text-gradient');
+                            }
+                        });
+                    }
+                });
+                
+                // 时间线动画
+                timelineItems.forEach(item => {
+                    const rect = item.getBoundingClientRect();
+                    const isInViewport = (
+                        rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.85 &&
+                        rect.bottom >= 0
+                    );
+                    
+                    if (isInViewport) {
+                        item.classList.add('visible');
+                    }
+                });
+                
+                // 所有技能进度条动画
+                document.querySelectorAll('.skill-progress').forEach(progress => {
+                    const rect = progress.getBoundingClientRect();
+                    const isInViewport = (
+                        rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.85 &&
+                        rect.bottom >= 0
+                    );
+                    
+                    if (isInViewport) {
+                        const progressValue = progress.getAttribute('data-progress');
+                        progress.style.width = progressValue;
+                    }
+                });
+                
+                // 技能卡片动画
+                document.querySelectorAll('.skill-category-card').forEach((card, index) => {
+                    const rect = card.getBoundingClientRect();
+                    const isInViewport = (
+                        rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.85 &&
+                        rect.bottom >= 0
+                    );
+                    
+                    if (isInViewport) {
+                        card.style.transitionDelay = `${index * 0.1}s`;
+                        card.classList.add('visible');
+                    }
+                });
+                
+                // 工具项动画
+                document.querySelectorAll('.tool-item').forEach((tool, index) => {
+                    const rect = tool.getBoundingClientRect();
+                    const isInViewport = (
+                        rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.85 &&
+                        rect.bottom >= 0
+                    );
+                    
+                    if (isInViewport) {
+                        tool.style.transitionDelay = `${index * 0.1}s`;
+                        tool.classList.add('visible');
+                    }
+                });
+                
+                // 显示其他模块的转场动画
+                document.querySelectorAll('.section-transition').forEach(element => {
+                    const rect = element.getBoundingClientRect();
+                    const isInViewport = (
+                        rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.85
+                    );
+                    
+                    if (isInViewport) {
+                        element.classList.add('visible');
+                    }
+                });
+            });
+            
+            // 添加粒子效果
+            createParticles();
+            
+            // 添加打字机效果
+            typeText(typingText, 'AI产品经理', 100);
+            
+            // 为软技能标签添加交错动画效果
+            document.querySelectorAll('.soft-skill-tag').forEach((tag, index) => {
+                tag.style.setProperty('--tag-index', index);
+            });
+            
+            // 为兴趣爱好图标添加交错动画效果
+            document.querySelectorAll('.interest-item').forEach((item, index) => {
+                item.style.setProperty('--item-index', index);
+                item.style.animationDelay = `${index * 0.1}s`;
+            });
+            
+            // 为关于我内容卡片添加可见性动态效果
+            window.addEventListener('scroll', () => {
+                const aboutContentCard = document.querySelector('.about-content-card');
+                if (aboutContentCard) {
+                    const rect = aboutContentCard.getBoundingClientRect();
+                    const isInViewport = (
+                        rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.85 &&
+                        rect.bottom >= 0
+                    );
+                    
+                    if (isInViewport) {
+                        aboutContentCard.classList.add('visible');
+                    }
+                }
+            });
+            
+            // 作品集过滤功能
+            portfolioFilters.forEach(filter => {
+                filter.addEventListener('click', function() {
+                    // 移除所有活跃状态
+                    portfolioFilters.forEach(f => f.classList.remove('active'));
+                    // 添加当前活跃状态
+                    this.classList.add('active');
+                    
+                    // 获取过滤类别
+                    const filterValue = this.getAttribute('data-filter');
+                    
+                    // 过滤作品
+                    portfolioItems.forEach(item => {
+                        if (!filterValue || filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
+                            item.style.display = 'block';
+                            setTimeout(() => {
+                                item.style.opacity = 1;
+                                item.style.transform = 'scale(1)';
+                            }, 10);
+                        } else {
+                            item.style.opacity = 0;
+                            item.style.transform = 'scale(0.8)';
+                            setTimeout(() => {
+                                item.style.display = 'none';
+                            }, 300);
+                        }
+                    });
+                });
+            });
+            
+            // 触发初始滚动事件以激活可见元素
+            window.dispatchEvent(new Event('scroll'));
+        });
+        
+        // 创建粒子效果
+        function createParticles() {
+            const particles = document.querySelector('.particles');
+            if (!particles) return;
+            
+            // 清空已有粒子
+            particles.innerHTML = '';
+            
+            for (let i = 0; i < 40; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // 随机位置
+                const x = Math.random() * 100;
+                const y = Math.random() * 100;
+                
+                // 随机大小
+                const size = Math.random() * 5 + 2;
+                
+                // 随机颜色
+                const colors = ['#FFD58C', '#F55654', '#F99551', '#91B87C', '#9B4DCA', '#427C80'];
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                
+                // 随机动画延迟
+                const delay = Math.random() * 5;
+                const duration = Math.random() * 10 + 10;
+                
+                // 设置样式
+                particle.style.cssText = `
+                    top: ${y}%;
+                    left: ${x}%;
+                    width: ${size}px;
+                    height: ${size}px;
+                    background-color: ${color};
+                    opacity: ${Math.random() * 0.6 + 0.2};
+                    filter: blur(${Math.random() * 2}px);
+                    animation: float ${duration}s ease-in-out infinite;
+                    animation-delay: -${delay}s;
+                `;
+                
+                particles.appendChild(particle);
+            }
+        }
+        
+        // 打字机效果
+        function typeText(element, text, speed) {
+            let i = 0;
+            element.textContent = '';
+            
+            function type() {
+                if (i < text.length) {
+                    element.textContent += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+            
+            setTimeout(type, 1000); // 延迟开始
+        }
+        
+        // 浮动动画样式
+        const floatStyle = document.createElement('style');
+        floatStyle.textContent = `
+            @keyframes float {
+                0%, 100% {
+                    transform: translateY(0) translateX(0);
+                }
+                25% {
+                    transform: translateY(-15px) translateX(10px);
+                }
+                50% {
+                    transform: translateY(-30px) translateX(-10px);
+                }
+                75% {
+                    transform: translateY(-15px) translateX(5px);
+                }
+            }
+            
+            .bg-grid-pattern {
+                background-image: 
+                    radial-gradient(circle, rgba(148, 93, 202, 0.1) 2px, transparent 2px),
+                    radial-gradient(circle, rgba(148, 93, 202, 0.1) 2px, transparent 2px);
+                background-size: 30px 30px;
+                background-position: 0 0, 15px 15px;
+            }
+            
+            .portfolio-filter.active {
+                background-color: #f97316;
+                color: white;
+            }
+            
+            .dark .portfolio-filter.active {
+                background-color: #ea580c;
+                color: white;
+            }
+            
+            .skill-progress {
+                width: 0;
+                transition: width 1.5s ease-in-out;
+            }
+            
+            .portfolio-item {
+                transition: all 0.3s ease-out;
+            }
+        `;
+        document.head.appendChild(floatStyle);
+        
+        // 卡片堆叠交互效果 - 优化版
+        const cardStacks = document.querySelectorAll('.card-stack');
+        
+        cardStacks.forEach(stack => {
+            const cards = Array.from(stack.querySelectorAll('.card-stack-item'));
+            if (cards.length <= 1) return; // 如果只有一张卡片，不添加拖拽功能
+            
+            cards.forEach(card => {
+                let isDragging = false;
+                let startY = 0;
+                let currentY = 0;
+                let rafId = null;
+                
+                // 鼠标/触摸事件处理
+                card.addEventListener('mousedown', startDrag);
+                card.addEventListener('touchstart', e => {
+                    const touch = e.touches[0];
+                    startDrag({ clientY: touch.clientY });
+                });
+                
+                window.addEventListener('mousemove', dragThrottled);
+                window.addEventListener('touchmove', e => {
+                    if (!isDragging) return;
+                    e.preventDefault();
+                    const touch = e.touches[0];
+                    dragThrottled({ clientY: touch.clientY });
+                }, { passive: false });
+                
+                window.addEventListener('mouseup', endDrag);
+                window.addEventListener('touchend', endDrag);
+                
+                function startDrag(e) {
+                    // 只有顶部卡片可以拖动
+                    if (cards.indexOf(card) !== 0) return;
+                    
+                    isDragging = true;
+                    startY = e.clientY;
+                    currentY = 0;
+                    card.classList.add('dragging');
+                    
+                    // 禁止文本选择
+                    document.body.style.userSelect = 'none';
+                }
+                
+                function dragThrottled(e) {
+                    if (!isDragging) return;
+                    
+                    // 使用requestAnimationFrame优化性能
+                    if (rafId) return;
+                    
+                    rafId = requestAnimationFrame(() => {
+                        drag(e);
+                        rafId = null;
+                    });
+                }
+                
+                function drag(e) {
+                    if (!isDragging) return;
+                    
+                    currentY = e.clientY - startY;
+                    
+                    // 限制只能向下拖动一定距离
+                    if (currentY < 0) currentY = 0;
+                    if (currentY > 200) currentY = 200;
+                    
+                    // 应用变换
+                    card.style.transform = `translateY(${currentY}px)`;
+                    
+                    // 如果拖动超过阈值，显示下一张卡片的内容预览
+                    if (currentY > 70 && cards.length > 1) {
+                        // 下一张卡片的内容渐显
+                        const nextCard = cards[1];
+                        const title = nextCard.querySelector('.card-title');
+                        const desc = nextCard.querySelector('.card-description');
+                        const tags = nextCard.querySelector('.card-tags');
+                        const link = nextCard.querySelector('.card-link');
+                        
+                        const progress = Math.min((currentY - 70) / 80, 1); // 0 to 1
+                        
+                        title.style.opacity = progress;
+                        title.style.transform = `translateY(${20 * (1 - progress)}px)`;
+                        
+                        desc.style.opacity = progress;
+                        desc.style.transform = `translateY(${20 * (1 - progress)}px)`;
+                        
+                        tags.style.opacity = progress;
+                        tags.style.transform = `translateY(${20 * (1 - progress)}px)`;
+                        
+                        if (link) {
+                            link.style.opacity = progress;
+                            link.style.transform = `translateY(${20 * (1 - progress)}px)`;
+                        }
+                    }
+                }
+                
+                function endDrag() {
+                    if (!isDragging) return;
+                    
+                    isDragging = false;
+                    card.classList.remove('dragging');
+                    
+                    // 还原文本选择
+                    document.body.style.userSelect = '';
+                    
+                    // 如果拖动距离足够大，切换卡片
+                    if (currentY > 120 && cards.length > 1) {
+                        cycleCards(stack);
+                    } else {
+                        // 否则回到原位
+                        card.style.transform = '';
+                        
+                        // 重置下一张卡片的内容样式
+                        if (cards.length > 1) {
+                            const nextCard = cards[1];
+                            const title = nextCard.querySelector('.card-title');
+                            const desc = nextCard.querySelector('.card-description');
+                            const tags = nextCard.querySelector('.card-tags');
+                            const link = nextCard.querySelector('.card-link');
+                            
+                            title.style.opacity = '';
+                            title.style.transform = '';
+                            
+                            desc.style.opacity = '';
+                            desc.style.transform = '';
+                            
+                            tags.style.opacity = '';
+                            tags.style.transform = '';
+                            
+                            if (link) {
+                                link.style.opacity = '';
+                                link.style.transform = '';
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // 添加自动循环展示
+            let autoplayInterval;
+            
+            function startAutoplay() {
+                if (cards.length <= 1) return;
+                autoplayInterval = setInterval(() => {
+                    cycleCards(stack);
+                }, 5000);
+            }
+            
+            function stopAutoplay() {
+                clearInterval(autoplayInterval);
+            }
+            
+            stack.addEventListener('mouseenter', stopAutoplay);
+            stack.addEventListener('mouseleave', startAutoplay);
+            stack.addEventListener('touchstart', stopAutoplay);
+            
+            startAutoplay();
+        });
+        
+        // 循环切换卡片 - 优化版
+        function cycleCards(stack) {
+            const cards = Array.from(stack.querySelectorAll('.card-stack-item'));
+            if (cards.length <= 1) return;
+            
+            // 第一张卡片移到末尾
+            const firstCard = cards[0];
+            
+            // 创建一个克隆来执行动画，避免闪烁
+            const clone = firstCard.cloneNode(true);
+            clone.style.position = 'absolute';
+            clone.style.zIndex = '10';
+            clone.style.transition = 'all 0.5s ease';
+            stack.appendChild(clone);
+            
+            // 动画结束后移除克隆
+            setTimeout(() => {
+                clone.style.transform = 'translateY(100px) scale(0.8)';
+                clone.style.opacity = '0';
+                
+                setTimeout(() => {
+                    clone.remove();
+                    
+                    // 重置所有卡片样式
+                    cards.forEach(card => {
+                        card.style.transform = '';
+                        
+                        const title = card.querySelector('.card-title');
+                        const desc = card.querySelector('.card-description');
+                        const tags = card.querySelector('.card-tags');
+                        const link = card.querySelector('.card-link');
+                        
+                        if (title) title.style.opacity = '';
+                        if (title) title.style.transform = '';
+                        
+                        if (desc) desc.style.opacity = '';
+                        if (desc) desc.style.transform = '';
+                        
+                        if (tags) tags.style.opacity = '';
+                        if (tags) tags.style.transform = '';
+                        
+                        if (link) {
+                            link.style.opacity = '';
+                            link.style.transform = '';
+                        }
+                    });
+                }, 500);
+                
+                // 实际移动第一张卡片到末尾
+                stack.appendChild(firstCard);
+            }, 50);
+        }
+        
+        // 触发初始滚动事件以激活可见元素
+        window.dispatchEvent(new Event('scroll'));
+    </script>
+</body>
+</html>
+
+</html>
+
+
+
