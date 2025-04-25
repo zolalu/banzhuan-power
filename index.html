@@ -95,7 +95,7 @@
         /* 模块分隔区 */
         .module-divider {
             position: relative;
-            height: 100px;
+            height: 50px;
             overflow: hidden;
         }
         
@@ -1633,11 +1633,11 @@
             </div>
             <div class="hidden md:flex space-x-8">
                 <a href="#about" class="text-gray-900 hover:text-purple-600 dark:text-white dark:hover:text-purple-400 transition-colors relative overflow-hidden group font-semibold">
-                    <span class="relative z-10">关于我</span>
+                    <span class="relative z-10">认识我</span>
                     <span class="absolute bottom-0 left-0 w-0 h-1 bg-gradient-to-r from-teal-400 to-blue-500 group-hover:w-full transition-all duration-300"></span>
                 </a>
                 <a href="#experience" class="text-gray-900 hover:text-purple-600 dark:text-white dark:hover:text-purple-400 transition-colors relative overflow-hidden group font-semibold">
-                    <span class="relative z-10">经历</span>
+                    <span class="relative z-10">我的经历</span>
                     <span class="absolute bottom-0 left-0 w-0 h-1 bg-gradient-to-r from-yellow-400 to-orange-500 group-hover:w-full transition-all duration-300"></span>
                 </a>
                 <a href="#portfolio" class="text-gray-900 hover:text-purple-600 dark:text-white dark:hover:text-purple-400 transition-colors relative overflow-hidden group font-semibold">
@@ -1651,11 +1651,11 @@
                 <!-- 博客导航已隐藏 -->
             </div>
             <div class="flex items-center space-x-4">
-                <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors relative overflow-hidden">
-                    <span class="absolute inset-0 bg-gradient-to-r from-yellow-300 to-orange-400 opacity-0 hover:opacity-20 rounded-full transition-opacity duration-300"></span>
-                    <i class="fas fa-moon dark:hidden"></i>
-                    <i class="fas fa-sun hidden dark:block text-yellow-400"></i>
-                </button>
+                <a href="#" id="resume-btn" class="text-gray-900 hover:text-purple-600 dark:text-white dark:hover:text-purple-400 transition-colors relative overflow-hidden group font-semibold flex items-center">
+                <i class="fas fa-file-alt mr-2"></i>
+                <span class="relative z-10 md:inline block">查看简历</span>
+                <span class="absolute bottom-0 left-0 w-0 h-1 bg-gradient-to-r from-pink-400 to-red-500 group-hover:w-full transition-all duration-300"></span>
+            </a>
                 <button class="md:hidden p-2 text-gray-700 dark:text-gray-300" id="mobile-menu-button">
                     <i class="fas fa-bars"></i>
                 </button>
@@ -1668,6 +1668,9 @@
                 <a href="#experience" class="py-2 px-4 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors">经历</a>
                 <a href="#portfolio" class="py-2 px-4 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors">作品集</a>
                 <a href="#skills" class="py-2 px-4 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors">技能</a>
+                <a href="#" id="mobile-resume-btn" class="py-2 px-4 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors text-left flex items-center relative overflow-hidden">
+                    <i class="fas fa-file-alt mr-2"></i> 查看简历
+                </a>
                 <!-- 移动端博客链接已隐藏 -->
             </div>
         </div>
@@ -1714,12 +1717,12 @@
                         <span class="px-4 py-2 rounded-full bg-blue-100 text-red-800 dark:bg-blue-900 dark:text-red-200 shadow-md hover:shadow-lg transition-all transform hover:-translate-y-1">AI产品探索者</span>
                         <span class="px-4 py-2 rounded-full bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200 shadow-md hover:shadow-lg transition-all transform hover:-translate-y-1">多模态Agent动手能力</span>
                         <span class="px-4 py-2 rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 shadow-md hover:shadow-lg transition-all transform hover:-translate-y-1">强学习能力</span>
-                        <span class="px-4 py-2 rounded-full bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200 shadow-md hover:shadow-lg transition-all transform hover:-translate-y-1">用户视角洞察</span>
+                        <span class="px-4 py-2 rounded-full bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200 shadow-md hover:shadow-lg transition-all transform hover:-translate-y-1">以终为始</span>
                     </div>
                     
                     <!-- 描述文字 -->
                     <p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mb-12 animate-fade-in" style="animation-delay: 1s">
-                        探索AI赋能的产品边界，用创新思维解决问题，致力于AI时代的用户体验。
+                        探索AI赋能的产品边界，用创新思维解决问题。
                     </p>
                     
                     <!-- 按钮组 -->
@@ -1757,7 +1760,7 @@
             <div class="absolute -top-20 -right-10 w-80 h-80 rounded-full bg-gradient-to-r from-blue-300/20 to-purple-400/20 opacity-5 blur-3xl"></div>
             <div class="absolute bottom-0 left-0 w-96 h-96 rounded-full bg-gradient-to-r from-amber-300/20 to-red-300/20 opacity-5 blur-3xl"></div>
             
-            <div class="container mx-auto px-4 relative z-10">
+            <div class="container mx-auto px-3 md:px-4 relative z-10">
                 <!-- 标题部分 -->
                 <div class="text-center mb-14">
                     <span class="relative inline-block px-6 py-2 rounded-full text-sm font-bold mb-4 overflow-hidden" style="background: linear-gradient(90deg, rgba(59, 130, 246, 0.15), rgba(139, 92, 246, 0.15), rgba(249, 115, 22, 0.15)); box-shadow: 0 4px 15px -3px rgba(0, 0, 0, 0.1); border: 1px solid rgba(59, 130, 246, 0.2);">
@@ -1818,7 +1821,7 @@
                                     <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500/80 to-purple-600/80 flex items-center justify-center shadow-md">
                                         <span class="text-white text-sm">🏄</span>
                                     </div>
-                                    <p class="text-gray-700 dark:text-gray-300 font-medium">落地好奇心的动手能力</p>
+                                    <p class="text-gray-700 dark:text-gray-300 font-medium">落地好奇心的执行能力</p>
                                 </div>
                             </div>
                         </div>
@@ -1969,15 +1972,24 @@
             <div class="absolute top-1/3 right-0 w-72 h-72 rounded-full bg-gradient-to-r from-yellow-300 to-orange-300 opacity-10 blur-3xl"></div>
             <div class="absolute bottom-1/3 left-0 w-80 h-80 rounded-full bg-gradient-to-r from-purple-300 to-pink-300 opacity-10 blur-3xl"></div>
             
-            <div class="container mx-auto px-4 relative z-10">
+            <div class="container mx-auto px-3 md:px-4 relative z-10">
                 <div class="text-center mb-16">
-                    <span class="inline-block px-4 py-1 bg-yellow-100 dark:bg-yellow-900 text-yellow-600 dark:text-yellow-400 rounded-full text-sm font-semibold mb-3">职业路径</span>
+                    <span class="inline-block px-4 py-1 bg-yellow-100 dark:bg-yellow-900 text-yellow-600 dark:text-yellow-400 rounded-full text-sm font-semibold mb-3">职业历程</span>
                     <h2 class="text-3xl md:text-5xl font-bold mb-4">
-                        <span class="bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 bg-clip-text text-transparent">职业旅程</span>
+                        <span class="bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 bg-clip-text text-transparent">介绍我的经历</span>
                     </h2>
                     <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto animate-fade-in">
-                        从多模态到Agent，更懂AI的产品经理
+                        借力多模态和Agent，成长为更懂AI的产品经理
                     </p>
+                    
+                    <!-- Demo展示入口按钮 -->
+                    <div class="mt-8 mb-10 flex justify-center">
+                        <a href="https://rw8isdx1ggt.feishu.cn/wiki/WjF7wsMZ0i4rO9kjfjbc5jvrnBd?from=docs_feed_inlark" target="_blank" class="flex items-center px-8 py-4 rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                            <i class="fas fa-rocket mr-3 text-xl"></i>
+                            查看更多产品demo
+                            <i class="fas fa-external-link-alt ml-2 text-sm"></i>
+                        </a>
+                    </div>
                 </div>
                 
                 <!-- 时间线 -->
@@ -2007,6 +2019,7 @@
                                 <img src="picture/万物追踪商店图3.png" alt="万物追踪" class="rounded w-full h-auto hover:scale-150 transition-transform duration-300">
                                 <img src="picture/万物追踪商店图4.png" alt="万物追踪" class="rounded w-full h-auto hover:scale-150 transition-transform duration-300">
                             </div>
+
                         </div>
                     </div>
                     
@@ -2035,6 +2048,7 @@
                                 <img src="picture/星野3.png" alt="星野" class="rounded w-full h-auto hover:scale-150 transition-transform duration-300">
                                 <img src="picture/星野4.png" alt="星野" class="rounded w-full h-auto hover:scale-150 transition-transform duration-300">
                             </div>
+
                         </div>
                     </div>
                     
@@ -2064,6 +2078,7 @@
                                 <img src="picture/喜马拉雅3.jpg" alt="喜马拉雅" class="rounded w-full h-auto hover:scale-150 transition-transform duration-300">
                                 <img src="picture/喜马拉雅4.jpg" alt="喜马拉雅" class="rounded w-full h-auto hover:scale-150 transition-transform duration-300">
                             </div>
+
                         </div>
                     </div>
                     
@@ -2107,7 +2122,7 @@
             <div class="absolute top-1/4 right-1/4 w-80 h-80 rounded-full bg-gradient-to-r from-mint-300 to-teal-300 opacity-10 blur-3xl"></div>
             <div class="absolute bottom-1/4 left-1/4 w-64 h-64 rounded-full bg-gradient-to-r from-purple-300 to-blue-300 opacity-10 blur-3xl"></div>
             
-            <div class="container mx-auto px-4 relative z-10">
+            <div class="container mx-auto px-3 md:px-4 relative z-10">
                 <div class="text-center mb-16">
                     <span class="relative inline-block px-6 py-2 rounded-full text-sm font-bold mb-5 overflow-hidden" style="background: linear-gradient(90deg, rgba(249, 115, 22, 0.15), rgba(239, 68, 68, 0.15), rgba(139, 92, 246, 0.15)); box-shadow: 0 4px 15px -3px rgba(0, 0, 0, 0.1); border: 1px solid rgba(249, 115, 22, 0.2);">
                         <span class="relative z-10" style="background: linear-gradient(90deg, #f97316, #ef4444, #8b5cf6); -webkit-background-clip: text; background-clip: text; color: transparent;">
@@ -2116,7 +2131,7 @@
                         <span class="absolute inset-0 w-full h-full bg-white dark:bg-gray-800 opacity-60 dark:opacity-80 z-0"></span>
                     </span>
                     <h2 class="text-3xl md:text-5xl font-bold mb-4">
-                        <span style="background: linear-gradient(90deg, #f97316, #ef4444, #8b5cf6); -webkit-background-clip: text; background-clip: text; color: transparent; padding: 5px 0; display: inline-block; font-weight: bold;">精选作品集</span>
+                        <span style="background: linear-gradient(90deg, #f97316, #ef4444, #8b5cf6); -webkit-background-clip: text; background-clip: text; color: transparent; padding: 5px 0; display: inline-block; font-weight: bold;">动手作品集</span>
                     </h2>
                     <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-12">
                         记录我的项目实践与AI创新探索，未完待续
@@ -2129,10 +2144,10 @@
                     <div class="card-stack-wrapper">
                         <div class="flex items-center justify-between mb-2">
                             <h3 class="card-stack-title">Vibe Coding</h3>
-                            <span class="inline-flex px-3 py-1 bg-purple-100 dark:bg-purple-900/40 text-purple-600 dark:text-purple-400 rounded-full text-xs font-semibold transform hover:scale-105 transition-transform">独立开发者</span>
+                            <span class="inline-flex px-3 py-1 bg-purple-100 dark:bg-purple-900/40 text-purple-600 dark:text-purple-400 rounded-full text-xs font-semibold transform hover:scale-105 transition-transform">独立项目</span>
                         </div>
                         <div class="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                            搭建流浪动物领养网站，促成流浪动物成功安置与领养。
+                            搭建流浪动物领养网站，探索促成流浪动物成功安置与领养的技术方法。
                         </div>
                         <div class="card-stack" id="vibe-coding-stack">
                             <div class="card-stack-item">
@@ -2255,7 +2270,7 @@
             <div class="absolute top-1/3 left-1/4 w-72 h-72 rounded-full bg-gradient-to-r from-purple-300 to-blue-300 opacity-10 blur-3xl"></div>
             <div class="absolute bottom-1/3 right-1/4 w-80 h-80 rounded-full bg-gradient-to-r from-orange-300 to-red-300 opacity-10 blur-3xl"></div>
             
-            <div class="container mx-auto px-4 relative z-10">
+            <div class="container mx-auto px-3 md:px-4 relative z-10">
                 <div class="text-center mb-16">
                     <span class="relative inline-block px-6 py-2 rounded-full text-sm font-bold mb-5 overflow-hidden" style="background: linear-gradient(90deg, rgba(139, 92, 246, 0.15), rgba(59, 130, 246, 0.15), rgba(16, 185, 129, 0.15)); box-shadow: 0 4px 15px -3px rgba(0, 0, 0, 0.1); border: 1px solid rgba(139, 92, 246, 0.2);">
                         <span class="relative z-10" style="background: linear-gradient(90deg, #8b5cf6, #3b82f6, #10b981); -webkit-background-clip: text; background-clip: text; color: transparent;">
@@ -2267,7 +2282,7 @@
                         <span style="background: linear-gradient(90deg, #8b5cf6, #3b82f6, #10b981); -webkit-background-clip: text; background-clip: text; color: transparent; padding: 5px 0; display: inline-block; font-weight: bold;">专业能力</span>
                     </h2>
                     <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-16">
-                        不断学习新技术，探索AI领域前沿，打造卓越的产品体验。
+                        不断学习新技术，探索AI领域前沿。
                     </p>
                 </div>
                 
@@ -2312,11 +2327,14 @@
                     @media (max-width: 640px) {
                         .staggered-cards {
                             grid-template-columns: 1fr;
+                            grid-gap: 20px;
+                            padding: 10px 15px;
                         }
                         
                         .skill-card {
                             width: 100%;
                             max-width: none;
+                            margin-bottom: 15px;
                         }
                     }
                     
@@ -2760,29 +2778,33 @@
                         <div class="skill-card-inner shadow-lg">
                             <!-- 图片区域 -->
                             <div class="skill-image-container">
-                                <div class="skill-image bg-gradient-to-br from-emerald-400 to-green-600"></div>
-                                <!-- 数字图案装饰 -->
-                                <div class="absolute top-0 left-0 w-full h-full bg-opacity-30 bg-white" style="background-image: linear-gradient(135deg, rgba(255,255,255,0.1) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.1) 75%, transparent 75%, transparent); background-size: 10px 10px;"></div>
+                                <div class="skill-image bg-gradient-to-br from-green-400 to-blue-600 flex items-center justify-center">
+                                    <!-- 添加更明显的技术图标覆盖 -->
+                                    <div class="absolute inset-0 flex items-center justify-center">
+                                        <i class="fas fa-code-branch text-white text-opacity-30 text-7xl"></i>
+                                    </div>
+                                </div>
+                                <!-- 科技网格背景 -->
+                                <div class="absolute top-0 left-0 w-full h-full bg-opacity-30 bg-white" style="background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLW9wYWNpdHk9IjAuMiIgc3Ryb2tlLXdpZHRoPSIxIj48cGF0aCBkPSJNMCAwaDQwdjQwSDB6Ii8+PHBhdGggZD0iTTAgMHY0MCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjAgMCkiLz48cGF0aCBkPSJNMCAwaDQwIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwIDIwKSIvPjwvZz48L2c+PC9zdmc+'); background-size: 20px 20px;">
+                                </div>
+                                <!-- 浮动科技元素 -->
                                 <svg class="absolute top-0 left-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                                    <!-- 更明显的科技元素 -->
+                                    <circle cx="25" cy="25" r="8" stroke="rgba(255,255,255,0.4)" fill="rgba(255,255,255,0.1)" stroke-width="1" />
+                                    <circle cx="80" cy="65" r="10" stroke="rgba(255,255,255,0.4)" fill="rgba(255,255,255,0.1)" stroke-width="1" />
                                     
-                                    <!-- 科技元素 -->
-                                    <circle cx="25" cy="25" r="8" stroke="rgba(255,255,255,0.2)" fill="none" stroke-width="0.5" />
-                                    <circle cx="25" cy="25" r="4" fill="rgba(255,255,255,0.15)" />
-                                    <circle cx="80" cy="65" r="10" stroke="rgba(255,255,255,0.2)" fill="none" stroke-width="0.5" />
-                                    <circle cx="80" cy="65" r="5" fill="rgba(255,255,255,0.1)" />
+                                    <!-- 更明显的连接线 -->
+                                    <path d="M30,25 L75,65" stroke="rgba(255,255,255,0.5)" stroke-width="1" stroke-dasharray="2,2" />
                                     
-                                    <!-- 连接线 -->
-                                    <path d="M30,25 L75,65" stroke="rgba(255,255,255,0.3)" stroke-width="0.5" stroke-dasharray="2,2" />
+                                    <!-- 更明显的代码符号 -->
+                                    <text x="20" y="45" font-family="monospace" font-size="6" fill="rgba(255,255,255,0.6)">&lt;/&gt;</text>
+                                    <text x="70" y="30" font-family="monospace" font-size="6" fill="rgba(255,255,255,0.6)">{...}</text>
+                                    <text x="45" y="75" font-family="monospace" font-size="6" fill="rgba(255,255,255,0.6)">()</text>
                                     
-                                    <!-- 代码符号 -->
-                                    <text x="20" y="45" font-family="monospace" font-size="5" fill="rgba(255,255,255,0.4)">&lt;/&gt;</text>
-                                    <text x="70" y="30" font-family="monospace" font-size="5" fill="rgba(255,255,255,0.4)">{...}</text>
-                                    <text x="45" y="75" font-family="monospace" font-size="5" fill="rgba(255,255,255,0.4)">()</text>
-                                    
-                                    <!-- 数据图表元素 -->
-                                    <rect x="45" y="40" width="20" height="3" fill="rgba(255,255,255,0.2)" />
-                                    <rect x="45" y="45" width="15" height="3" fill="rgba(255,255,255,0.15)" />
-                                    <rect x="45" y="50" width="25" height="3" fill="rgba(255,255,255,0.25)" />
+                                    <!-- 更明显的数据图表元素 -->
+                                    <rect x="45" y="40" width="20" height="4" fill="rgba(255,255,255,0.4)" />
+                                    <rect x="45" y="46" width="15" height="4" fill="rgba(255,255,255,0.3)" />
+                                    <rect x="45" y="52" width="25" height="4" fill="rgba(255,255,255,0.5)" />
                                 </svg>
                                 <!-- 技能标题区 -->
                                 <div class="skill-title-overlay">
@@ -2846,7 +2868,7 @@
                     </div><!-- 结束 staggered-cards -->
                     
                     <!-- 添加底部空间保持错落布局空间 -->
-                    <div class="h-16"></div>
+                    <div class="h-4"></div>
                 </div>
             </div>
         </section>
@@ -2863,7 +2885,7 @@
             <div class="absolute top-1/4 left-1/3 w-72 h-72 rounded-full bg-gradient-to-r from-teal-300 to-cyan-300 opacity-10 blur-3xl"></div>
             <div class="absolute bottom-1/4 right-1/3 w-80 h-80 rounded-full bg-gradient-to-r from-amber-300 to-yellow-300 opacity-10 blur-3xl"></div>
             
-            <div class="container mx-auto px-4 relative z-10">
+            <div class="container mx-auto px-3 md:px-4 relative z-10">
                 <div class="text-center mb-16">
                     <span class="relative inline-block px-6 py-2 rounded-full text-sm font-bold mb-5 overflow-hidden" style="background: linear-gradient(90deg, rgba(20, 184, 166, 0.15), rgba(6, 182, 212, 0.15), rgba(14, 165, 233, 0.15)); box-shadow: 0 4px 15px -3px rgba(0, 0, 0, 0.1); border: 1px solid rgba(20, 184, 166, 0.2);">
                         <span class="relative z-10" style="background: linear-gradient(90deg, #14b8a6, #06b6d4, #0ea5e9); -webkit-background-clip: text; background-clip: text; color: transparent;">
@@ -3010,6 +3032,36 @@
         </div>
     </footer>
 
+    <!-- 在body结束标签前添加PDF预览模态窗口 -->
+    <!-- PDF简历预览弹窗 -->
+    <div id="resume-modal" class="fixed inset-0 z-50 flex items-stretch justify-center bg-black bg-opacity-95 transition-opacity duration-300 opacity-0 pointer-events-none p-0 m-0">
+        <div class="fixed inset-20 bg-white dark:bg-gray-900 rounded-lg shadow-2xl flex flex-col overflow-hidden">
+            <!-- 弹窗标题栏 -->
+            <div class="flex justify-between items-center py-1 px-4 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-blue-50 to-teal-50 dark:from-blue-900 dark:to-teal-900">
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white flex items-center">
+                    <i class="fas fa-file-alt mr-2 text-blue-500"></i> 个人简历
+                </h3>
+                <div class="flex items-center">
+                    <button id="close-resume-modal" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 focus:outline-none">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- PDF内容区 -->
+            <div class="flex-1 overflow-hidden bg-gray-100 dark:bg-gray-800">
+                <object data="picture/产品经理 陆玲.pdf" type="application/pdf" class="w-full h-full">
+                    <div class="flex flex-col items-center justify-center h-full p-6 text-center">
+                        <i class="fas fa-exclamation-circle text-3xl text-red-500 mb-4"></i>
+                        <p class="text-gray-700 dark:text-gray-300 mb-4">您的浏览器无法直接显示PDF文件</p>
+                        <a href="picture/产品经理 陆玲.pdf" download class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors">
+                            下载简历
+                        </a>
+                    </div>
+                </object>
+            </div>
+        </div>
+    </div>
+
     <script>
         // 等待DOM加载完成
         document.addEventListener('DOMContentLoaded', function() {
@@ -3025,7 +3077,6 @@
             
             // 原有的事件处理代码
             // 获取元素
-            const themeToggle = document.getElementById('theme-toggle');
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
             const mainNav = document.getElementById('mainNav');
@@ -3037,41 +3088,6 @@
             const skillProgress = document.querySelectorAll('.skill-progress');
             const portfolioFilters = document.querySelectorAll('.portfolio-filter');
             const portfolioItems = document.querySelectorAll('.portfolio-item');
-            
-            // 检查本地存储中的主题设置
-            const savedTheme = localStorage.getItem('theme');
-            
-            // 如果有保存的主题设置，使用它；否则根据系统偏好设置
-            if (savedTheme) {
-                if (savedTheme === 'dark') {
-                    document.documentElement.classList.add('dark');
-                }
-            } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                document.documentElement.classList.add('dark');
-            }
-            
-            // 更新主题切换图标
-            function updateThemeIcon() {
-                const isDark = document.documentElement.classList.contains('dark');
-                themeToggle.innerHTML = isDark ? 
-                    '<i class="fas fa-sun text-yellow-400"></i>' : 
-                    '<i class="fas fa-moon text-indigo-600"></i>';
-            }
-            
-            // 初始更新图标
-            updateThemeIcon();
-            
-            // 切换暗色模式
-            themeToggle.addEventListener('click', () => {
-                document.documentElement.classList.toggle('dark');
-                const isDark = document.documentElement.classList.contains('dark');
-                
-                // 保存设置到本地存储
-                localStorage.setItem('theme', isDark ? 'dark' : 'light');
-                
-                // 更新图标
-                updateThemeIcon();
-            });
             
             // 移动端菜单
             mobileMenuButton.addEventListener('click', () => {
@@ -3270,277 +3286,167 @@
                 const particle = document.createElement('div');
                 particle.classList.add('particle');
                 
-                // 随机位置
-                const x = Math.random() * 100;
-                const y = Math.random() * 100;
-                
                 // 随机大小
-                const size = Math.random() * 5 + 2;
+                const size = Math.random() * 5 + 1;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
                 
-                // 随机颜色
-                const colors = ['#FFD58C', '#F55654', '#F99551', '#91B87C', '#9B4DCA', '#427C80'];
-                const color = colors[Math.floor(Math.random() * colors.length)];
+                // 随机位置
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                
+                // 随机背景
+                const hue = Math.floor(Math.random() * 360);
+                particle.style.backgroundColor = `hsla(${hue}, 70%, 70%, 0.8)`;
                 
                 // 随机动画延迟
-                const delay = Math.random() * 5;
-                const duration = Math.random() * 10 + 10;
+                particle.style.animationDelay = `${Math.random() * 5}s`;
                 
-                // 设置样式
-                particle.style.cssText = `
-                    top: ${y}%;
-                    left: ${x}%;
-                    width: ${size}px;
-                    height: ${size}px;
-                    background-color: ${color};
-                    opacity: ${Math.random() * 0.6 + 0.2};
-                    filter: blur(${Math.random() * 2}px);
-                    animation: float ${duration}s ease-in-out infinite;
-                    animation-delay: -${delay}s;
-                `;
-                
+                // 添加到容器
                 particles.appendChild(particle);
             }
         }
         
         // 打字机效果
         function typeText(element, text, speed) {
+            if (!element) return;
+            
             let i = 0;
             element.textContent = '';
+            element.classList.add('typing');
             
             function type() {
                 if (i < text.length) {
                     element.textContent += text.charAt(i);
                     i++;
                     setTimeout(type, speed);
+                } else {
+                    element.classList.remove('typing');
+                    element.classList.add('typed');
+                    
+                    // 添加光标闪烁效果
+                    const cursor = document.createElement('span');
+                    cursor.classList.add('cursor');
+                    cursor.textContent = '|';
+                    element.appendChild(cursor);
+                    
+                    // 一段时间后重置打字效果
+                    setTimeout(() => {
+                        element.classList.remove('typed');
+                        element.textContent = '';
+                        i = 0;
+                        typeText(element, text, speed);
+                    }, 5000);
                 }
             }
             
-            setTimeout(type, 1000); // 延迟开始
+            type();
         }
         
-        // 浮动动画样式
-        const floatStyle = document.createElement('style');
-        floatStyle.textContent = `
-            @keyframes float {
-                0%, 100% {
-                    transform: translateY(0) translateX(0);
-                }
-                25% {
-                    transform: translateY(-15px) translateX(10px);
-                }
-                50% {
-                    transform: translateY(-30px) translateX(-10px);
-                }
-                75% {
-                    transform: translateY(-15px) translateX(5px);
-                }
-            }
+        // 卡片堆叠互动效果
+        document.querySelectorAll('.card-stack').forEach(stack => {
+            const cards = stack.querySelectorAll('.card-stack-item');
             
-            .bg-grid-pattern {
-                background-image: 
-                    radial-gradient(circle, rgba(148, 93, 202, 0.1) 2px, transparent 2px),
-                    radial-gradient(circle, rgba(148, 93, 202, 0.1) 2px, transparent 2px);
-                background-size: 30px 30px;
-                background-position: 0 0, 15px 15px;
-            }
-            
-            .portfolio-filter.active {
-                background-color: #f97316;
-                color: white;
-            }
-            
-            .dark .portfolio-filter.active {
-                background-color: #ea580c;
-                color: white;
-            }
-            
-            .skill-progress {
-                width: 0;
-                transition: width 1.5s ease-in-out;
-            }
-            
-            .portfolio-item {
-                transition: all 0.3s ease-out;
-            }
-        `;
-        document.head.appendChild(floatStyle);
-        
-        // 卡片堆叠交互效果 - 优化版
-        const cardStacks = document.querySelectorAll('.card-stack');
-        
-        cardStacks.forEach(stack => {
-            const cards = Array.from(stack.querySelectorAll('.card-stack-item'));
-            if (cards.length <= 1) return; // 如果只有一张卡片，不添加拖拽功能
-            
-            cards.forEach(card => {
-                let isDragging = false;
-                let startY = 0;
-                let currentY = 0;
-                let rafId = null;
+            cards.forEach((card, index) => {
+                // 设置初始堆叠位置
+                card.style.zIndex = cards.length - index;
+                card.style.transform = `scale(${1 - index * 0.05}) translateY(${index * 10}px)`;
+                card.style.opacity = `${1 - index * 0.2}`;
                 
-                // 鼠标/触摸事件处理
-                card.addEventListener('mousedown', startDrag);
-                card.addEventListener('touchstart', e => {
-                    const touch = e.touches[0];
-                    startDrag({ clientY: touch.clientY });
+                // 鼠标悬停效果
+                card.addEventListener('mouseover', () => {
+                    // 突出当前卡片
+                    card.style.transform = `scale(1.02) translateY(-5px)`;
+                    
+                    // 动画显示卡片内容
+                    const title = card.querySelector('.card-title');
+                    const desc = card.querySelector('.card-description');
+                    const tags = card.querySelector('.card-tags');
+                    const link = card.querySelector('.card-link');
+                    
+                    if (title) {
+                        title.style.opacity = '1';
+                        title.style.transform = 'translateY(0)';
+                    }
+                    
+                    if (desc) {
+                        desc.style.opacity = '1';
+                        desc.style.transform = 'translateY(0)';
+                    }
+                    
+                    if (tags) {
+                        tags.style.opacity = '1';
+                        tags.style.transform = 'translateY(0)';
+                    }
+                    
+                    if (link) {
+                        link.style.opacity = '1';
+                        link.style.transform = 'translateY(0)';
+                    }
                 });
                 
-                window.addEventListener('mousemove', dragThrottled);
-                window.addEventListener('touchmove', e => {
-                    if (!isDragging) return;
-                    e.preventDefault();
-                    const touch = e.touches[0];
-                    dragThrottled({ clientY: touch.clientY });
-                }, { passive: false });
-                
-                window.addEventListener('mouseup', endDrag);
-                window.addEventListener('touchend', endDrag);
-                
-                function startDrag(e) {
-                    // 只有顶部卡片可以拖动
-                    if (cards.indexOf(card) !== 0) return;
+                card.addEventListener('mouseout', () => {
+                    // 恢复原始位置
+                    card.style.transform = `scale(${1 - index * 0.05}) translateY(${index * 10}px)`;
                     
-                    isDragging = true;
-                    startY = e.clientY;
-                    currentY = 0;
-                    card.classList.add('dragging');
+                    // 隐藏卡片内容
+                    const title = card.querySelector('.card-title');
+                    const desc = card.querySelector('.card-description');
+                    const tags = card.querySelector('.card-tags');
+                    const link = card.querySelector('.card-link');
                     
-                    // 禁止文本选择
-                    document.body.style.userSelect = 'none';
-                }
-                
-                function dragThrottled(e) {
-                    if (!isDragging) return;
-                    
-                    // 使用requestAnimationFrame优化性能
-                    if (rafId) return;
-                    
-                    rafId = requestAnimationFrame(() => {
-                        drag(e);
-                        rafId = null;
-                    });
-                }
-                
-                function drag(e) {
-                    if (!isDragging) return;
-                    
-                    currentY = e.clientY - startY;
-                    
-                    // 限制只能向下拖动一定距离
-                    if (currentY < 0) currentY = 0;
-                    if (currentY > 200) currentY = 200;
-                    
-                    // 应用变换
-                    card.style.transform = `translateY(${currentY}px)`;
-                    
-                    // 如果拖动超过阈值，显示下一张卡片的内容预览
-                    if (currentY > 70 && cards.length > 1) {
-                        // 下一张卡片的内容渐显
-                        const nextCard = cards[1];
-                        const title = nextCard.querySelector('.card-title');
-                        const desc = nextCard.querySelector('.card-description');
-                        const tags = nextCard.querySelector('.card-tags');
-                        const link = nextCard.querySelector('.card-link');
-                        
-                        const progress = Math.min((currentY - 70) / 80, 1); // 0 to 1
-                        
-                        title.style.opacity = progress;
-                        title.style.transform = `translateY(${20 * (1 - progress)}px)`;
-                        
-                        desc.style.opacity = progress;
-                        desc.style.transform = `translateY(${20 * (1 - progress)}px)`;
-                        
-                        tags.style.opacity = progress;
-                        tags.style.transform = `translateY(${20 * (1 - progress)}px)`;
-                        
-                        if (link) {
-                            link.style.opacity = progress;
-                            link.style.transform = `translateY(${20 * (1 - progress)}px)`;
-                        }
+                    if (title) {
+                        title.style.opacity = '';
+                        title.style.transform = '';
                     }
-                }
-                
-                function endDrag() {
-                    if (!isDragging) return;
                     
-                    isDragging = false;
-                    card.classList.remove('dragging');
-                    
-                    // 还原文本选择
-                    document.body.style.userSelect = '';
-                    
-                    // 如果拖动距离足够大，切换卡片
-                    if (currentY > 120 && cards.length > 1) {
-                        cycleCards(stack);
-                    } else {
-                        // 否则回到原位
-                        card.style.transform = '';
-                        
-                        // 重置下一张卡片的内容样式
-                        if (cards.length > 1) {
-                            const nextCard = cards[1];
-                            const title = nextCard.querySelector('.card-title');
-                            const desc = nextCard.querySelector('.card-description');
-                            const tags = nextCard.querySelector('.card-tags');
-                            const link = nextCard.querySelector('.card-link');
-                            
-                            title.style.opacity = '';
-                            title.style.transform = '';
-                            
-                            desc.style.opacity = '';
-                            desc.style.transform = '';
-                            
-                            tags.style.opacity = '';
-                            tags.style.transform = '';
-                            
-                            if (link) {
-                                link.style.opacity = '';
-                                link.style.transform = '';
-                            }
-                        }
+                    if (desc) {
+                        desc.style.opacity = '';
+                        desc.style.transform = '';
                     }
-                }
+                    
+                    if (tags) {
+                        tags.style.opacity = '';
+                        tags.style.transform = '';
+                    }
+                    
+                    if (link) {
+                        link.style.opacity = '';
+                        link.style.transform = '';
+                    }
+                });
             });
             
-            // 添加自动循环展示
-            let autoplayInterval;
-            
-            function startAutoplay() {
-                if (cards.length <= 1) return;
-                autoplayInterval = setInterval(() => {
-                    cycleCards(stack);
-                }, 5000);
+            // 点击第一张卡片时，将其移到末尾
+            if (cards.length > 0) {
+                cards[0].addEventListener('click', () => {
+                    rotateCards(stack);
+                });
             }
-            
-            function stopAutoplay() {
-                clearInterval(autoplayInterval);
-            }
-            
-            stack.addEventListener('mouseenter', stopAutoplay);
-            stack.addEventListener('mouseleave', startAutoplay);
-            stack.addEventListener('touchstart', stopAutoplay);
-            
-            startAutoplay();
         });
         
-        // 循环切换卡片 - 优化版
-        function cycleCards(stack) {
-            const cards = Array.from(stack.querySelectorAll('.card-stack-item'));
-            if (cards.length <= 1) return;
-            
-            // 第一张卡片移到末尾
+        // 轮换卡片函数
+        function rotateCards(stack) {
+            const cards = stack.querySelectorAll('.card-stack-item');
             const firstCard = cards[0];
             
-            // 创建一个克隆来执行动画，避免闪烁
+            // 创建一个克隆，用于动画过渡
             const clone = firstCard.cloneNode(true);
             clone.style.position = 'absolute';
-            clone.style.zIndex = '10';
-            clone.style.transition = 'all 0.5s ease';
+            clone.style.top = `${firstCard.offsetTop}px`;
+            clone.style.left = `${firstCard.offsetLeft}px`;
+            clone.style.width = `${firstCard.offsetWidth}px`;
+            clone.style.height = `${firstCard.offsetHeight}px`;
+            clone.style.zIndex = 1000;
+            clone.style.transform = 'scale(1.02) translateY(-5px)';
+            
+            // 将克隆添加到堆栈
             stack.appendChild(clone);
             
-            // 动画结束后移除克隆
+            // 动画过渡
             setTimeout(() => {
-                clone.style.transform = 'translateY(100px) scale(0.8)';
+                clone.style.transition = 'all 0.5s ease-in-out';
+                clone.style.transform = 'scale(0.8) translateY(30px)';
                 clone.style.opacity = '0';
                 
                 setTimeout(() => {
@@ -3578,6 +3484,40 @@
         
         // 触发初始滚动事件以激活可见元素
         window.dispatchEvent(new Event('scroll'));
+
+        // PDF简历模态窗口控制
+        const resumeModal = document.getElementById('resume-modal');
+        const resumeBtn = document.getElementById('resume-btn');
+        const mobileResumeBtn = document.getElementById('mobile-resume-btn');
+        const closeResumeModal = document.getElementById('close-resume-modal');
+
+        function openResumeModal() {
+            document.body.style.overflow = 'hidden'; // 防止背景滚动
+            resumeModal.classList.remove('opacity-0', 'pointer-events-none');
+        }
+
+        function closeResumeModalFunc() {
+            document.body.style.overflow = '';
+            resumeModal.classList.add('opacity-0', 'pointer-events-none');
+        }
+
+        resumeBtn.addEventListener('click', openResumeModal);
+        mobileResumeBtn.addEventListener('click', openResumeModal);
+        closeResumeModal.addEventListener('click', closeResumeModalFunc);
+
+        // 点击模态窗口背景关闭
+        resumeModal.addEventListener('click', (e) => {
+            if (e.target === resumeModal) {
+                closeResumeModalFunc();
+            }
+        });
+
+        // ESC键关闭模态窗口
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !resumeModal.classList.contains('opacity-0')) {
+                closeResumeModalFunc();
+            }
+        });
     </script>
 </body>
 </html>
