@@ -1,0 +1,1515 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>板砖的博客 - AI产品思考</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/tailwindcss/2.2.19/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        :root {
+            --color-primary: #2563eb;
+            --color-secondary: #7c3aed;
+            --color-accent: #f59e0b;
+            --color-text: #1f2937;
+            --color-text-light: #6b7280;
+            --color-bg: #ffffff;
+            --color-bg-secondary: #f9fafb;
+            --color-border: #e5e7eb;
+            --color-highlight: #fef3c7;
+            --color-highlight-border: #f59e0b;
+        }
+
+        .dark {
+            --color-text: #f9fafb;
+            --color-text-light: #d1d5db;
+            --color-bg: #111827;
+            --color-bg-secondary: #1f2937;
+            --color-border: #374151;
+            --color-highlight: #451a03;
+            --color-highlight-border: #f59e0b;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.7;
+        }
+
+        .blog-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .article-card {
+            background: var(--color-bg);
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .article-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .article-card:hover .card-actions {
+            opacity: 1;
+        }
+
+        .card-actions {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            display: flex;
+            gap: 0.5rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card-action-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(8px);
+        }
+
+        .edit-btn {
+            background: rgba(59, 130, 246, 0.9);
+            color: white;
+        }
+
+        .edit-btn:hover {
+            background: rgba(59, 130, 246, 1);
+            transform: scale(1.1);
+        }
+
+        .delete-btn {
+            background: rgba(239, 68, 68, 0.9);
+            color: white;
+        }
+
+        .delete-btn:hover {
+            background: rgba(239, 68, 68, 1);
+            transform: scale(1.1);
+        }
+
+        .article-content {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.125rem;
+            line-height: 1.8;
+        }
+
+        .article-content h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 2rem 0 1rem 0;
+            color: var(--color-text);
+            font-family: 'Noto Serif SC', serif;
+        }
+
+        .article-content h2 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin: 2rem 0 1rem 0;
+            color: var(--color-text);
+            font-family: 'Noto Serif SC', serif;
+            border-bottom: 2px solid var(--color-primary);
+            padding-bottom: 0.5rem;
+        }
+
+        .article-content h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 1.5rem 0 0.75rem 0;
+            color: var(--color-text);
+        }
+
+        .article-content h4 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 1.25rem 0 0.5rem 0;
+            color: var(--color-text);
+            border-bottom: 1px solid var(--color-border);
+            padding-bottom: 0.25rem;
+        }
+
+        .article-content h5 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin: 1rem 0 0.5rem 0;
+            color: var(--color-primary);
+        }
+
+        .article-content h6 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 1rem 0 0.5rem 0;
+            color: var(--color-text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .article-content p {
+            margin: 1.25rem 0;
+            color: var(--color-text);
+        }
+
+        .article-content a {
+            color: var(--color-primary);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .article-content a:hover {
+            border-bottom-color: var(--color-primary);
+        }
+
+        .article-content img {
+            max-width: 100%;
+            height: auto;
+            margin: 2rem auto;
+            display: block;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .article-content video {
+            max-width: 100%;
+            height: auto;
+            margin: 2rem auto;
+            display: block;
+            border-radius: 8px;
+        }
+
+        .article-content blockquote {
+            border-left: 4px solid var(--color-primary);
+            padding: 1rem 1.5rem;
+            margin: 2rem 0;
+            background: var(--color-bg-secondary);
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .article-content code {
+            background: var(--color-bg-secondary);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.9em;
+        }
+
+        .article-content pre {
+            background: var(--color-bg-secondary);
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            white-space: pre;
+            tab-size: 4;
+        }
+
+        .article-content pre code {
+            background: none;
+            padding: 0;
+            border-radius: 0;
+            font-size: inherit;
+        }
+
+        .article-content ul, .article-content ol {
+            margin: 1.25rem 0;
+            padding-left: 2rem;
+        }
+
+        .article-content li {
+            margin: 0.5rem 0;
+        }
+
+        .article-content ol {
+            list-style-type: decimal;
+        }
+
+        .article-content ul {
+            list-style-type: disc;
+        }
+
+        .article-content ol li {
+            padding-left: 0.5rem;
+        }
+
+        .article-content ul li {
+            padding-left: 0.5rem;
+        }
+
+        .highlight {
+            background: #f0fdf4;
+            padding: 1.25rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+            position: relative;
+            border-left: 3px solid #22c55e;
+            font-weight: 500;
+            font-size: 1.05em;
+            line-height: 1.6;
+            color: #166534;
+        }
+
+        .highlight::before {
+            content: "💡";
+            position: absolute;
+            left: 0.75rem;
+            top: 0.75rem;
+            font-size: 1.2rem;
+        }
+
+        .dark .highlight {
+            background: #0f1f13;
+            border-left-color: #16a34a;
+            color: #bbf7d0;
+        }
+
+        .editor-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            height: 70vh;
+        }
+
+        .editor-textarea {
+            width: 100%;
+            height: 100%;
+            padding: 1rem;
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 14px;
+            resize: none;
+            background: var(--color-bg);
+            color: var(--color-text);
+            white-space: pre-wrap;
+            tab-size: 4;
+            line-height: 1.6;
+            overflow-wrap: break-word;
+        }
+
+        .preview-container {
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            padding: 1rem;
+            overflow-y: auto;
+            background: var(--color-bg);
+            white-space: pre-wrap;
+            tab-size: 4;
+        }
+
+        .toolbar {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .toolbar button {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--color-border);
+            border-radius: 6px;
+            background: var(--color-bg);
+            color: var(--color-text);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .toolbar button:hover {
+            background: var(--color-bg-secondary);
+            border-color: var(--color-primary);
+        }
+
+        .add-button {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+            color: white;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .add-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: var(--color-bg-secondary);
+            color: var(--color-primary);
+            border-radius: 20px;
+            font-size: 0.875rem;
+            margin: 0.25rem;
+        }
+
+        .back-button {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--color-bg);
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            color: var(--color-text);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            z-index: 100;
+        }
+
+        .back-button:hover {
+            background: var(--color-bg-secondary);
+            transform: translateX(-2px);
+        }
+
+        .nav-button {
+            display: flex;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            background: var(--color-bg-secondary);
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            color: var(--color-text);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            max-width: 300px;
+        }
+
+        .nav-button:hover {
+            background: var(--color-bg);
+            border-color: var(--color-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-label {
+            font-size: 0.875rem;
+            color: var(--color-text-light);
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .nav-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--color-text);
+            line-height: 1.4;
+        }
+
+        .prev-button {
+            margin-right: auto;
+        }
+
+        .next-button {
+            margin-left: auto;
+        }
+
+        @media (max-width: 768px) {
+            .editor-container {
+                grid-template-columns: 1fr;
+                height: auto;
+            }
+            
+            .article-content h1 {
+                font-size: 2rem;
+            }
+            
+            .article-content h2 {
+                font-size: 1.5rem;
+            }
+
+            .article-content h3 {
+                font-size: 1.25rem;
+            }
+
+            .article-content h4 {
+                font-size: 1.125rem;
+            }
+
+            .article-content h5 {
+                font-size: 1rem;
+            }
+
+            .article-content h6 {
+                font-size: 0.875rem;
+            }
+
+            .nav-button {
+                max-width: 200px;
+                padding: 0.75rem 1rem;
+            }
+
+            .nav-title {
+                font-size: 0.875rem;
+                line-height: 1.3;
+            }
+
+            .nav-label {
+                font-size: 0.75rem;
+            }
+
+            .article-navigation {
+                margin-top: 2rem;
+                padding-top: 1.5rem;
+            }
+
+            .highlight {
+                padding: 1rem 1.5rem;
+                margin: 1.5rem 0;
+            }
+
+            .highlight::before {
+                left: -12px;
+                padding: 0.375rem;
+                font-size: 1.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-button" id="back-button">
+        <i class="fas fa-arrow-left mr-2"></i><span id="back-text">返回主页</span>
+    </a>
+
+    <div class="blog-container">
+        <!-- 博客列表页面 -->
+        <div id="blog-list" class="page">
+            <header class="text-center mb-12">
+                <h1 class="text-4xl md:text-6xl font-bold mb-4">
+                    <span class="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">板砖的博客</span>
+                </h1>
+                <p class="text-xl text-gray-600 dark:text-gray-400">分享AI产品思考与实践经验</p>
+            </header>
+
+            <div id="articles-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- 文章卡片将在这里动态生成 -->
+            </div>
+        </div>
+
+        <!-- 文章阅读页面 -->
+        <div id="article-view" class="page" style="display: none;">
+            <article class="article-content">
+                <div id="article-content-display"></div>
+                
+                <!-- 文章导航 -->
+                <div class="article-navigation mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
+                    <div class="flex justify-between items-center">
+                        <button id="prev-article" class="nav-button prev-button" style="display: none;">
+                            <i class="fas fa-arrow-left mr-2"></i>
+                            <div>
+                                <div class="nav-label">Previous</div>
+                                <div class="nav-title"></div>
+                            </div>
+                        </button>
+                        
+                        <div class="flex-1"></div>
+                        
+                        <button id="next-article" class="nav-button next-button" style="display: none;">
+                            <div class="text-right">
+                                <div class="nav-label">Next</div>
+                                <div class="nav-title"></div>
+                            </div>
+                            <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </article>
+        </div>
+
+        <!-- 文章编辑页面 -->
+        <div id="article-editor" class="page" style="display: none;">
+            <div class="mb-6">
+                <input type="text" id="article-title" placeholder="文章标题" 
+                       class="w-full p-3 text-2xl font-bold border border-gray-300 rounded-lg mb-4">
+                <input type="text" id="article-tags" placeholder="标签（用逗号分隔）" 
+                       class="w-full p-2 border border-gray-300 rounded-lg mb-4">
+                <input type="file" id="cover-image" accept="image/*" 
+                       class="mb-4">
+            </div>
+
+            <div class="toolbar">
+                <button onclick="insertMarkdown('**', '**')" title="粗体">
+                    <i class="fas fa-bold"></i>
+                </button>
+                <button onclick="insertMarkdown('*', '*')" title="斜体">
+                    <i class="fas fa-italic"></i>
+                </button>
+                <button onclick="insertMarkdown('## ', '')" title="标题">
+                    <i class="fas fa-heading"></i>
+                </button>
+                <button onclick="showHeadingMenu()" title="更多标题" class="heading-menu-btn">
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <button onclick="insertMarkdown('> ', '')" title="引用">
+                    <i class="fas fa-quote-left"></i>
+                </button>
+                <button onclick="insertMarkdown('`', '`')" title="行内代码">
+                    <i class="fas fa-code"></i>
+                </button>
+                <button onclick="insertCodeBlock()" title="代码块">
+                    <i class="fas fa-file-code"></i>
+                </button>
+                <button onclick="insertMarkdown('- ', '')" title="无序列表">
+                    <i class="fas fa-list"></i>
+                </button>
+                <button onclick="insertMarkdown('1. ', '')" title="有序列表">
+                    <i class="fas fa-list-ol"></i>
+                </button>
+                <button onclick="insertHighlight()" title="高亮">
+                    <i class="fas fa-highlighter"></i>
+                </button>
+                <button onclick="document.getElementById('image-upload').click()" title="上传图片">
+                    <i class="fas fa-image"></i>
+                </button>
+                <button onclick="showImageGallery()" title="图片库">
+                    <i class="fas fa-images"></i>
+                </button>
+                <button onclick="document.getElementById('video-upload').click()" title="上传视频">
+                    <i class="fas fa-video"></i>
+                </button>
+                <input type="file" id="image-upload" accept="image/*" style="display: none;" onchange="handleImageUpload(event)">
+                <input type="file" id="video-upload" accept="video/*" style="display: none;" onchange="handleVideoUpload(event)">
+            </div>
+
+            <div class="editor-container">
+                <textarea id="markdown-editor" class="editor-textarea" placeholder="在这里写下你的想法..."></textarea>
+                <div id="preview" class="preview-container article-content"></div>
+            </div>
+
+            <div class="mt-4 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg text-sm text-gray-600 dark:text-gray-400">
+                <div class="mb-2"><strong>编辑提示：</strong></div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                    <div>• 高亮文本：==重要内容==</div>
+                    <div>• 图片引用：![描述](图片名称)</div>
+                    <div>• 粗体：**文本** 或 Ctrl+B</div>
+                    <div>• 斜体：*文本* 或 Ctrl+I</div>
+                    <div>• 无序列表：- 列表项</div>
+                    <div>• 有序列表：1. 列表项</div>
+                    <div>• 标题：# ## ### #### ######</div>
+                    <div>• 引用：> 引用内容</div>
+                    <div>• 缩进：Tab键增加，Shift+Tab减少</div>
+                    <div>• 代码块：```语言名称</div>
+                </div>
+                <div class="mt-2 text-xs">
+                    支持Tab键缩进、自动列表续行、空行保留。上传的图片和视频会自动生成简洁的引用格式。
+                </div>
+            </div>
+
+            <div class="mt-6 flex gap-4">
+                <button onclick="saveArticle()" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                    <i class="fas fa-save mr-2"></i>保存文章
+                </button>
+                <button onclick="showBlogList()" class="px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors">
+                    <i class="fas fa-times mr-2"></i>取消
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 添加文章按钮 -->
+    <button class="add-button" onclick="showEditor()" title="写新文章">
+        <i class="fas fa-plus"></i>
+    </button>
+
+    <script>
+        // 全局变量
+        let articles = JSON.parse(localStorage.getItem('blog_articles') || '[]');
+        let currentEditingId = null;
+
+        // 如果没有文章，添加一些示例文章
+        if (articles.length === 0) {
+            articles = [
+                {
+                    id: 'sample1',
+                title: 'AI产品的"人机协同"设计方法论',
+                content: `# AI产品的"人机协同"设计方法论
+
+在AI产品设计中，"人机协同"是核心理念。本文探讨如何在产品中平衡AI能力与人类干预，通过合理的交互设计和反馈机制，打造既智能又可控的产品体验。
+
+## 什么是人机协同？
+
+==人机协同不是简单的AI自动化，而是让AI和人类各自发挥优势，形成互补的工作模式。==
+
+在这种模式下：
+- **AI负责**：数据处理、模式识别、重复性任务
+- **人类负责**：创意决策、异常处理、价值判断
+
+## 设计原则
+
+### 1. 透明度原则
+
+用户需要了解AI在做什么，为什么这样做。
+
+### 2. 可控性原则
+
+==用户应该能够随时介入和修正AI的行为。==
+
+### 3. 渐进式信任
+
+从简单任务开始，逐步建立用户对AI的信任。
+
+## 总结
+
+==记住：最好的AI产品是让用户感觉更聪明，而不是被替代。==`,
+                tags: 'AI产品,设计方法论,人机协同',
+                coverImage: 'https://images.unsplash.com/photo-1591696331111-ef9586a5b17a?w=800&h=400&fit=crop',
+                date: '2024-05-20T10:00:00.000Z',
+                lastModified: '2024-05-20T10:00:00.000Z'
+            },
+            {
+                id: 'sample2',
+                title: '2024年AI Agent发展趋势：从理念到落地',
+                content: `# 2024年AI Agent发展趋势：从理念到落地
+
+AI Agent是继对话式AI之后的下一个重要赛道。本文分析了当前AI Agent的发展现状、核心技术挑战和商业化路径。
+
+## 什么是AI Agent？
+
+==AI Agent是能够自主感知环境、制定计划并执行行动的智能系统。==
+
+与传统的对话式AI不同，Agent具备：
+- **自主性**：能够独立完成复杂任务
+- **规划能力**：可以分解目标，制定执行步骤
+- **工具使用**：能够调用外部API和服务
+- **记忆机制**：具备上下文理解和历史记忆
+
+## 技术挑战
+
+### 1. 可靠性问题
+
+==当前AI Agent在复杂任务中的成功率仍然不够稳定。==
+
+### 2. 成本控制
+
+多轮对话和工具调用带来的成本压力。
+
+## 未来展望
+
+==AI Agent将成为下一代人机交互的主要形式，但需要在能力和安全性之间找到平衡。==`,
+                tags: 'AI Agent,行业趋势,技术分析',
+                coverImage: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=800&h=400&fit=crop',
+                date: '2024-04-15T14:30:00.000Z',
+                lastModified: '2024-04-15T14:30:00.000Z'
+            },
+            {
+                id: 'sample3',
+                title: '文科背景的AI产品经理如何高效协作技术团队',
+                content: `# 文科背景的AI产品经理如何高效协作技术团队
+
+作为非技术背景的AI产品经理，如何有效沟通需求并与算法工程师深度协作？本文分享了我从文科生转型AI产品经理的经验和方法。
+
+## 我的转型之路
+
+从华东师范大学新闻学专业毕业，到成为AI产品经理，这个转变并不容易。但我发现，**文科背景反而是一种优势**。
+
+==文科训练让我更关注用户需求和产品体验，而不是被技术细节束缚。==
+
+## 核心能力建设
+
+### 1. 构建产品知识体系
+
+**技术理解**：
+- 学习AI基础概念（不需要深入算法）
+- 了解模型能力边界
+- 掌握常用技术术语
+
+**产品思维**：
+- 用户场景分析
+- 需求优先级判断
+- 商业价值评估
+
+## 总结
+
+==记住：最好的AI产品不是技术最先进的，而是最能解决用户问题的。==`,
+                tags: '产品经理,团队协作,职业发展',
+                coverImage: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&h=400&fit=crop',
+                date: '2024-03-10T09:15:00.000Z',
+                lastModified: '2024-03-10T09:15:00.000Z'
+            }
+        ];
+        localStorage.setItem('blog_articles', JSON.stringify(articles));
+    }
+
+    // 初始化
+    document.addEventListener('DOMContentLoaded', function() {
+        loadArticles();
+        setupMarkdownPreview();
+        updateBackButton('list'); // 初始状态为博客列表页
+    });
+
+    // 页面切换函数
+    function showBlogList() {
+        document.getElementById('blog-list').style.display = 'block';
+        document.getElementById('article-view').style.display = 'none';
+        document.getElementById('article-editor').style.display = 'none';
+        currentEditingId = null;
+        clearEditor();
+        updateBackButton('list');
+    }
+
+    function showEditor(articleId = null) {
+        document.getElementById('blog-list').style.display = 'none';
+        document.getElementById('article-view').style.display = 'none';
+        document.getElementById('article-editor').style.display = 'block';
+        
+        if (articleId) {
+            currentEditingId = articleId;
+            loadArticleForEdit(articleId);
+        } else {
+            currentEditingId = null;
+            clearEditor();
+        }
+        updateBackButton('editor');
+    }
+
+    function showArticle(articleId) {
+        const article = articles.find(a => a.id === articleId);
+        if (!article) return;
+
+        // 设置当前文章ID用于导航
+        window.currentArticleId = articleId;
+
+        document.getElementById('blog-list').style.display = 'none';
+        document.getElementById('article-view').style.display = 'block';
+        document.getElementById('article-editor').style.display = 'none';
+
+        const contentDisplay = document.getElementById('article-content-display');
+        contentDisplay.innerHTML = `
+            <header class="mb-8 text-center">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">${article.title}</h1>
+                <div class="flex justify-center items-center gap-4 text-gray-600 dark:text-gray-400 mb-4">
+                    <span><i class="far fa-calendar mr-2"></i>${new Date(article.date).toLocaleDateString('zh-CN')}</span>
+                    <span><i class="fas fa-user mr-2"></i>板砖</span>
+                </div>
+                ${article.tags ? `<div class="mb-6">${article.tags.split(',').map(tag => `<span class="tag">${tag.trim()}</span>`).join('')}</div>` : ''}
+                ${article.coverImage ? `<img src="${article.coverImage}" alt="封面图片" class="w-full max-w-2xl mx-auto rounded-lg shadow-lg mb-8">` : ''}
+            </header>
+            <div class="prose">${parseMarkdownWithHighlights(article.content)}</div>
+        `;
+
+        // 更新导航按钮
+        updateNavigationButtons(articleId);
+        updateBackButton('article');
+    }
+
+    // 更新导航按钮
+    function updateNavigationButtons(currentArticleId) {
+        const sortedArticles = [...articles].sort((a, b) => new Date(b.date) - new Date(a.date));
+        const currentIndex = sortedArticles.findIndex(a => a.id === currentArticleId);
+        
+        const prevButton = document.getElementById('prev-article');
+        const nextButton = document.getElementById('next-article');
+        
+        // 更新Previous按钮
+        if (currentIndex > 0) {
+            const prevArticle = sortedArticles[currentIndex - 1];
+            prevButton.style.display = 'flex';
+            prevButton.querySelector('.nav-title').textContent = prevArticle.title;
+            prevButton.onclick = () => showArticle(prevArticle.id);
+        } else {
+            prevButton.style.display = 'none';
+        }
+        
+        // 更新Next按钮
+        if (currentIndex < sortedArticles.length - 1) {
+            const nextArticle = sortedArticles[currentIndex + 1];
+            nextButton.style.display = 'flex';
+            nextButton.querySelector('.nav-title').textContent = nextArticle.title;
+            nextButton.onclick = () => showArticle(nextArticle.id);
+        } else {
+            nextButton.style.display = 'none';
+        }
+    }
+
+    // 加载文章列表
+    function loadArticles() {
+        const grid = document.getElementById('articles-grid');
+        grid.innerHTML = '';
+
+        if (articles.length === 0) {
+            grid.innerHTML = `
+                <div class="col-span-full text-center py-12">
+                    <i class="fas fa-pen-fancy text-6xl text-gray-300 mb-4"></i>
+                    <h3 class="text-xl font-semibold text-gray-600 mb-2">还没有文章</h3>
+                    <p class="text-gray-500">点击右下角的 + 按钮开始写作吧！</p>
+                </div>
+            `;
+            return;
+        }
+
+        articles.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+        articles.forEach(article => {
+            const articleCard = document.createElement('div');
+            articleCard.className = 'article-card cursor-pointer';
+            
+            const coverImage = article.coverImage || getDefaultCoverImage();
+            const excerpt = getExcerpt(article.content);
+
+            articleCard.innerHTML = `
+                <div class="card-actions">
+                    <button class="card-action-btn edit-btn" onclick="event.stopPropagation(); showEditor('${article.id}')" title="编辑文章">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="card-action-btn delete-btn" onclick="event.stopPropagation(); deleteArticle('${article.id}')" title="删除文章">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+                <div class="aspect-w-16 aspect-h-9 mb-4" onclick="showArticle('${article.id}')">
+                    <img src="${coverImage}" alt="${article.title}" class="w-full h-48 object-cover">
+                </div>
+                <div class="p-6" onclick="showArticle('${article.id}')">
+                    <h3 class="text-xl font-bold mb-2 line-clamp-2">${article.title}</h3>
+                    <p class="text-gray-600 dark:text-gray-400 mb-4 line-clamp-3">${excerpt}</p>
+                    <div class="flex justify-between items-center text-sm text-gray-500">
+                        <span>${new Date(article.date).toLocaleDateString('zh-CN')}</span>
+                        ${article.tags ? `<div>${article.tags.split(',').slice(0, 2).map(tag => `<span class="tag">${tag.trim()}</span>`).join('')}</div>` : ''}
+                    </div>
+                </div>
+            `;
+
+            grid.appendChild(articleCard);
+        });
+    }
+
+    // 获取默认封面图片
+    function getDefaultCoverImage() {
+        const defaultImages = [
+            'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=400&fit=crop',
+            'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=800&h=400&fit=crop',
+            'https://images.unsplash.com/photo-1591696331111-ef9586a5b17a?w=800&h=400&fit=crop'
+        ];
+        return defaultImages[Math.floor(Math.random() * defaultImages.length)];
+    }
+
+    // 获取文章摘要
+    function getExcerpt(content) {
+        const text = content.replace(/[#*`>\-\[\]]/g, '').trim();
+        return text.length > 150 ? text.substring(0, 150) + '...' : text;
+    }
+
+    // Markdown编辑器功能
+    function setupMarkdownPreview() {
+        const editor = document.getElementById('markdown-editor');
+        const preview = document.getElementById('preview');
+
+        if (editor && preview) {
+            editor.addEventListener('input', function() {
+                preview.innerHTML = parseMarkdownWithHighlights(this.value);
+            });
+
+            // 添加Tab键支持
+            editor.addEventListener('keydown', function(e) {
+                if (e.key === 'Tab') {
+                    e.preventDefault();
+                    
+                    const start = this.selectionStart;
+                    const end = this.selectionEnd;
+                    
+                    if (e.shiftKey) {
+                        // Shift+Tab: 减少缩进
+                        const lines = this.value.split('\n');
+                        const startLine = this.value.substring(0, start).split('\n').length - 1;
+                        const endLine = this.value.substring(0, end).split('\n').length - 1;
+                        
+                        let newValue = '';
+                        let offsetStart = 0;
+                        let offsetEnd = 0;
+                        
+                        for (let i = 0; i < lines.length; i++) {
+                            if (i >= startLine && i <= endLine) {
+                                if (lines[i].startsWith('    ')) {
+                                    lines[i] = lines[i].substring(4);
+                                    if (i === startLine) offsetStart -= 4;
+                                    if (i === endLine) offsetEnd -= 4;
+                                } else if (lines[i].startsWith('\t')) {
+                                    lines[i] = lines[i].substring(1);
+                                    if (i === startLine) offsetStart -= 1;
+                                    if (i === endLine) offsetEnd -= 1;
+                                }
+                            }
+                        }
+                        
+                        this.value = lines.join('\n');
+                        this.setSelectionRange(start + offsetStart, end + offsetEnd);
+                    } else {
+                        // Tab: 增加缩进
+                        if (start === end) {
+                            // 没有选中文本，插入Tab
+                            this.value = this.value.substring(0, start) + '    ' + this.value.substring(end);
+                            this.setSelectionRange(start + 4, start + 4);
+                        } else {
+                            // 有选中文本，对每行添加缩进
+                            const lines = this.value.split('\n');
+                            const startLine = this.value.substring(0, start).split('\n').length - 1;
+                            const endLine = this.value.substring(0, end).split('\n').length - 1;
+                            
+                            for (let i = startLine; i <= endLine; i++) {
+                                lines[i] = '    ' + lines[i];
+                            }
+                            
+                            this.value = lines.join('\n');
+                            this.setSelectionRange(start + 4, end + 4 * (endLine - startLine + 1));
+                        }
+                    }
+                    
+                    // 更新预览
+                    preview.innerHTML = parseMarkdownWithHighlights(this.value);
+                }
+                
+                // Enter键自动缩进
+                if (e.key === 'Enter') {
+                    const start = this.selectionStart;
+                    const currentLine = this.value.substring(0, start).split('\n').pop();
+                    const indent = currentLine.match(/^(\s*)/)[1];
+                    
+                    // 如果当前行是列表项，自动添加列表标记
+                    const listMatch = currentLine.match(/^(\s*)([-*+]|\d+\.)\s/);
+                    if (listMatch) {
+                        e.preventDefault();
+                        const listMarker = listMatch[2];
+                        let newMarker = listMarker;
+                        
+                        // 如果是数字列表，递增数字
+                        if (/\d+\./.test(listMarker)) {
+                            const num = parseInt(listMarker) + 1;
+                            newMarker = num + '.';
+                        }
+                        
+                        const insertion = '\n' + indent + newMarker + ' ';
+                        this.value = this.value.substring(0, start) + insertion + this.value.substring(start);
+                        this.setSelectionRange(start + insertion.length, start + insertion.length);
+                        
+                        // 更新预览
+                        preview.innerHTML = parseMarkdownWithHighlights(this.value);
+                    } else if (indent) {
+                        // 保持当前缩进
+                        setTimeout(() => {
+                            const newStart = this.selectionStart;
+                            this.value = this.value.substring(0, newStart) + indent + this.value.substring(newStart);
+                            this.setSelectionRange(newStart + indent.length, newStart + indent.length);
+                            
+                            // 更新预览
+                            preview.innerHTML = parseMarkdownWithHighlights(this.value);
+                        }, 0);
+                    }
+                }
+            });
+        }
+    }
+
+    // 解析Markdown并处理高亮
+    function parseMarkdownWithHighlights(content) {
+        // 先处理高亮语法 ==text==，在Markdown解析之前
+        content = content.replace(/==(.*?)==/g, '{{HIGHLIGHT_START}}$1{{HIGHLIGHT_END}}');
+        
+        // 处理图片引用，将简洁引用转换为实际URL
+        content = content.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, function(match, alt, src) {
+            // 如果是简洁的图片引用（不是完整URL），从localStorage获取实际数据
+            if (!src.startsWith('http') && !src.startsWith('data:')) {
+                const images = JSON.parse(localStorage.getItem('blog_images') || '{}');
+                if (images[src]) {
+                    return `![${alt}](${images[src]})`;
+                }
+            }
+            return match;
+        });
+        
+        // 处理视频引用，将简洁引用转换为实际URL
+        content = content.replace(/<video([^>]*)>\s*<source\s+src="([^"]+)"([^>]*)>\s*([^<]*)\s*<\/video>/g, function(match, videoAttrs, src, sourceAttrs, fallbackText) {
+            // 如果是简洁的视频引用，从localStorage获取实际数据
+            if (!src.startsWith('http') && !src.startsWith('data:')) {
+                const videos = JSON.parse(localStorage.getItem('blog_videos') || '{}');
+                if (videos[src]) {
+                    return `<video${videoAttrs} style="max-width: 100%; height: auto;"><source src="${videos[src]}"${sourceAttrs}>${fallbackText}</video>`;
+                }
+            }
+            return `<video${videoAttrs} style="max-width: 100%; height: auto;"><source src="${src}"${sourceAttrs}>${fallbackText}</video>`;
+        });
+        
+        // 使用marked.js解析Markdown
+        let html = marked.parse(content);
+        
+        // 最后将占位符替换为高亮HTML
+        html = html.replace(/\{\{HIGHLIGHT_START\}\}(.*?)\{\{HIGHLIGHT_END\}\}/g, '<div class="highlight">$1</div>');
+        
+        return html;
+    }
+
+    // 插入Markdown语法
+    function insertMarkdown(before, after) {
+        const editor = document.getElementById('markdown-editor');
+        const start = editor.selectionStart;
+        const end = editor.selectionEnd;
+        const selectedText = editor.value.substring(start, end);
+        const replacement = before + selectedText + after;
+        
+        editor.value = editor.value.substring(0, start) + replacement + editor.value.substring(end);
+        editor.focus();
+        editor.setSelectionRange(start + before.length, start + before.length + selectedText.length);
+        
+        // 更新预览
+        document.getElementById('preview').innerHTML = parseMarkdownWithHighlights(editor.value);
+    }
+
+    // 插入高亮
+    function insertHighlight() {
+        insertMarkdown('==', '==');
+    }
+
+    // 插入代码块
+    function insertCodeBlock() {
+        const editor = document.getElementById('markdown-editor');
+        const selectedText = editor.value.substring(editor.selectionStart, editor.selectionEnd);
+        const codeBlock = `\n\`\`\`\n${selectedText}\n\`\`\`\n`;
+        insertAtCursor(editor, codeBlock);
+        
+        // 更新预览
+        document.getElementById('preview').innerHTML = parseMarkdownWithHighlights(editor.value);
+    }
+
+    // 处理图片上传
+    function handleImageUpload(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const imageData = e.target.result;
+            const imageName = `img_${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
+            
+            // 保存到本地存储
+            saveToLocalStorage('blog_images', imageName, imageData);
+            
+            // 插入简洁的Markdown图片语法
+            const editor = document.getElementById('markdown-editor');
+            const imageMarkdown = `\n![${file.name}](${imageName})\n`;
+            insertAtCursor(editor, imageMarkdown);
+            
+            // 更新预览
+            document.getElementById('preview').innerHTML = parseMarkdownWithHighlights(editor.value);
+        };
+        reader.readAsDataURL(file);
+    }
+
+    // 处理视频上传
+    function handleVideoUpload(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const videoData = e.target.result;
+            const videoName = `video_${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
+            
+            // 保存到本地存储
+            saveToLocalStorage('blog_videos', videoName, videoData);
+            
+            // 插入简洁的HTML视频标签
+            const editor = document.getElementById('markdown-editor');
+            const videoHtml = `\n<video controls>\n  <source src="${videoName}" type="${file.type}">\n  您的浏览器不支持视频播放。\n</video>\n`;
+            insertAtCursor(editor, videoHtml);
+            
+            // 更新预览
+            document.getElementById('preview').innerHTML = parseMarkdownWithHighlights(editor.value);
+        };
+        reader.readAsDataURL(file);
+    }
+
+    // 在光标位置插入文本
+    function insertAtCursor(textarea, text) {
+        const start = textarea.selectionStart;
+        const end = textarea.selectionEnd;
+        textarea.value = textarea.value.substring(0, start) + text + textarea.value.substring(end);
+        textarea.focus();
+        textarea.setSelectionRange(start + text.length, start + text.length);
+    }
+
+    // 保存到localStorage（模拟本地文件系统）
+    function saveToLocalStorage(key, filename, data) {
+        const storage = JSON.parse(localStorage.getItem(key) || '{}');
+        storage[filename] = data;
+        localStorage.setItem(key, JSON.stringify(storage));
+    }
+
+    // 保存文章
+    function saveArticle() {
+        const title = document.getElementById('article-title').value.trim();
+        const content = document.getElementById('markdown-editor').value.trim();
+        const tags = document.getElementById('article-tags').value.trim();
+        const coverImageFile = document.getElementById('cover-image').files[0];
+
+        if (!title || !content) {
+            alert('请填写标题和内容');
+            return;
+        }
+
+        let coverImage = '';
+        if (coverImageFile) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                coverImage = e.target.result;
+                saveArticleData(title, content, tags, coverImage);
+            };
+            reader.readAsDataURL(coverImageFile);
+        } else {
+            saveArticleData(title, content, tags, coverImage);
+        }
+    }
+
+    function saveArticleData(title, content, tags, coverImage) {
+        const article = {
+            id: currentEditingId || generateId(),
+            title,
+            content,
+            tags,
+            coverImage: coverImage || getDefaultCoverImage(),
+            date: currentEditingId ? articles.find(a => a.id === currentEditingId).date : new Date().toISOString(),
+            lastModified: new Date().toISOString()
+        };
+
+        if (currentEditingId) {
+            const index = articles.findIndex(a => a.id === currentEditingId);
+            articles[index] = article;
+        } else {
+            articles.push(article);
+        }
+
+        // 保存到localStorage（模拟保存到blog_content/markdown/）
+        localStorage.setItem('blog_articles', JSON.stringify(articles));
+        saveToLocalStorage('blog_markdown', `${article.id}.md`, content);
+
+        // 实际保存文件到本地文件夹
+        saveToActualFile(article);
+
+        alert('文章保存成功！');
+        showBlogList();
+        loadArticles();
+    }
+
+    // 保存文件到实际文件夹
+    async function saveToActualFile(article) {
+        try {
+            // 创建Markdown文件内容
+            const markdownContent = `---
+title: ${article.title}
+date: ${article.date}
+lastModified: ${article.lastModified}
+tags: ${article.tags}
+coverImage: ${article.coverImage}
+---
+
+${article.content}`;
+
+            // 创建文件下载
+            const blob = new Blob([markdownContent], { type: 'text/markdown' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${article.id}.md`;
+            
+            // 提示用户保存到blog_content/markdown/文件夹
+            const message = `📝 文章已准备好保存！
+
+📁 请将下载的文件保存到：
+   blog_content/markdown/${article.id}.md
+
+💡 提示：
+   • 文件包含完整的文章内容和元数据
+   • 保存后可以在对应文件夹中找到
+   • 支持重新编辑和发布
+
+点击确定开始下载文件。`;
+
+            if (confirm(message)) {
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                // 显示成功提示
+                setTimeout(() => {
+                    alert('✅ 文件下载成功！请将文件保存到 blog_content/markdown/ 文件夹中。');
+                }, 500);
+            }
+        } catch (error) {
+            console.error('保存文件时出错:', error);
+            alert('❌ 保存文件时出错，请重试。');
+        }
+    }
+
+    // 加载文章进行编辑
+    function loadArticleForEdit(articleId) {
+        const article = articles.find(a => a.id === articleId);
+        if (!article) return;
+
+        document.getElementById('article-title').value = article.title;
+        document.getElementById('markdown-editor').value = article.content;
+        document.getElementById('article-tags').value = article.tags || '';
+        document.getElementById('preview').innerHTML = parseMarkdownWithHighlights(article.content);
+    }
+
+    // 清空编辑器
+    function clearEditor() {
+        document.getElementById('article-title').value = '';
+        document.getElementById('markdown-editor').value = '';
+        document.getElementById('article-tags').value = '';
+        document.getElementById('cover-image').value = '';
+        document.getElementById('preview').innerHTML = '';
+    }
+
+    // 删除文章
+    function deleteArticle(articleId) {
+        if (!confirm('确定要删除这篇文章吗？')) return;
+
+        articles = articles.filter(a => a.id !== articleId);
+        localStorage.setItem('blog_articles', JSON.stringify(articles));
+
+        // 删除对应的markdown文件
+        const markdownStorage = JSON.parse(localStorage.getItem('blog_markdown') || '{}');
+        delete markdownStorage[`${articleId}.md`];
+        localStorage.setItem('blog_markdown', JSON.stringify(markdownStorage));
+
+        alert('文章已删除');
+        showBlogList();
+        loadArticles();
+    }
+
+    // 生成唯一ID
+    function generateId() {
+        return Date.now().toString(36) + Math.random().toString(36).substr(2);
+    }
+
+    // 键盘快捷键
+    document.addEventListener('keydown', function(e) {
+        if (e.ctrlKey || e.metaKey) {
+            switch(e.key) {
+                case 's':
+                    e.preventDefault();
+                    if (document.getElementById('article-editor').style.display !== 'none') {
+                        saveArticle();
+                    }
+                    break;
+                case 'b':
+                    e.preventDefault();
+                    if (document.getElementById('article-editor').style.display !== 'none') {
+                        insertMarkdown('**', '**');
+                    }
+                    break;
+                case 'i':
+                    e.preventDefault();
+                    if (document.getElementById('article-editor').style.display !== 'none') {
+                        insertMarkdown('*', '*');
+                    }
+                    break;
+            }
+        }
+    });
+
+    // 显示图片库
+    function showImageGallery() {
+        const images = JSON.parse(localStorage.getItem('blog_images') || '{}');
+        const imageKeys = Object.keys(images);
+        
+        if (imageKeys.length === 0) {
+            alert('还没有上传任何图片');
+            return;
+        }
+        
+        // 创建图片库弹窗
+        const modal = document.createElement('div');
+        modal.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        `;
+        
+        const gallery = document.createElement('div');
+        gallery.style.cssText = `
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            max-width: 80%;
+            max-height: 80%;
+            overflow-y: auto;
+        `;
+        
+        gallery.innerHTML = `
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                <h3 style="margin: 0; font-size: 1.5rem;">图片库</h3>
+                <button onclick="this.closest('.modal').remove()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">&times;</button>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1rem;">
+                ${imageKeys.map(key => `
+                    <div style="border: 1px solid #ddd; border-radius: 8px; overflow: hidden; cursor: pointer;" onclick="insertImageFromGallery('${key}')">
+                        <img src="${images[key]}" style="width: 100%; height: 120px; object-fit: cover;">
+                        <div style="padding: 0.5rem; font-size: 0.8rem; text-align: center; background: #f5f5f5;">
+                            ${key.replace(/^img_\d+_/, '')}
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+            <div style="margin-top: 1rem; text-align: center; color: #666; font-size: 0.9rem;">
+                点击图片插入到编辑器中
+            </div>
+        `;
+        
+        modal.className = 'modal';
+        modal.appendChild(gallery);
+        document.body.appendChild(modal);
+        
+        // 点击背景关闭
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.remove();
+            }
+        });
+    }
+    
+    // 从图片库插入图片
+    function insertImageFromGallery(imageName) {
+        const editor = document.getElementById('markdown-editor');
+        const displayName = imageName.replace(/^img_\d+_/, '');
+        const imageMarkdown = `\n![${displayName}](${imageName})\n`;
+        insertAtCursor(editor, imageMarkdown);
+        
+        // 更新预览
+        document.getElementById('preview').innerHTML = parseMarkdownWithHighlights(editor.value);
+        
+        // 关闭图片库
+        document.querySelector('.modal').remove();
+    }
+
+    // 更新返回按钮
+    function updateBackButton(currentPage) {
+        const backButton = document.getElementById('back-button');
+        const backText = document.getElementById('back-text');
+        
+        switch(currentPage) {
+            case 'list':
+                backButton.href = 'index.html';
+                backText.textContent = '返回主页';
+                backButton.onclick = null;
+                break;
+            case 'article':
+            case 'editor':
+                backButton.href = '#';
+                backText.textContent = '返回博客';
+                backButton.onclick = function(e) {
+                    e.preventDefault();
+                    showBlogList();
+                };
+                break;
+        }
+    }
+
+    // 显示标题菜单
+    function showHeadingMenu() {
+        // 移除已存在的菜单
+        const existingMenu = document.querySelector('.heading-menu');
+        if (existingMenu) {
+            existingMenu.remove();
+            return;
+        }
+
+        const menu = document.createElement('div');
+        menu.className = 'heading-menu';
+        menu.style.cssText = `
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            min-width: 150px;
+        `;
+
+        const headings = [
+            { level: 1, text: '# 标题 1', prefix: '# ' },
+            { level: 2, text: '## 标题 2', prefix: '## ' },
+            { level: 3, text: '### 标题 3', prefix: '### ' },
+            { level: 4, text: '#### 标题 4', prefix: '#### ' },
+            { level: 5, text: '##### 标题 5', prefix: '##### ' },
+            { level: 6, text: '###### 标题 6', prefix: '###### ' }
+        ];
+
+        headings.forEach(heading => {
+            const item = document.createElement('div');
+            item.style.cssText = `
+                padding: 0.5rem 1rem;
+                cursor: pointer;
+                border-bottom: 1px solid #f3f4f6;
+                font-size: ${2 - heading.level * 0.1}rem;
+                font-weight: ${700 - heading.level * 50};
+            `;
+            item.textContent = heading.text;
+            item.onclick = () => {
+                insertMarkdown(heading.prefix, '');
+                menu.remove();
+            };
+            item.onmouseover = () => {
+                item.style.backgroundColor = '#f3f4f6';
+            };
+            item.onmouseout = () => {
+                item.style.backgroundColor = 'white';
+            };
+            menu.appendChild(item);
+        });
+
+        // 找到标题按钮并添加菜单
+        const headingBtn = document.querySelector('.heading-menu-btn');
+        headingBtn.style.position = 'relative';
+        headingBtn.appendChild(menu);
+
+        // 点击其他地方关闭菜单
+        setTimeout(() => {
+            document.addEventListener('click', function closeMenu(e) {
+                if (!headingBtn.contains(e.target)) {
+                    menu.remove();
+                    document.removeEventListener('click', closeMenu);
+                }
+            });
+        }, 100);
+    }
+</script>
+</body>
+</html> 

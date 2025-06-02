@@ -1,12 +1,18 @@
 <!DOCTYPE html>
-<!-- 注意：文件存在问题，需要重新编辑技能部分来显示工具集 -->
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>板砖 - 面向未来的AI产品经理</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="picture/Digital Brick Monogram Logo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="picture/Digital Brick Monogram Logo.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="picture/Digital Brick Monogram Logo.png">
+    
     <link rel="stylesheet" href="https://cdn.staticfile.org/tailwindcss/2.2.19/tailwind.min.css">
-    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- 备用Font Awesome CDN -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.1/css/all.css" integrity="sha384-4LISF5TTJX/fLmGSxO53rV4miRxdg84mZsxmO8Rx5jGtp/LbrixFETvWa5a6sESd" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -155,6 +161,19 @@
         @keyframes blink-caret {
             from, to { border-color: transparent }
             50% { border-color: var(--color-orange) }
+        }
+        
+        /* 光标样式 */
+        .cursor {
+            display: inline-block;
+            margin-left: 2px;
+            animation: blink 1s infinite;
+            color: var(--color-orange);
+        }
+        
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
         }
         
         /* 时间线样式 */
@@ -351,13 +370,14 @@
         /* 响应式调整 */
         @media (max-width: 768px) {
             .timeline::after {
-                left: 31px;
+                left: 15px;
+                width: 3px; /* 让时间线更细一些 */
             }
             
             .timeline-container {
                 width: 100%;
-                padding-left: 70px;
-                padding-right: 25px;
+                padding-left: 50px;
+                padding-right: 15px;
             }
             
             .timeline-container.right {
@@ -365,55 +385,436 @@
             }
             
             .timeline-container.left::after, .timeline-container.right::after {
-                left: 18px;
+                left: 4px;
+                width: 20px;
+                height: 20px;
+                top: 10px;
+            }
+            
+            /* 移动端时间线内容优化 */
+            .timeline-content {
+                padding: 12px;
+            }
+            
+            .timeline-container + .timeline-container {
+                margin-top: -100px; /* 移动端减少间距 */
             }
         }
         
         /* 流光粒子 */
+        .particles {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        
         .particle {
             position: absolute;
             border-radius: 50%;
             pointer-events: none;
             background: white;
             box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.8);
+            will-change: transform, opacity;
+            backface-visibility: hidden;
         }
         
-        /* 视差效果 */
-        .parallax {
-            position: relative;
+        /* 粒子动画效果 */
+        @keyframes particleFloat {
+            0% {
+                transform: translateY(0) translateX(0) scale(1);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            50% {
+                transform: translateY(-30px) translateX(20px) scale(1.2);
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-60px) translateX(-20px) scale(0.8);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes particleDrift {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            33% {
+                transform: translate(30px, -30px) rotate(120deg);
+            }
+            66% {
+                transform: translate(-20px, 20px) rotate(240deg);
+            }
+            100% {
+                transform: translate(0, 0) rotate(360deg);
+            }
+        }
+        
+        @keyframes particleGlow {
+            0%, 100% {
+                box-shadow: 0 0 5px rgba(255, 255, 255, 0.5),
+                            0 0 10px rgba(255, 255, 255, 0.3),
+                            0 0 15px rgba(255, 255, 255, 0.1);
+            }
+            50% {
+                box-shadow: 0 0 10px rgba(255, 255, 255, 0.8),
+                            0 0 20px rgba(255, 255, 255, 0.5),
+                            0 0 30px rgba(255, 255, 255, 0.3);
+            }
+        }
+        
+        .particle {
+            animation: particleFloat 8s infinite ease-in-out,
+                       particleDrift 15s infinite linear,
+                       particleGlow 3s infinite ease-in-out;
+        }
+        
+        /* 不同类型的粒子动画 */
+        .particle:nth-child(odd) {
+            animation-duration: 10s, 20s, 4s;
+            animation-delay: 0s, 0s, 0s;
+        }
+        
+        .particle:nth-child(even) {
+            animation-duration: 12s, 18s, 3.5s;
+            animation-direction: normal, reverse, normal;
+        }
+        
+        .particle:nth-child(3n) {
+            animation-duration: 15s, 25s, 5s;
+            animation-delay: 2s, 1s, 0.5s;
+        }
+        
+        /* 背景装饰blob动画 */
+        @keyframes blob {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+            }
+            25% {
+                transform: translate(20px, -30px) scale(1.1);
+            }
+            50% {
+                transform: translate(-20px, 20px) scale(0.9);
+            }
+            75% {
+                transform: translate(30px, 10px) scale(1.05);
+            }
+        }
+        
+        .animate-blob {
+            animation: blob 20s infinite ease-in-out;
+        }
+        
+        .animation-delay-2000 {
+            animation-delay: 2s;
+        }
+        
+        .animation-delay-4000 {
+            animation-delay: 4s;
+        }
+        
+        /* 光束效果 - 已废弃，使用渐变光晕替代 */
+        /*
+        .light-beam {
+            position: absolute;
+            width: 2px;
+            height: 150%;
+            background: linear-gradient(to bottom, 
+                transparent 0%, 
+                rgba(139, 92, 246, 0.4) 30%, 
+                rgba(59, 130, 246, 0.6) 50%, 
+                rgba(139, 92, 246, 0.4) 70%, 
+                transparent 100%);
+            filter: blur(2px);
+            opacity: 0.6;
+        }
+        
+        .light-beam-1 {
+            left: 20%;
+            top: -50%;
+            transform: rotate(-30deg);
+            animation: beamMove1 15s infinite ease-in-out;
+        }
+        
+        .light-beam-2 {
+            right: 30%;
+            top: -50%;
+            transform: rotate(20deg);
+            animation: beamMove2 20s infinite ease-in-out;
+            background: linear-gradient(to bottom, 
+                transparent 0%, 
+                rgba(249, 115, 22, 0.4) 30%, 
+                rgba(239, 68, 68, 0.6) 50%, 
+                rgba(249, 115, 22, 0.4) 70%, 
+                transparent 100%);
+        }
+        
+        .light-beam-3 {
+            left: 50%;
+            top: -50%;
+            transform: rotate(45deg);
+            animation: beamMove3 25s infinite ease-in-out;
+            background: linear-gradient(to bottom, 
+                transparent 0%, 
+                rgba(16, 185, 129, 0.4) 30%, 
+                rgba(20, 184, 166, 0.6) 50%, 
+                rgba(16, 185, 129, 0.4) 70%, 
+                transparent 100%);
+        }
+        
+        }
+        */
+        
+        /* 渐变光晕效果 */
+        .gradient-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.6;
+            animation: gentleFloat 20s infinite ease-in-out;
+        }
+        
+        .gradient-orb-1 {
+            width: 600px;
+            height: 600px;
+            top: -200px;
+            left: -200px;
+            background: radial-gradient(circle at center, 
+                rgba(251, 191, 36, 0.3) 0%, 
+                rgba(251, 146, 60, 0.2) 40%, 
+                transparent 70%);
+            animation: gentleFloat 25s infinite ease-in-out, colorShift 15s infinite alternate;
+        }
+        
+        .gradient-orb-2 {
+            width: 500px;
+            height: 500px;
+            bottom: -150px;
+            right: -150px;
+            background: radial-gradient(circle at center, 
+                rgba(139, 92, 246, 0.3) 0%, 
+                rgba(167, 139, 250, 0.2) 40%, 
+                transparent 70%);
+            animation: gentleFloat 30s infinite ease-in-out reverse, colorShift 20s infinite alternate-reverse;
+        }
+        
+        .gradient-orb-3 {
+            width: 550px;
+            height: 550px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle at center, 
+                rgba(59, 130, 246, 0.3) 0%, 
+                rgba(96, 165, 250, 0.2) 40%, 
+                transparent 70%);
+            animation: gentleFloat 35s infinite ease-in-out, colorShift 25s infinite alternate;
+        }
+        
+        @keyframes gentleFloat {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+            }
+            25% {
+                transform: translate(30px, -20px) scale(1.1);
+            }
+            50% {
+                transform: translate(-20px, 30px) scale(0.95);
+            }
+            75% {
+                transform: translate(20px, 20px) scale(1.05);
+            }
+        }
+        
+        @keyframes colorShift {
+            0% {
+                filter: blur(60px) hue-rotate(0deg);
+            }
+            100% {
+                filter: blur(80px) hue-rotate(30deg);
+            }
+        }
+        
+        /* 流动渐变层 */
+        .flowing-gradient {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, 
+                transparent 0%,
+                rgba(255, 213, 140, 0.04) 10%,      /* 浅黄色 */
+                rgba(255, 195, 113, 0.05) 15%,      /* 金黄色 */
+                rgba(251, 191, 36, 0.04) 20%,       /* 黄色 */
+                rgba(251, 146, 60, 0.05) 25%,       /* 橙黄色 */
+                rgba(249, 115, 22, 0.04) 30%,       /* 橙色 */
+                rgba(245, 101, 101, 0.05) 35%,      /* 橙红色 */
+                rgba(239, 68, 68, 0.04) 40%,        /* 红色 */
+                rgba(236, 72, 153, 0.05) 45%,       /* 粉红色 */
+                rgba(219, 39, 119, 0.04) 50%,       /* 深粉色 */
+                rgba(196, 181, 253, 0.05) 55%,      /* 浅紫色 */
+                rgba(167, 139, 250, 0.04) 60%,      /* 淡紫色 */
+                rgba(139, 92, 246, 0.05) 65%,       /* 紫色 */
+                rgba(124, 58, 237, 0.04) 70%,       /* 深紫色 */
+                rgba(99, 102, 241, 0.05) 75%,       /* 靛蓝色 */
+                rgba(79, 70, 229, 0.04) 80%,        /* 深靛蓝 */
+                rgba(96, 165, 250, 0.04) 85%,       /* 浅蓝色 */
+                rgba(59, 130, 246, 0.04) 90%,       /* 蓝色 */
+                transparent 100%);
+            background-size: 400% 400%;
+            animation: flowingGradient 30s ease infinite;
+            mix-blend-mode: normal;
+        }
+        
+        @keyframes flowingGradient {
+            0% {
+                background-position: 0% 0%;
+            }
+            25% {
+                background-position: 100% 100%;
+            }
+            50% {
+                background-position: 100% 0%;
+            }
+            75% {
+                background-position: 0% 100%;
+            }
+            100% {
+                background-position: 0% 0%;
+            }
+        }
+        
+        /* 悬浮光点 */
+        .floating-lights {
+            position: absolute;
+            inset: 0;
             overflow: hidden;
         }
         
-        .parallax-bg {
+        .floating-light {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 120%;
-            z-index: -1;
-            will-change: transform;
+            width: 4px;
+            height: 4px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.9) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: floatingLight 20s infinite linear;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
         }
         
-        /* 导航动画 */
-        .nav-bg {
+        @keyframes floatingLight {
+            0% {
+                transform: translateY(100vh) translateX(0) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+                transform: translateY(90vh) translateX(10px) scale(1);
+            }
+            90% {
+                opacity: 1;
+                transform: translateY(10vh) translateX(-10px) scale(1);
+            }
+            100% {
+                transform: translateY(0) translateX(0) scale(0);
+                opacity: 0;
+            }
+        }
+        
+        /* 波纹效果 */
+        .ripple-container {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: transparent;
-            z-index: -1;
-            transform: translateY(-100%);
-            transition: transform 0.3s ease;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
         }
         
-        .dark .nav-bg {
-            background: transparent;
+        .ripple {
+            position: absolute;
+            border: 2px solid rgba(139, 92, 246, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: rippleEffect 4s ease-out infinite;
         }
         
-        .nav-scrolled .nav-bg {
-            transform: translateY(0);
+        .ripple-1 {
+            width: 200px;
+            height: 200px;
+            top: 30%;
+            left: 20%;
+            animation-delay: 0s;
         }
+        
+        .ripple-2 {
+            width: 300px;
+            height: 300px;
+            top: 60%;
+            left: 70%;
+            animation-delay: 1.5s;
+            border-color: rgba(249, 115, 22, 0.2);
+        }
+        
+        .ripple-3 {
+            width: 250px;
+            height: 250px;
+            top: 40%;
+            left: 50%;
+            animation-delay: 3s;
+            border-color: rgba(59, 130, 246, 0.2);
+        }
+        
+        @keyframes rippleEffect {
+            0% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(0);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(4);
+            }
+        }
+        
+        /* 动态线条 */
+        .animated-line {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: lineMove 8s ease-in-out infinite;
+        }
+        
+        .line-1 {
+            animation-delay: 0s;
+        }
+        
+        .line-2 {
+            animation-delay: 2s;
+        }
+        
+        @keyframes lineMove {
+            0% {
+                stroke-dashoffset: 1000;
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.3;
+            }
+            50% {
+                stroke-dashoffset: 0;
+                opacity: 0.3;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            100% {
+                stroke-dashoffset: -1000;
+                opacity: 0;
+            }
+        }
+        
+        /* 视差效果 */
         
         /* 卡片堆叠效果 */
         .card-stack {
@@ -724,8 +1125,9 @@
             padding: 1.5rem;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            overflow: hidden;
+            overflow: visible;
             transition: all 0.3s ease;
+            min-height: 600px; /* 添加最小高度确保卡片内容完整显示 */
         }
         
         .dark .card-stack-wrapper {
@@ -1246,6 +1648,7 @@
             color: #10b981;
         }
         
+        
         .dark .research-date {
             color: #34d399;
         }
@@ -1585,35 +1988,604 @@
             opacity: 0.9;
         }
 
-        /* 添加CSS样式 */
+        /* 关于我部分动态元素 */
+        .floating-element {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.3;
+        }
         
-            .tool-tag {
+        .element-1 {
+            width: 100px;
+            height: 100px;
+            top: 20%;
+            left: 10%;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.3), transparent);
+            animation: floatElement1 20s infinite ease-in-out;
+        }
+        
+        .element-2 {
+            width: 80px;
+            height: 80px;
+            top: 60%;
+            right: 15%;
+            background: radial-gradient(circle, rgba(249, 115, 22, 0.3), transparent);
+            animation: floatElement2 25s infinite ease-in-out;
+        }
+        
+        .element-3 {
+            width: 120px;
+            height: 120px;
+            bottom: 20%;
+            left: 50%;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.3), transparent);
+            animation: floatElement3 30s infinite ease-in-out;
+        }
+        
+        @keyframes floatElement1 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(50px, -30px) scale(1.1); }
+            50% { transform: translate(-30px, 20px) scale(0.9); }
+            75% { transform: translate(30px, 40px) scale(1.05); }
+        }
+        
+        @keyframes floatElement2 {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(-40px, -20px) rotate(120deg); }
+            66% { transform: translate(20px, 30px) rotate(240deg); }
+        }
+        
+        @keyframes floatElement3 {
+            0%, 100% { transform: translate(-50%, 0) scale(1); opacity: 0.3; }
+            50% { transform: translate(-50%, -50px) scale(1.2); opacity: 0.2; }
+        }
+        
+        /* 关于我粒子效果 */
+        .about-particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(59, 130, 246, 0.5);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        
+        /* 关于我卡片动画增强 */
+        .about-card-enhanced {
+            position: relative;
+            transform: translateZ(0);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .about-card-enhanced::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            background: linear-gradient(135deg, transparent, rgba(255, 255, 255, 0.1));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+        }
+        
+        .about-card-enhanced:hover::before {
+            opacity: 1;
+        }
+        
+        /* 新增3D倾斜效果 */
+        .tilt-card {
+            transform-style: preserve-3d;
+            transform: perspective(1000px);
+            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        
+        .tilt-card:hover {
+            transform: perspective(1000px) rotateX(-5deg) rotateY(5deg) scale(1.02);
+        }
+        
+        /* 认识我部分的动画效果 */
+        @keyframes animate-pulse-slow {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.8;
+                transform: scale(1.05);
+            }
+        }
+        
+        .animate-pulse-slow {
+            animation: animate-pulse-slow 3s ease-in-out infinite;
+        }
+        
+        @keyframes animate-spin-slow {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        .animate-spin-slow {
+            animation: animate-spin-slow 8s linear infinite;
+        }
+        
+        @keyframes animate-fade-in-up {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate-fade-in-up {
+            animation: animate-fade-in-up 0.8s ease-out forwards;
+            opacity: 0;
+        }
+        
+        /* 卡片内容动态效果 */
+        .interest-tag {
+            transition: all 0.3s ease;
+            animation: tagFloat 3s ease-in-out infinite;
+            animation-delay: calc(var(--tag-index, 0) * 0.2s);
+        }
+        
+        @keyframes tagFloat {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+        
+        /* 标签容器微动效 */
+        #hero .px-4.py-2.rounded-full {
+            animation: tagPulse 3s infinite ease-in-out;
+            animation-delay: calc(var(--tag-index, 0) * 0.2s);
+        }
+        
+        @keyframes tagPulse {
+            0%, 100% {
+                transform: translateY(0) scale(1);
+            }
+            50% {
+                transform: translateY(-2px) scale(1.02);
+            }
+        }
+
+        /* 导航栏新设计 */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: transparent;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(0);
+            -webkit-backdrop-filter: blur(0);
+        }
+        
+        /* 导航栏背景 */
+        .nav-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, 
+                rgba(249, 168, 97, 0.05) 0%, 
+                rgba(139, 92, 246, 0.05) 50%, 
+                rgba(59, 130, 246, 0.05) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* 导航栏光效装饰 */
+        .nav-glow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(249, 168, 97, 0.03) 50%, 
+                transparent 100%);
+            opacity: 0;
+            animation: navGlow 15s infinite linear;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        @keyframes navGlow {
+            0% {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+            50% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+        
+        /* 导航栏滚动状态 */
+        .nav-scrolled {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+        }
+        
+        .dark .nav-scrolled {
+            background: rgba(17, 24, 39, 0.9);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+        
+        .nav-scrolled .nav-bg {
+            opacity: 0.8;
+        }
+        
+        .nav-scrolled .nav-glow {
+            animation-duration: 15s;
+            opacity: 0.3;
+        }
+        
+        /* Logo区域美化 */
+        .logo-container {
+            position: relative;
                 display: inline-flex;
                 align-items: center;
-                gap: 0.25rem;
-                padding: 0.4rem 0.8rem;
+            padding: 4px 12px;
+            border-radius: 12px;
+            background: transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .logo-container:hover {
+            background: rgba(249, 168, 97, 0.05);
+            transform: translateY(-1px);
+        }
+        
+        .logo-text {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #333;
+            letter-spacing: -0.5px;
+            transition: all 0.3s ease;
+        }
+        
+        .dark .logo-text {
+            color: #fff;
+        }
+        
+        .logo-container:hover .logo-text {
+            color: #f97316;
+        }
+        
+        /* Logo图片样式 */
+        .logo-container img {
+            transition: all 0.3s ease;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+        }
+        
+        .logo-container:hover img {
+            transform: scale(1.05) rotate(-5deg);
+            filter: drop-shadow(0 4px 8px rgba(249, 115, 22, 0.2));
+        }
+        
+        .dark .logo-container img {
+            filter: brightness(1.1) drop-shadow(0 2px 4px rgba(255, 255, 255, 0.1));
+        }
+        
+        /* 页脚logo样式 */
+        footer img {
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+            transition: all 0.3s ease;
+        }
+        
+        footer img:hover {
+            transform: scale(1.1);
+            filter: drop-shadow(0 4px 8px rgba(249, 115, 22, 0.3));
+        }
+        
+        /* 导航链接新样式 */
+        .nav-link {
+            position: relative;
+            padding: 6px 12px;
                 border-radius: 6px;
-                font-size: 0.8rem;
                 font-weight: 500;
-                transition: all 0.25s ease;
-                margin-bottom: 0.5rem;
-                box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            font-size: 0.9rem;
+            color: #333;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+        
+        .dark .nav-link {
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .nav-link:hover {
+            background: rgba(0, 0, 0, 0.04);
+            color: #000;
+        }
+        
+        .dark .nav-link:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: white;
+        }
+        
+        .nav-link::before {
+            display: none;
+        }
+        
+        .nav-link-text {
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* 导航下划线动画 */
+        .nav-underline {
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: #f97316;
+            border-radius: 1px;
+            transform: translateX(-50%);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover .nav-underline {
+            width: 60%;
+        }
+        
+        /* 查看简历按钮特殊样式 */
+        .resume-btn {
+            position: relative;
+            padding: 6px 16px;
+            border-radius: 8px;
+            background: transparent;
+            color: #333 !important;
+            font-weight: 500;
+            font-size: 0.9rem;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+        
+        .dark .resume-btn {
+            color: #fff !important;
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .resume-btn:hover {
+            background: rgba(249, 115, 22, 0.08);
+            border-color: rgba(249, 115, 22, 0.3);
+            color: #f97316 !important;
+            transform: translateY(-1px);
+        }
+        
+        .dark .resume-btn:hover {
+            background: rgba(249, 115, 22, 0.1);
+            border-color: rgba(249, 115, 22, 0.4);
+            color: #fb923c !important;
+        }
+        
+        /* 移除原有的光效动画 */
+        .resume-btn::before {
+            display: none;
+        }
+        
+        /* 移动端菜单按钮动画 */
+        .menu-btn {
+            position: relative;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+        }
+        
+        .menu-btn span {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: currentColor;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+        
+        .menu-btn span:nth-child(1) {
+            top: 6px;
+        }
+        
+        .menu-btn span:nth-child(2) {
+            top: 13px;
+        }
+        
+        .menu-btn span:nth-child(3) {
+            top: 20px;
+        }
+        
+        .menu-btn.active span:nth-child(1) {
+            transform: rotate(45deg);
+            top: 13px;
+        }
+        
+        .menu-btn.active span:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .menu-btn.active span:nth-child(3) {
+            transform: rotate(-45deg);
+            top: 13px;
+        }
+        
+        /* 导航栏粒子效果 */
+        .nav-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .nav-particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(139, 92, 246, 0.5);
+            border-radius: 50%;
+            animation: navParticleFloat 10s infinite linear;
+        }
+        
+        @keyframes navParticleFloat {
+            0% {
+                transform: translateY(100%) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100%) translateX(50px);
+                opacity: 0;
+            }
+        }
+        
+        /* 删除旧的导航栏样式 */
+    </style>
+    
+        <!-- 自定义图标样式 -->
+        <style>
+            /* 统一图标风格 - 现代化设计 */
+            .custom-icon {
+                position: relative;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 2.5rem;
+                height: 2.5rem;
+                border-radius: 12px;
+                background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(59, 130, 246, 0.1));
+                backdrop-filter: blur(10px);
+                transition: all 0.3s ease;
             }
             
-            .tool-tag:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+            .custom-icon::before {
+                content: '';
+                position: absolute;
+                inset: 0;
+                border-radius: 12px;
+                background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+                opacity: 0;
+                transition: opacity 0.3s ease;
+                z-index: -1;
             }
             
-            .dark .tool-tag {
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            .custom-icon:hover::before {
+                opacity: 1;
             }
             
-            @media (max-width: 640px) {
-                .tool-tag {
-                    padding: 0.3rem 0.6rem;
-                    font-size: 0.7rem;
-                }
+            .custom-icon i {
+                font-size: 1.25rem;
+                color: #8b5cf6;
+                transition: color 0.3s ease;
+            }
+            
+            .custom-icon:hover i {
+                color: white;
+            }
+            
+            /* 技能卡片图标优化 */
+            .skill-badge i {
+                position: relative;
+                top: 1px;
+                font-size: 0.75rem;
+            }
+            
+            /* 自定义品牌色图标背景 */
+            .icon-gradient-purple {
+                background: linear-gradient(135deg, #8b5cf6, #a78bfa);
+            }
+            
+            .icon-gradient-blue {
+                background: linear-gradient(135deg, #3b82f6, #60a5fa);
+            }
+            
+            .icon-gradient-green {
+                background: linear-gradient(135deg, #10b981, #34d399);
+            }
+            
+            .icon-gradient-orange {
+                background: linear-gradient(135deg, #f97316, #fb923c);
+            }
+            
+            /* 优化主要图标显示 */
+            .skill-title-overlay i,
+            .about-icon i,
+            .interest-icon i {
+                filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+            }
+            
+            /* 为不同部分的图标添加独特样式 */
+            .timeline-container h3 i {
+                background: linear-gradient(135deg, currentColor, transparent);
+                -webkit-background-clip: text;
+                background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+            
+            /* 导航栏图标优化 */
+            #mainNav a i {
+                font-size: 0.9rem;
+                transition: transform 0.3s ease;
+            }
+            
+            #mainNav a:hover i {
+                transform: scale(1.2);
+            }
+            
+            /* Hero区域标签图标 */
+            #hero .px-4.py-2.rounded-full {
+                position: relative;
+                overflow: hidden;
+            }
+            
+            #hero .px-4.py-2.rounded-full::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+                transition: left 0.6s ease;
+            }
+            
+            #hero .px-4.py-2.rounded-full:hover::before {
+                left: 100%;
             }
         </style>
     
@@ -1625,53 +2597,55 @@
     <!-- 导航栏 -->
     <nav class="relative w-full z-50 transition-all duration-300" id="mainNav">
         <div class="nav-bg shadow"></div>
+        <div class="nav-glow"></div>
+        <div class="nav-particles"></div>
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="text-xl font-bold text-gradient">
+            <div class="logo-container">
                 <a href="#hero" class="flex items-center">
-                    <span class="ml-2">板砖</span>
+                    <img src="picture/Digital Brick Monogram Logo.png" alt="板砖 Logo" class="h-10 w-auto mr-2">
+                    <span class="logo-text">板砖</span>
                 </a>
             </div>
-            <div class="hidden md:flex space-x-8">
-                <a href="#about" class="text-gray-900 hover:text-purple-600 dark:text-white dark:hover:text-purple-400 transition-colors relative overflow-hidden group font-semibold">
-                    <span class="relative z-10">认识我</span>
-                    <span class="absolute bottom-0 left-0 w-0 h-1 bg-gradient-to-r from-teal-400 to-blue-500 group-hover:w-full transition-all duration-300"></span>
+            <div class="hidden md:flex space-x-2">
+                <a href="#about" class="nav-link">
+                    <span class="nav-link-text">认识我</span>
+                    <span class="nav-underline"></span>
                 </a>
-                <a href="#experience" class="text-gray-900 hover:text-purple-600 dark:text-white dark:hover:text-purple-400 transition-colors relative overflow-hidden group font-semibold">
-                    <span class="relative z-10">我的经历</span>
-                    <span class="absolute bottom-0 left-0 w-0 h-1 bg-gradient-to-r from-yellow-400 to-orange-500 group-hover:w-full transition-all duration-300"></span>
+                <a href="#experience" class="nav-link">
+                    <span class="nav-link-text">我的经历</span>
+                    <span class="nav-underline"></span>
                 </a>
-                <a href="#portfolio" class="text-gray-900 hover:text-purple-600 dark:text-white dark:hover:text-purple-400 transition-colors relative overflow-hidden group font-semibold">
-                    <span class="relative z-10">作品集</span>
-                    <span class="absolute bottom-0 left-0 w-0 h-1 bg-gradient-to-r from-purple-400 to-pink-500 group-hover:w-full transition-all duration-300"></span>
+                <a href="#portfolio" class="nav-link">
+                    <span class="nav-link-text">作品集</span>
+                    <span class="nav-underline"></span>
                 </a>
-                <a href="#skills" class="text-gray-900 hover:text-purple-600 dark:text-white dark:hover:text-purple-400 transition-colors relative overflow-hidden group font-semibold">
-                    <span class="relative z-10">技能</span>
-                    <span class="absolute bottom-0 left-0 w-0 h-1 bg-gradient-to-r from-green-400 to-teal-500 group-hover:w-full transition-all duration-300"></span>
+                <a href="#skills" class="nav-link">
+                    <span class="nav-link-text">技能</span>
+                    <span class="nav-underline"></span>
                 </a>
-                <!-- 博客导航已隐藏 -->
             </div>
             <div class="flex items-center space-x-4">
-                <a href="#" id="resume-btn" class="text-gray-900 hover:text-purple-600 dark:text-white dark:hover:text-purple-400 transition-colors relative overflow-hidden group font-semibold flex items-center">
+                <a href="#" id="resume-btn" class="resume-btn flex items-center">
                 <i class="fas fa-file-alt mr-2"></i>
-                <span class="relative z-10 md:inline block">查看简历</span>
-                <span class="absolute bottom-0 left-0 w-0 h-1 bg-gradient-to-r from-pink-400 to-red-500 group-hover:w-full transition-all duration-300"></span>
-            </a>
-                <button class="md:hidden p-2 text-gray-700 dark:text-gray-300" id="mobile-menu-button">
-                    <i class="fas fa-bars"></i>
+                    <span>查看简历</span>
+                </a>
+                <button class="md:hidden p-2 text-gray-700 dark:text-gray-300 menu-btn" id="mobile-menu-button">
+                    <span></span>
+                    <span></span>
+                    <span></span>
                 </button>
             </div>
         </div>
         <!-- 移动端菜单 -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-gray-900 shadow-lg">
+        <div id="mobile-menu" class="hidden md:hidden bg-white/95 dark:bg-gray-900/95 backdrop-blur-lg shadow-lg">
             <div class="container mx-auto px-4 py-2 flex flex-col space-y-3">
-                <a href="#about" class="py-2 px-4 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors">关于我</a>
-                <a href="#experience" class="py-2 px-4 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors">经历</a>
+                <a href="#about" class="py-2 px-4 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors">认识我</a>
+                <a href="#experience" class="py-2 px-4 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors">我的经历</a>
                 <a href="#portfolio" class="py-2 px-4 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors">作品集</a>
                 <a href="#skills" class="py-2 px-4 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors">技能</a>
-                <a href="#" id="mobile-resume-btn" class="py-2 px-4 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors text-left flex items-center relative overflow-hidden">
+                <a href="#" id="mobile-resume-btn" class="py-2 px-4 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors text-left flex items-center">
                     <i class="fas fa-file-alt mr-2"></i> 查看简历
                 </a>
-                <!-- 移动端博客链接已隐藏 -->
             </div>
         </div>
     </nav>
@@ -1681,14 +2655,51 @@
         <!-- Hero 部分 -->
         <section id="hero" class="min-h-screen flex items-center justify-center relative overflow-hidden parallax">
             <!-- 背景元素 -->
-            <div class="parallax-bg bg-gradient-to-br from-yellow-50 to-purple-50"></div>
+            <div class="parallax-bg bg-gradient-to-br from-yellow-50 to-purple-50 dark:from-gray-900 dark:to-gray-800"></div>
+            
+            <!-- 渐变光晕背景 -->
+            <div class="absolute inset-0 overflow-hidden">
+                <div class="gradient-orb gradient-orb-1"></div>
+                <div class="gradient-orb gradient-orb-2"></div>
+                <div class="gradient-orb gradient-orb-3"></div>
+            </div>
+            
+            <!-- 流动渐变层 -->
+            <div class="flowing-gradient"></div>
             
             <!-- 流光粒子 -->
             <div class="particles absolute inset-0 z-0"></div>
             
-            <!-- 背景装饰 -->
-            <div class="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-gradient-to-r from-yellow-300 to-orange-300 opacity-20 blur-3xl"></div>
-            <div class="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-gradient-to-r from-purple-300 to-pink-300 opacity-20 blur-3xl"></div>
+            <!-- 悬浮光点 -->
+            <div class="floating-lights absolute inset-0 z-0"></div>
+            
+            <!-- 波纹效果 -->
+            <div class="ripple-container absolute inset-0 z-0 pointer-events-none">
+                <div class="ripple ripple-1"></div>
+                <div class="ripple ripple-2"></div>
+                <div class="ripple ripple-3"></div>
+            </div>
+            
+            <!-- 动态线条 -->
+            <div class="dynamic-lines absolute inset-0 z-0 pointer-events-none">
+                <svg class="absolute inset-0 w-full h-full">
+                    <path class="animated-line line-1" d="M0,300 Q150,250 300,300 T600,300" stroke="url(#gradient1)" stroke-width="2" fill="none" opacity="0.3"/>
+                    <path class="animated-line line-2" d="M0,400 Q200,300 400,400 T800,400" stroke="url(#gradient2)" stroke-width="2" fill="none" opacity="0.3"/>
+                    <defs>
+                        <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:#f97316;stop-opacity:0" />
+                            <stop offset="50%" style="stop-color:#f97316;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#f97316;stop-opacity:0" />
+                        </linearGradient>
+                        <linearGradient id="gradient2" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:#8b5cf6;stop-opacity:0" />
+                            <stop offset="50%" style="stop-color:#8b5cf6;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:0" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
+            
             
             <!-- 内容区域 -->
             <div class="container mx-auto px-4 py-16 relative z-10">
@@ -1708,7 +2719,7 @@
                     <!-- 主标题 -->
                     <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold mb-8 animate-fade-in" style="animation-delay: 0.6s">
                         <span class="inline-block mb-2">面向未来的</span><br>
-                        <span class="text-gradient text-typing" id="typingText">AI产品经理</span>
+                        <span class="text-gradient text-typing" id="typingText"></span>
                     </h1>
                     
                     <!-- 标签容器 -->
@@ -1760,12 +2771,22 @@
             <div class="absolute -top-20 -right-10 w-80 h-80 rounded-full bg-gradient-to-r from-blue-300/20 to-purple-400/20 opacity-5 blur-3xl"></div>
             <div class="absolute bottom-0 left-0 w-96 h-96 rounded-full bg-gradient-to-r from-amber-300/20 to-red-300/20 opacity-5 blur-3xl"></div>
             
+            <!-- 新增动态元素 -->
+            <div class="about-floating-elements absolute inset-0 pointer-events-none">
+                <div class="floating-element element-1"></div>
+                <div class="floating-element element-2"></div>
+                <div class="floating-element element-3"></div>
+            </div>
+            
+            <!-- 新增粒子背景 -->
+            <div class="about-particles absolute inset-0 pointer-events-none"></div>
+            
             <div class="container mx-auto px-3 md:px-4 relative z-10">
                 <!-- 标题部分 -->
                 <div class="text-center mb-14">
-                    <span class="relative inline-block px-6 py-2 rounded-full text-sm font-bold mb-4 overflow-hidden" style="background: linear-gradient(90deg, rgba(59, 130, 246, 0.15), rgba(139, 92, 246, 0.15), rgba(249, 115, 22, 0.15)); box-shadow: 0 4px 15px -3px rgba(0, 0, 0, 0.1); border: 1px solid rgba(59, 130, 246, 0.2);">
+                    <span class="relative inline-block px-6 py-2 rounded-full text-sm font-bold mb-4 overflow-hidden animate-pulse-slow" style="background: linear-gradient(90deg, rgba(59, 130, 246, 0.15), rgba(139, 92, 246, 0.15), rgba(249, 115, 22, 0.15)); box-shadow: 0 4px 15px -3px rgba(0, 0, 0, 0.1); border: 1px solid rgba(59, 130, 246, 0.2);">
                         <span class="relative z-10" style="background: linear-gradient(90deg, #3b82f6, #8b5cf6, #f97316); -webkit-background-clip: text; background-clip: text; color: transparent;">
-                            <i class="fas fa-sparkles mr-2"></i>探索 • 创新 • 成长
+                            <i class="fas fa-sparkles mr-2 animate-spin-slow"></i>探索 • 创新 • 成长
                         </span>
                         <span class="absolute inset-0 w-full h-full bg-white dark:bg-gray-800 opacity-60 dark:opacity-80 z-0"></span>
                     </span>
@@ -1780,7 +2801,7 @@
                 <!-- 关于我内容 - 两卡片布局 -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
                     <!-- 个人简介与兴趣爱好卡片 -->
-                    <div class="relative overflow-hidden bg-gradient-to-br from-white to-blue-50 dark:from-gray-800 dark:to-gray-900 rounded-xl shadow-lg p-5 transform hover:scale-105 transition-all duration-300 backdrop-blur-sm border border-blue-100/50 dark:border-blue-900/30 group">
+                    <div class="relative overflow-hidden bg-gradient-to-br from-white to-blue-50 dark:from-gray-800 dark:to-gray-900 rounded-xl shadow-lg p-5 transform hover:scale-105 transition-all duration-300 backdrop-blur-sm border border-blue-100/50 dark:border-blue-900/30 group about-card-enhanced tilt-card">
                         <!-- 背景装饰 -->
                         <div class="absolute -top-16 -right-16 w-32 h-32 bg-blue-400/10 rounded-full blur-2xl group-hover:scale-150 transition-all duration-700"></div>
                         <div class="absolute -bottom-20 -left-20 w-40 h-40 bg-purple-400/10 rounded-full blur-2xl group-hover:scale-150 transition-all duration-700"></div>
@@ -1801,7 +2822,7 @@
                             <!-- 名字 -->
                             <h3 class="text-2xl font-bold relative inline-flex items-center">
                                 <span class="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent dark:from-blue-400 dark:to-purple-400">陆玲</span>
-                                <span class="ml-2 text-blue-500 dark:text-blue-400 text-xl">✨</span>
+                                <i class="fas fa-star ml-2 text-blue-500 dark:text-blue-400 text-xl"></i>
                             </h3>
                         </div>
                         
@@ -1813,13 +2834,13 @@
                             <div class="flex flex-col gap-3 items-center justify-center">
                                 <div class="flex items-center gap-3 justify-center">
                                     <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500/80 to-blue-600/80 flex items-center justify-center shadow-md">
-                                        <span class="text-white text-sm">🧃</span>
+                                        <span class="text-white text-sm font-bold">🎓</span>
                                     </div>
                                     <p class="text-gray-700 dark:text-gray-300 font-medium">华东师范大学 新闻学</p>
                                 </div>
                                 <div class="flex items-center gap-3 justify-center">
                                     <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500/80 to-purple-600/80 flex items-center justify-center shadow-md">
-                                        <span class="text-white text-sm">🏄</span>
+                                        <span class="text-white text-sm font-bold">🚀</span>
                                     </div>
                                     <p class="text-gray-700 dark:text-gray-300 font-medium">落地好奇心的执行能力</p>
                                 </div>
@@ -1835,23 +2856,23 @@
                             <h3 class="text-base font-bold text-center mb-4 bg-gradient-to-r from-pink-600 to-orange-600 bg-clip-text text-transparent dark:from-pink-400 dark:to-orange-400">兴趣爱好</h3>
                             
                             <div class="grid grid-cols-3 gap-3">
-                                <div class="interest-tag">
+                                <div class="interest-tag" style="--tag-index: 0;">
                                     <i class="fa-solid fa-robot text-2xl mb-2 text-blue-500 dark:text-blue-400"></i>
                                     <span class="whitespace-nowrap text-xs">AI产品体验</span>
                                 </div>
-                                <div class="interest-tag">
+                                <div class="interest-tag" style="--tag-index: 1;">
                                     <i class="fa-solid fa-mountain text-2xl mb-2 text-teal-500 dark:text-teal-400"></i>
                                     <span class="whitespace-nowrap text-xs">徒步爬山</span>
                                 </div>
-                                <div class="interest-tag">
+                                <div class="interest-tag" style="--tag-index: 2;">
                                     <i class="fa-solid fa-person-running text-2xl mb-2 text-orange-500 dark:text-orange-400"></i>
                                     <span class="whitespace-nowrap text-xs">长跑</span>
                                 </div>
-                                <div class="interest-tag">
+                                <div class="interest-tag" style="--tag-index: 3;">
                                     <i class="fa-solid fa-mug-hot text-2xl mb-2 text-amber-600 dark:text-amber-400"></i>
                                     <span class="whitespace-nowrap text-xs">咖啡</span>
                                 </div>
-                                <div class="interest-tag">
+                                <div class="interest-tag" style="--tag-index: 4;">
                                     <i class="fa-solid fa-cat text-2xl mb-2 text-purple-500 dark:text-purple-400"></i>
                                     <span class="whitespace-nowrap text-xs">撸猫</span>
                                 </div>
@@ -1861,7 +2882,7 @@
                     </div>
                     
                     <!-- 新闻史研究卡片 -->
-                    <div class="relative overflow-hidden bg-gradient-to-br from-white to-amber-50 dark:from-gray-800 dark:to-gray-900 rounded-xl shadow-lg p-5 transform hover:scale-105 transition-all duration-300 backdrop-blur-sm border border-amber-100/50 dark:border-amber-900/30 group">
+                    <div class="relative overflow-hidden bg-gradient-to-br from-white to-amber-50 dark:from-gray-800 dark:to-gray-900 rounded-xl shadow-lg p-5 transform hover:scale-105 transition-all duration-300 backdrop-blur-sm border border-amber-100/50 dark:border-amber-900/30 group about-card-enhanced tilt-card">
                         <!-- 背景装饰 -->
                         <div class="absolute -top-16 -right-16 w-32 h-32 bg-amber-400/10 rounded-full blur-2xl group-hover:scale-150 transition-all duration-700"></div>
                         <div class="absolute -bottom-20 -left-20 w-40 h-40 bg-red-400/10 rounded-full blur-2xl group-hover:scale-150 transition-all duration-700"></div>
@@ -1872,7 +2893,7 @@
                             <div class="relative mb-3 transition-all group-hover:scale-105 duration-300">
                                 <!-- 标题装饰图标 -->
                                 <div class="w-16 h-16 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center shadow-lg mb-2 mx-auto">
-                                    <span class="text-white text-xl">📚</span>
+                                    <span class="text-white text-2xl">📚</span>
                                 </div>
                             </div>
                             
@@ -1889,7 +2910,7 @@
                         <!-- 研究成果 -->
                         <div class="space-y-4">
                             <!-- 优秀论文奖 -->
-                            <div class="achievement-card bg-white/80 dark:bg-gray-800/50 backdrop-blur-sm rounded-lg p-5 transition-all duration-300 hover:shadow-md hover:-translate-y-1 overflow-hidden group/item">
+                            <div class="achievement-card bg-white/80 dark:bg-gray-800/50 backdrop-blur-sm rounded-lg p-5 transition-all duration-300 hover:shadow-md hover:-translate-y-1 overflow-hidden group/item" style="--card-index: 0;">
                                 <!-- 卡片装饰线 -->
                                 <div class="absolute top-0 left-0 w-1 h-200 bg-gradient-to-b from-red-500 via-amber-500 to-red-400 rounded-r"></div>
                                 
@@ -1912,7 +2933,7 @@
                             </div>
                             
                             <!-- 口述史研究 -->
-                            <div class="achievement-card bg-white/80 dark:bg-gray-800/50 backdrop-blur-sm rounded-lg p-5 transition-all duration-300 hover:shadow-md hover:-translate-y-1 overflow-hidden group/item">
+                            <div class="achievement-card bg-white/80 dark:bg-gray-800/50 backdrop-blur-sm rounded-lg p-5 transition-all duration-300 hover:shadow-md hover:-translate-y-1 overflow-hidden group/item" style="--card-index: 1;">
                                 <!-- 卡片装饰线 -->
                                 <div class="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-orange-500 to-amber-500 rounded-r"></div>
                                 
@@ -1935,7 +2956,7 @@
                             </div>
                             
                             <!-- 田野调查 -->
-                            <div class="achievement-card bg-white/80 dark:bg-gray-800/50 backdrop-blur-sm rounded-lg p-5 transition-all duration-300 hover:shadow-md hover:-translate-y-1 overflow-hidden group/item">
+                            <div class="achievement-card bg-white/80 dark:bg-gray-800/50 backdrop-blur-sm rounded-lg p-5 transition-all duration-300 hover:shadow-md hover:-translate-y-1 overflow-hidden group/item" style="--card-index: 2;">
                                 <!-- 卡片装饰线 -->
                                 <div class="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-teal-500 to-cyan-500 rounded-r"></div>
                                 
@@ -2159,7 +3180,7 @@
                                         <span class="card-tag bg-blue-500/80">Web工具</span>
                                         <span class="card-tag bg-purple-500/80">AI赋能</span>
                                     </div>
-                                    <a href="https://45dk2tobkx.app.yourware.so/" target="_blank" class="card-link">访问项目 →</a>
+                                    <a href="https://pet-adoption-rho-ten.vercel.app/" target="_blank" class="card-link">访问项目 →</a>
                                     <div class="drag-indicator"></div>
                                 </div>
                             </div>
@@ -2254,6 +3275,19 @@
                                     <div class="drag-indicator"></div>
                                 </div>
                             </div>
+                            <div class="card-stack-item">
+                                <img src="picture/橙报3.jpg" alt="美编作品：国漫专题" class="card-image">
+                                <div class="card-content">
+                                    <div class="card-title">美编作品：国漫专题</div>
+                                    <div class="card-description">第23期杂志预览，在这里停留，从这里起步</div>
+                                    <div class="card-tags">
+                                        <span class="card-tag bg-orange-500/80">采编主力</span>
+                                        <span class="card-tag bg-teal-500/80">特刊编辑</span>
+                                    </div>
+                                    <a href="https://mp.weixin.qq.com/s/rpz0TZESklHdJLe1PUMz1g" target="_blank" class="card-link">访问项目 →</a>
+                                    <div class="drag-indicator"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -2335,6 +3369,19 @@
                             width: 100%;
                             max-width: none;
                             margin-bottom: 15px;
+                            transform: none !important; /* 移除所有变换效果 */
+                        }
+                        
+                        /* 移除移动端的错落效果 */
+                        .card-left, .card-right, .card-center {
+                            transform: none !important;
+                            margin-left: 0 !important;
+                            margin-right: 0 !important;
+                        }
+                        
+                        /* 移除悬停缩放，只保留阴影效果 */
+                        .skill-card:hover {
+                            transform: translateY(-5px) !important;
                         }
                     }
                     
@@ -2692,7 +3739,7 @@
                                     <p class="text-gray-600 dark:text-gray-400 mb-3 text-sm">通过代码快速构建原型和演示版本</p>
                                     <div class="flex flex-wrap gap-1.5">
                                         <span class="skill-badge bg-purple-100 dark:bg-purple-900/40 text-purple-800 dark:text-purple-300"><i class="fas fa-code-branch mr-1"></i>V0</span>
-                                        <span class="skill-badge bg-purple-100 dark:bg-purple-900/40 text-purple-800 dark:text-purple-300"><i class="fas fa-bolt mr-1"></i>Bolt</span>
+                                        <span class="skill-badge bg-purple-100 dark:bg-purple-900/40 text-purple-800 dark:text-purple-300"><i class="fas fa-palette mr-1"></i>Lovart</span>
                                         <span class="skill-badge bg-purple-100 dark:bg-purple-900/40 text-purple-800 dark:text-purple-300"><i class="fas fa-terminal mr-1"></i>Cursor</span>
                                         <span class="skill-badge bg-purple-100 dark:bg-purple-900/40 text-purple-800 dark:text-purple-300"><i class="fas fa-wind mr-1"></i>Windsurf</span>
                                         <span class="skill-badge bg-purple-100 dark:bg-purple-900/40 text-purple-800 dark:text-purple-300"><i class="fas fa-heart mr-1"></i>Lovable</span>
@@ -2751,9 +3798,9 @@
                                     <p class="text-gray-600 dark:text-gray-400 mb-3 text-sm">紧跟Agent产品前沿，简单任务自动化</p>
                                     <div class="flex flex-wrap gap-1.5">
                                         <span class="skill-badge bg-blue-100 dark:bg-blue-900/40 text-blue-800 dark:text-blue-300"><i class="fas fa-brain mr-1"></i>Manus</span>
-                                        <span class="skill-badge bg-blue-100 dark:bg-blue-900/40 text-blue-800 dark:text-blue-300"><i class="fas fa-sitemap mr-1"></i>Browser Use</span>
-                                        <span class="skill-badge bg-blue-100 dark:bg-blue-900/40 text-blue-800 dark:text-blue-300"><i class="fas fa-database mr-1"></i>Deep Research</span>
-                                        <span class="skill-badge bg-blue-100 dark:bg-blue-900/40 text-blue-800 dark:text-blue-300"><i class="fas fa-circle-nodes mr-1"></i>Convergence</span>
+                                        <span class="skill-badge bg-blue-100 dark:bg-blue-900/40 text-blue-800 dark:text-blue-300"><i class="fas fa-globe mr-1"></i>Browser Use</span>
+                                        <span class="skill-badge bg-blue-100 dark:bg-blue-900/40 text-blue-800 dark:text-blue-300"><i class="fas fa-search mr-1"></i>Deep Research</span>
+                                        <span class="skill-badge bg-blue-100 dark:bg-blue-900/40 text-blue-800 dark:text-blue-300"><i class="fas fa-link mr-1"></i>Convergence</span>
                                     </div>
                                 </div>
 
@@ -2764,9 +3811,9 @@
                                     <p class="text-gray-600 dark:text-gray-400 mb-3 text-sm">善用AI大脑，与AI协作</p>
                                     <div class="flex flex-wrap gap-1.5">
                                         <span class="skill-badge bg-cyan-100 dark:bg-cyan-900/40 text-cyan-800 dark:text-cyan-300"><i class="fas fa-comment-alt mr-1"></i>ChatGPT</span>
-                                        <span class="skill-badge bg-cyan-100 dark:bg-cyan-900/40 text-cyan-800 dark:text-cyan-300"><i class="fas fa-eye mr-1"></i>Claude</span>
-                                        <span class="skill-badge bg-cyan-100 dark:bg-cyan-900/40 text-cyan-800 dark:text-cyan-300"><i class="fas fa-microchip mr-1"></i>Gemini</span>
-                                        <span class="skill-badge bg-cyan-100 dark:bg-cyan-900/40 text-cyan-800 dark:text-cyan-300"><i class="fas fa-wand-magic-sparkles mr-1"></i>豆包PC</span>
+                                        <span class="skill-badge bg-cyan-100 dark:bg-cyan-900/40 text-cyan-800 dark:text-cyan-300"><i class="fas fa-robot mr-1"></i>Claude</span>
+                                        <span class="skill-badge bg-cyan-100 dark:bg-cyan-900/40 text-cyan-800 dark:text-cyan-300"><i class="fas fa-sparkles mr-1"></i>Gemini</span>
+                                        <span class="skill-badge bg-cyan-100 dark:bg-cyan-900/40 text-cyan-800 dark:text-cyan-300"><i class="fas fa-bullseye mr-1"></i>豆包PC</span>
                                         <span class="skill-badge bg-cyan-100 dark:bg-cyan-900/40 text-cyan-800 dark:text-cyan-300"><i class="fas fa-cube mr-1"></i>Midjourney</span>
                                     </div>
                                 </div>
@@ -2873,8 +3920,6 @@
             </div>
         </section>
             </div>
-        </section>
-
         <!-- 分隔区域 -->
         <div class="module-divider"></div>
 
@@ -2893,15 +3938,9 @@
                         </span>
                         <span class="absolute inset-0 w-full h-full bg-white dark:bg-gray-800 opacity-60 dark:opacity-80 z-0"></span>
                     </span>
-                    <table width="100%" border="0" cellspacing="0" cellpadding="10" style="margin-bottom: 1.5rem;">
-                        <tr>
-                            <td align="center">
-                                <font size="+3" face="Arial"><b>
-                                    博客文章
-                                </b></font>
-                            </td>
-                        </tr>
-                    </table>
+                    <h2 class="text-3xl md:text-5xl font-bold mb-4">
+                        <span style="background: linear-gradient(90deg, #14b8a6, #06b6d4, #0ea5e9); -webkit-background-clip: text; background-clip: text; color: transparent; padding: 5px 0; display: inline-block; font-weight: bold;">博客文章</span>
+                    </h2>
                     <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-12">
                         分享我对AI产品和行业趋势的思考，以及实践中的经验总结
                     </p>
@@ -3012,10 +4051,13 @@
     </main>
 
     <!-- 页脚 -->
-    <footer class="relative py-10 overflow-hidden">
+    <footer class="relative py-10 overflow-hidden bg-gray-900 dark:bg-black">
         <div class="container mx-auto px-4">
             <div class="text-center">
-                <div class="text-xl font-bold text-gradient mb-4">板砖</div>
+                <div class="flex justify-center items-center mb-4">
+                    <img src="picture/Digital Brick Monogram Logo.png" alt="板砖 Logo" class="h-12 w-auto mr-3">
+                    <div class="text-xl font-bold text-gradient">板砖</div>
+                </div>
                 <p class="text-gray-400 mb-4">面向未来的AI产品经理</p>
                 <div class="flex justify-center space-x-4">
                     <a href="#hero" class="text-gray-400 hover:text-white transition-colors">首页</a>
@@ -3092,7 +4134,48 @@
             // 移动端菜单
             mobileMenuButton.addEventListener('click', () => {
                 mobileMenu.classList.toggle('hidden');
+                // 添加菜单按钮动画
+                mobileMenuButton.classList.toggle('active');
             });
+            
+            // 创建导航栏粒子效果
+            function createNavParticles() {
+                const navParticles = document.querySelector('.nav-particles');
+                if (!navParticles) return;
+                
+                // 清空已有粒子
+                navParticles.innerHTML = '';
+                
+                // 创建少量的粒子以保持简洁
+                for (let i = 0; i < 15; i++) {
+                    const particle = document.createElement('div');
+                    particle.classList.add('nav-particle');
+                    
+                    // 随机位置
+                    particle.style.left = `${Math.random() * 100}%`;
+                    
+                    // 随机动画延迟
+                    particle.style.animationDelay = `${Math.random() * 10}s`;
+                    
+                    // 随机大小
+                    const size = Math.random() * 3 + 1;
+                    particle.style.width = `${size}px`;
+                    particle.style.height = `${size}px`;
+                    
+                    // 随机颜色
+                    const colors = [
+                        'rgba(249, 115, 22, 0.6)',  // 橙色
+                        'rgba(139, 92, 246, 0.6)',  // 紫色
+                        'rgba(59, 130, 246, 0.6)'   // 蓝色
+                    ];
+                    particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    
+                    navParticles.appendChild(particle);
+                }
+            }
+            
+            // 初始化导航栏粒子
+            createNavParticles();
             
             // 滚动事件处理
             window.addEventListener('scroll', () => {
@@ -3282,37 +4365,140 @@
             // 清空已有粒子
             particles.innerHTML = '';
             
-            for (let i = 0; i < 40; i++) {
+            // 定义粒子颜色主题，与hero区域的配色呼应
+            const colorThemes = [
+                { h: 45, s: 85, l: 75 },   // 黄色系
+                { h: 15, s: 90, l: 70 },   // 橙色系
+                { h: 280, s: 70, l: 70 },  // 紫色系
+                { h: 200, s: 70, l: 75 },  // 蓝色系
+                { h: 340, s: 80, l: 75 }   // 粉色系
+            ];
+            
+            // 创建更多粒子，增强视觉效果
+            for (let i = 0; i < 60; i++) {
                 const particle = document.createElement('div');
                 particle.classList.add('particle');
                 
-                // 随机大小
-                const size = Math.random() * 5 + 1;
+                // 随机选择颜色主题
+                const colorTheme = colorThemes[Math.floor(Math.random() * colorThemes.length)];
+                
+                // 在主题色基础上添加随机变化
+                const hue = colorTheme.h + (Math.random() - 0.5) * 20;
+                const saturation = colorTheme.s + (Math.random() - 0.5) * 10;
+                const lightness = colorTheme.l + (Math.random() - 0.5) * 10;
+                
+                // 随机大小（更细腻的尺寸变化）
+                const baseSize = Math.random() * 4 + 1;
+                const size = i % 3 === 0 ? baseSize * 1.5 : baseSize; // 每三个粒子中有一个更大
                 particle.style.width = `${size}px`;
                 particle.style.height = `${size}px`;
                 
-                // 随机位置
+                // 随机位置（分布更均匀）
                 particle.style.left = `${Math.random() * 100}%`;
                 particle.style.top = `${Math.random() * 100}%`;
                 
-                // 随机背景
-                const hue = Math.floor(Math.random() * 360);
-                particle.style.backgroundColor = `hsla(${hue}, 70%, 70%, 0.8)`;
+                // 设置颜色和透明度
+                const alpha = Math.random() * 0.4 + 0.4; // 0.4-0.8的透明度
+                particle.style.backgroundColor = `hsla(${hue}, ${saturation}%, ${lightness}%, ${alpha})`;
                 
-                // 随机动画延迟
-                particle.style.animationDelay = `${Math.random() * 5}s`;
+                // 随机动画延迟和持续时间
+                particle.style.animationDelay = `${Math.random() * 8}s, ${Math.random() * 5}s, ${Math.random() * 3}s`;
+                
+                // 为某些粒子添加特殊效果
+                if (i % 5 === 0) {
+                    particle.style.filter = 'blur(1px)';
+                }
                 
                 // 添加到容器
                 particles.appendChild(particle);
             }
         }
         
+        // 创建悬浮光点
+        function createFloatingLights() {
+            const container = document.querySelector('.floating-lights');
+            if (!container) return;
+            
+            // 清空已有光点
+            container.innerHTML = '';
+            
+            // 创建20个悬浮光点
+            for (let i = 0; i < 20; i++) {
+                const light = document.createElement('div');
+                light.classList.add('floating-light');
+                
+                // 随机位置
+                light.style.left = `${Math.random() * 100}%`;
+                
+                // 随机大小
+                const size = Math.random() * 6 + 2;
+                light.style.width = `${size}px`;
+                light.style.height = `${size}px`;
+                
+                // 随机动画持续时间
+                light.style.animationDuration = `${Math.random() * 15 + 15}s`;
+                
+                // 随机动画延迟
+                light.style.animationDelay = `${Math.random() * 20}s`;
+                
+                // 随机颜色
+                const colors = [
+                    'rgba(251, 191, 36, 0.9)', // 黄色
+                    'rgba(139, 92, 246, 0.9)', // 紫色
+                    'rgba(59, 130, 246, 0.9)', // 蓝色
+                    'rgba(249, 115, 22, 0.9)', // 橙色
+                    'rgba(236, 72, 153, 0.9)'  // 粉色
+                ];
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                light.style.background = `radial-gradient(circle, ${color} 0%, transparent 70%)`;
+                light.style.boxShadow = `0 0 15px ${color.replace('0.9', '0.5')}`;
+                
+                container.appendChild(light);
+            }
+        }
+        
+        // 添加鼠标交互效果
+        document.addEventListener('DOMContentLoaded', function() {
+            const heroSection = document.getElementById('hero');
+            const particles = document.querySelector('.particles');
+            
+            if (heroSection && particles) {
+                let mouseX = 0;
+                let mouseY = 0;
+                let isMouseMoving = false;
+                
+                heroSection.addEventListener('mousemove', (e) => {
+                    mouseX = e.clientX;
+                    mouseY = e.clientY;
+                    isMouseMoving = true;
+                    
+                    // 添加微妙的视差效果
+                    const particleElements = particles.querySelectorAll('.particle');
+                    particleElements.forEach((particle, index) => {
+                        const speed = 0.02 * (index % 5 + 1);
+                        const x = (mouseX - window.innerWidth / 2) * speed;
+                        const y = (mouseY - window.innerHeight / 2) * speed;
+                        
+                        particle.style.transform = `translate(${x}px, ${y}px)`;
+                    });
+                });
+                
+                heroSection.addEventListener('mouseleave', () => {
+                    isMouseMoving = false;
+                    const particleElements = particles.querySelectorAll('.particle');
+                    particleElements.forEach((particle) => {
+                        particle.style.transform = 'translate(0, 0)';
+                    });
+                });
+            }
+        });
+        
         // 打字机效果
         function typeText(element, text, speed) {
             if (!element) return;
             
             let i = 0;
-            element.textContent = '';
+            element.innerHTML = ''; // 使用innerHTML清除所有内容
             element.classList.add('typing');
             
             function type() {
@@ -3333,7 +4519,7 @@
                     // 一段时间后重置打字效果
                     setTimeout(() => {
                         element.classList.remove('typed');
-                        element.textContent = '';
+                        element.innerHTML = ''; // 完全清空，包括光标
                         i = 0;
                         typeText(element, text, speed);
                     }, 5000);
@@ -3346,6 +4532,37 @@
         // 卡片堆叠互动效果
         document.querySelectorAll('.card-stack').forEach(stack => {
             const cards = stack.querySelectorAll('.card-stack-item');
+            let autoRotateInterval = null;
+            
+            // 只有多于一张卡片时才启动轮播
+            if (cards.length > 1) {
+                // 自动轮播函数
+                function startAutoRotate() {
+                    autoRotateInterval = setInterval(() => {
+                        rotateCards(stack);
+                    }, 5000); // 增加到5秒，让用户有更多时间查看
+                }
+                
+                // 停止自动轮播
+                function stopAutoRotate() {
+                    if (autoRotateInterval) {
+                        clearInterval(autoRotateInterval);
+                        autoRotateInterval = null;
+                    }
+                }
+                
+                // 鼠标进入时停止自动轮播
+                stack.addEventListener('mouseenter', stopAutoRotate);
+                
+                // 鼠标离开时恢复自动轮播
+                stack.addEventListener('mouseleave', () => {
+                    stopAutoRotate(); // 先清除可能存在的定时器
+                    startAutoRotate();
+                });
+                
+                // 启动自动轮播
+                startAutoRotate();
+            }
             
             cards.forEach((card, index) => {
                 // 设置初始堆叠位置
@@ -3428,58 +4645,85 @@
         // 轮换卡片函数
         function rotateCards(stack) {
             const cards = stack.querySelectorAll('.card-stack-item');
+            if (cards.length <= 1) return; // 如果只有一张卡片，不执行轮换
+            
             const firstCard = cards[0];
             
-            // 创建一个克隆，用于动画过渡
-            const clone = firstCard.cloneNode(true);
-            clone.style.position = 'absolute';
-            clone.style.top = `${firstCard.offsetTop}px`;
-            clone.style.left = `${firstCard.offsetLeft}px`;
-            clone.style.width = `${firstCard.offsetWidth}px`;
-            clone.style.height = `${firstCard.offsetHeight}px`;
-            clone.style.zIndex = 1000;
-            clone.style.transform = 'scale(1.02) translateY(-5px)';
+            // 先添加过渡类，确保所有动画都平滑
+            firstCard.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
             
-            // 将克隆添加到堆栈
-            stack.appendChild(clone);
+            // 淡出并缩小第一张卡片
+            firstCard.style.transform = 'scale(0.9) translateY(30px)';
+            firstCard.style.opacity = '0';
             
-            // 动画过渡
+            // 等待动画完成后再移动卡片
             setTimeout(() => {
-                clone.style.transition = 'all 0.5s ease-in-out';
-                clone.style.transform = 'scale(0.8) translateY(30px)';
-                clone.style.opacity = '0';
+                // 移动第一张卡片到末尾
+                stack.appendChild(firstCard);
                 
-                setTimeout(() => {
-                    clone.remove();
+                // 立即重置过渡，准备重新定位
+                firstCard.style.transition = 'none';
+                
+                // 重新获取所有卡片并设置新的堆叠样式
+                const newCards = stack.querySelectorAll('.card-stack-item');
+                newCards.forEach((card, index) => {
+                    // 暂时禁用过渡以立即设置位置
+                    card.style.transition = 'none';
                     
-                    // 重置所有卡片样式
-                    cards.forEach(card => {
-                        card.style.transform = '';
-                        
+                    card.style.zIndex = newCards.length - index;
+                    card.style.transform = `scale(${1 - index * 0.05}) translateY(${index * 10}px)`;
+                    card.style.opacity = `${1 - index * 0.2}`;
+                    
+                    // 只为第一张卡片显示内容
                         const title = card.querySelector('.card-title');
                         const desc = card.querySelector('.card-description');
                         const tags = card.querySelector('.card-tags');
                         const link = card.querySelector('.card-link');
                         
-                        if (title) title.style.opacity = '';
-                        if (title) title.style.transform = '';
-                        
-                        if (desc) desc.style.opacity = '';
-                        if (desc) desc.style.transform = '';
-                        
-                        if (tags) tags.style.opacity = '';
-                        if (tags) tags.style.transform = '';
-                        
-                        if (link) {
-                            link.style.opacity = '';
-                            link.style.transform = '';
+                    if (index === 0) {
+                        if (title) {
+                            title.style.opacity = '1';
+                            title.style.transform = 'translateY(0)';
                         }
-                    });
-                }, 500);
+                        if (desc) {
+                            desc.style.opacity = '1';
+                            desc.style.transform = 'translateY(0)';
+                        }
+                        if (tags) {
+                            tags.style.opacity = '1';
+                            tags.style.transform = 'translateY(0)';
+                        }
+                        if (link) {
+                            link.style.opacity = '1';
+                            link.style.transform = 'translateY(0)';
+                        }
+                    } else {
+                        if (title) {
+                            title.style.opacity = '0';
+                            title.style.transform = 'translateY(20px)';
+                        }
+                        if (desc) {
+                            desc.style.opacity = '0';
+                            desc.style.transform = 'translateY(20px)';
+                        }
+                        if (tags) {
+                            tags.style.opacity = '0';
+                            tags.style.transform = 'translateY(20px)';
+                        }
+                        if (link) {
+                            link.style.opacity = '0';
+                            link.style.transform = 'translateY(20px)';
+                        }
+                    }
+                });
                 
-                // 实际移动第一张卡片到末尾
-                stack.appendChild(firstCard);
+                // 短暂延迟后恢复过渡效果，实现平滑动画
+                setTimeout(() => {
+                    newCards.forEach((card) => {
+                        card.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+                    });
             }, 50);
+            }, 800); // 等待淡出动画完成
         }
         
         // 触发初始滚动事件以激活可见元素
@@ -3518,10 +4762,179 @@
                 closeResumeModalFunc();
             }
         });
+
+        // 添加粒子效果
+        createParticles();
+        
+        // 创建悬浮光点
+        createFloatingLights();
+        
+        // 为标签设置索引（用于动画延迟）
+        document.querySelectorAll('#hero .px-4.py-2.rounded-full').forEach((tag, index) => {
+            tag.style.setProperty('--tag-index', index);
+        });
+        
+        // 临时修复hero动画 - 直接注入缺失的CSS
+        const heroAnimationFix = document.createElement('style');
+        heroAnimationFix.textContent = `
+            /* 临时修复parallax样式 */
+            .parallax {
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .parallax-bg {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 120%;
+                z-index: -1;
+                will-change: transform;
+            }
+            
+            /* 确保渐变光晕动画正常工作 */
+            .gradient-orb-1 {
+                background: radial-gradient(circle at center, 
+                    rgba(251, 191, 36, 0.3) 0%, 
+                    rgba(251, 146, 60, 0.2) 40%, 
+                    transparent 70%) !important;
+            }
+            
+            .gradient-orb-2 {
+                background: radial-gradient(circle at center, 
+                    rgba(139, 92, 246, 0.3) 0%, 
+                    rgba(167, 139, 250, 0.2) 40%, 
+                    transparent 70%) !important;
+            }
+            
+            .gradient-orb-3 {
+                background: radial-gradient(circle at center, 
+                    rgba(59, 130, 246, 0.3) 0%, 
+                    rgba(96, 165, 250, 0.2) 40%, 
+                    transparent 70%) !important;
+                transform: translate(-50%, -50%) !important;
+            }
+            
+            /* 确保导航栏背景动画工作 */
+            .nav-bg {
+                opacity: 0 !important;
+            }
+            
+            .nav-scrolled .nav-bg {
+                opacity: 1 !important;
+            }
+        `;
+        document.head.appendChild(heroAnimationFix);
+        
+        // 创建关于我部分的粒子效果
+        function createAboutParticles() {
+            const container = document.querySelector('.about-particles');
+            if (!container) return;
+            
+            // 清空已有粒子
+            container.innerHTML = '';
+            
+            // 创建30个粒子
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('about-particle');
+                
+                // 随机位置
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                
+                // 随机大小
+                const size = Math.random() * 3 + 1;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // 随机颜色
+                const colors = [
+                    'rgba(59, 130, 246, 0.6)',   // 蓝色
+                    'rgba(249, 115, 22, 0.6)',   // 橙色
+                    'rgba(139, 92, 246, 0.6)',   // 紫色
+                    'rgba(251, 191, 36, 0.6)'    // 黄色
+                ];
+                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                
+                // 随机动画
+                particle.style.animation = `floatParticle ${15 + Math.random() * 10}s infinite ease-in-out`;
+                particle.style.animationDelay = `${Math.random() * 5}s`;
+                
+                container.appendChild(particle);
+            }
+        }
+        
+        // 添加粒子浮动动画
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes floatParticle {
+                0%, 100% {
+                    transform: translate(0, 0);
+                    opacity: 0.5;
+                }
+                25% {
+                    transform: translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px);
+                    opacity: 0.8;
+                }
+                50% {
+                    transform: translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px);
+                    opacity: 0.3;
+                }
+                75% {
+                    transform: translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px);
+                    opacity: 0.6;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // 初始化关于我部分粒子
+        createAboutParticles();
+        
+        // 移除波纹效果并增强流动渐变层
+        (function() {
+            // 移除波纹容器
+            const rippleContainer = document.querySelector('.ripple-container');
+            if (rippleContainer) {
+                rippleContainer.remove();
+            }
+            
+            // 隐藏波纹效果CSS - 简化版
+            const hideRippleStyle = document.createElement('style');
+            hideRippleStyle.textContent = `
+                /* 隐藏波纹效果 */
+                .ripple-container,
+                .ripple {
+                    display: none !important;
+                }
+            `;
+            document.head.appendChild(hideRippleStyle);
+        })();
+        
+        // 3D倾斜效果
+        document.querySelectorAll('.tilt-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = (y - centerY) / 30;
+                const rotateY = (centerX - x) / 30;
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+            });
+        });
     </script>
 </body>
-</html>
-
 </html>
 
 
